@@ -1,0 +1,439 @@
+[
+  {
+    "job_title": "Business Analyst",
+    "technical_skills": [
+      "SQL",
+      "Data analysis",
+      "Data modeling",
+      "Data visualization",
+      "Business process analysis",
+      "Requirements gathering",
+      "Process mapping and workflow design",
+      "Agile / Scrum methodology",
+      "User acceptance testing (UAT)",
+      "ERP systems",
+      "HIPAA regulations",
+      "EMR systems knowledge"
+    ],
+    "soft_skills": [
+      "Communication",
+      "Problem-solving",
+      "Stakeholder management",
+      "Presentation and report writing",
+      "Critical thinking"
+    ]
+  },
+  {
+    "job_title": "Business Development Manager",
+    "technical_skills": [
+      "CRM software (Salesforce)",
+      "Financial modeling and ROI analysis",
+      "Competitive intelligence",
+      "Market expansion strategies",
+      "Market research",
+      "Sales planning"
+    ],
+    "soft_skills": [
+      "Negotiation",
+      "Partnership development",
+      "Presentation and pitching",
+      "Team leadership",
+      "Strategic thinking",
+      "Communication"
+    ]
+  },
+  {
+    "job_title": "Data Analyst",
+    "technical_skills": [
+      "SQL",
+      "Python (pandas, NumPy)",
+      "R",
+      "Data analysis",
+      "Data visualization",
+      "Tableau / Power BI",
+      "Data modeling",
+      "Database querying",
+      "Statistical analysis",
+      "A/B testing",
+      "Data quality assessment",
+      "Data profiling and validation",
+      "Machine learning fundamentals",
+      "Big data technologies",
+      "Business intelligence concepts"
+    ],
+    "soft_skills": [
+      "Analytical thinking",
+      "Problem-solving",
+      "Data-driven decision-making",
+      "Stakeholder communication",
+      "Attention to detail",
+      "Report writing"
+    ]
+  },
+  {
+    "job_title": "Data Engineer",
+    "technical_skills": [
+      "Python / Scala programming",
+      "SQL and scripting languages",
+      "Data architecture design",
+      "Database management systems",
+      "Data modeling",
+      "Cloud platforms (AWS, GCP, Azure)",
+      "Apache Spark / Hadoop",
+      "Data pipeline orchestration (Airflow)",
+      "ETL processes",
+      "Distributed computing",
+      "Big data processing"
+    ],
+    "soft_skills": [
+      "Problem-solving",
+      "Collaboration",
+      "Attention to detail",
+      "Documentation"
+    ]
+  },
+  {
+    "job_title": "Data Scientist",
+    "technical_skills": [
+      "Python",
+      "R",
+      "Machine learning algorithms",
+      "Deep learning",
+      "NLP and text mining",
+      "Data preprocessing",
+      "Model evaluation",
+      "MLflow / model lifecycle management",
+      "Cloud ML platforms (SageMaker, Vertex AI)",
+      "ETL processes",
+      "Data integration",
+      "Big data technologies",
+      "Data warehousing",
+      "Experiment design",
+      "A/B testing",
+      "Statistical modeling"
+    ],
+    "soft_skills": [
+      "Analytical thinking",
+      "Problem-solving",
+      "Research mindset",
+      "Communication of insights",
+      "Collaboration"
+    ]
+  },
+  {
+    "job_title": "Database Administrator",
+    "technical_skills": [
+      "SQL",
+      "Database design and development",
+      "Data modeling",
+      "Query optimization",
+      "Performance tuning and indexing",
+      "Cloud databases (AWS RDS, Azure SQL)",
+      "High availability and disaster recovery",
+      "Backup and restore automation",
+      "Data security and privacy regulations",
+      "Database auditing and monitoring",
+      "Data encryption and access control"
+    ],
+    "soft_skills": [
+      "Attention to detail",
+      "Problem-solving",
+      "Documentation",
+      "Communication"
+    ]
+  },
+  {
+    "job_title": "Database Developer",
+    "technical_skills": [
+      "SQL",
+      "Database design",
+      "Query optimization",
+      "Data modeling",
+      "Stored procedures and triggers",
+      "ETL pipeline development",
+      "Cloud database migration",
+      "NoSQL databases",
+      "Data migration",
+      "Performance tuning",
+      "Version control (Git)",
+      "Scalability and distributed systems"
+    ],
+    "soft_skills": [
+      "Problem-solving",
+      "Attention to detail",
+      "Collaboration",
+      "Documentation"
+    ]
+  },
+  {
+    "job_title": "Financial Analyst",
+    "technical_skills": [
+      "Financial analysis",
+      "Financial modeling",
+      "Investment evaluation",
+      "Portfolio management",
+      "Budget planning",
+      "Financial forecasting",
+      "Advanced Excel and VBA",
+      "Power BI / Tableau",
+      "GAAP / IFRS knowledge",
+      "Scenario and sensitivity analysis",
+      "Data analysis",
+      "Tax knowledge"
+    ],
+    "soft_skills": [
+      "Analytical thinking",
+      "Attention to detail",
+      "Communication",
+      "Problem-solving"
+    ]
+  },
+  {
+    "job_title": "Inventory Analyst",
+    "technical_skills": [
+      "Inventory management",
+      "Stock control",
+      "Demand forecasting",
+      "Inventory tracking systems",
+      "ERP systems (SAP, Oracle)",
+      "ABC analysis and classification",
+      "Safety stock optimization",
+      "Excel modeling and scenario analysis"
+    ],
+    "soft_skills": [
+      "Problem-solving",
+      "Attention to detail",
+      "Supply chain coordination",
+      "Communication"
+    ]
+  },
+  {
+    "job_title": "Investment Analyst",
+    "technical_skills": [
+      "Financial modeling",
+      "Risk assessment",
+      "Data analysis",
+      "Asset allocation",
+      "Portfolio optimization",
+      "Bloomberg Terminal proficiency",
+      "DCF and valuation modeling",
+      "Industry and sector analysis",
+      "Excel / VBA automation",
+      "Regulatory compliance knowledge",
+      "Risk management tools"
+    ],
+    "soft_skills": [
+      "Analytical thinking",
+      "Attention to detail",
+      "Research mindset",
+      "Communication"
+    ]
+  },
+  {
+    "job_title": "Market Analyst",
+    "technical_skills": [
+      "Competitive analysis",
+      "Market research",
+      "Data analysis",
+      "Business strategy",
+      "Quantitative and qualitative research",
+      "Python or R for data analysis",
+      "Data visualization (Tableau)",
+      "Economic trend analysis"
+    ],
+    "soft_skills": [
+      "Analytical thinking",
+      "Communication",
+      "Industry knowledge",
+      "Problem-solving"
+    ]
+  },
+  {
+    "job_title": "Market Research Analyst",
+    "technical_skills": [
+      "Market research methodologies",
+      "Survey design and administration",
+      "Data collection and analysis",
+      "SPSS / SAS / R for analytics",
+      "Focus group facilitation",
+      "Customer segmentation",
+      "Competitive benchmarking",
+      "Consumer behavior analysis",
+      "Statistical analysis software",
+      "Data visualization",
+      "Trend analysis"
+    ],
+    "soft_skills": [
+      "Communication",
+      "Attention to detail",
+      "Critical thinking",
+      "Report writing"
+    ]
+  },
+  {
+    "job_title": "Marketing Analyst",
+    "technical_skills": [
+      "Data analysis",
+      "Data visualization",
+      "Statistical analysis",
+      "Google Analytics / GA4",
+      "CRM and marketing automation (HubSpot)",
+      "Customer lifetime value modeling",
+      "Predictive analytics",
+      "SEO / SEM",
+      "Social media marketing",
+      "Email marketing",
+      "A/B testing",
+      "Marketing automation tools",
+      "Data cleansing and transformation"
+    ],
+    "soft_skills": [
+      "Communication",
+      "Problem-solving",
+      "Attention to detail",
+      "Business acumen",
+      "Marketing knowledge"
+    ]
+  },
+  {
+    "job_title": "Network Analyst",
+    "technical_skills": [
+      "Network performance analysis",
+      "Network monitoring tools",
+      "Capacity planning",
+      "Network protocols",
+      "Cloud networking (AWS VPC, Azure VNet)",
+      "Cybersecurity fundamentals",
+      "CCNA / CompTIA Network+ certification",
+      "Automation scripting (Python, Ansible)"
+    ],
+    "soft_skills": [
+      "Troubleshooting",
+      "Analytical thinking",
+      "Problem-solving",
+      "Documentation"
+    ]
+  },
+  {
+    "job_title": "Product Manager",
+    "technical_skills": [
+      "Agile product development",
+      "Scrum / Kanban frameworks",
+      "Backlog management",
+      "User story writing",
+      "Prioritization techniques",
+      "OKR framework and goal setting",
+      "Customer journey mapping",
+      "Data-driven product analytics",
+      "Go-to-market strategy",
+      "Product roadmap planning",
+      "Market research and analysis"
+    ],
+    "soft_skills": [
+      "Stakeholder communication",
+      "Problem-solving",
+      "Leadership",
+      "Collaboration",
+      "Strategic thinking"
+    ]
+  },
+  {
+    "job_title": "Project Manager",
+    "technical_skills": [
+      "Agile methodologies (Scrum, Kanban)",
+      "PMP or PRINCE2 certification",
+      "MS Project / Jira proficiency",
+      "Risk management",
+      "Budgeting",
+      "Contract negotiation",
+      "Construction management knowledge"
+    ],
+    "soft_skills": [
+      "Team leadership",
+      "Stakeholder management",
+      "Change management",
+      "Communication",
+      "Problem-solving"
+    ]
+  },
+  {
+    "job_title": "Research Analyst",
+    "technical_skills": [
+      "Social science research methods",
+      "Qualitative and quantitative data analysis",
+      "Survey design and implementation",
+      "Statistical software",
+      "Python or R for data analysis",
+      "Data visualization",
+      "Literature review and synthesis",
+      "Data storytelling and presentation",
+      "Project management"
+    ],
+    "soft_skills": [
+      "Critical thinking",
+      "Communication",
+      "Empathy",
+      "Attention to detail",
+      "Research ethics",
+      "Report writing"
+    ]
+  },
+  {
+    "job_title": "Supply Chain Analyst",
+    "technical_skills": [
+      "Supply chain analysis",
+      "Data analytics",
+      "Inventory management",
+      "Transportation planning",
+      "ERP systems (SAP, Oracle)",
+      "Statistical forecasting methods",
+      "Process optimization (Lean / Six Sigma)",
+      "Power BI / Tableau reporting"
+    ],
+    "soft_skills": [
+      "Problem-solving",
+      "Analytical thinking",
+      "Communication",
+      "Attention to detail"
+    ]
+  },
+  {
+    "job_title": "Supply Chain Manager",
+    "technical_skills": [
+      "Supply chain management",
+      "Inventory control",
+      "Transportation logistics",
+      "Demand forecasting",
+      "ERP software (SAP, Oracle)",
+      "Lean / Six Sigma methodologies",
+      "Global sourcing and procurement",
+      "KPI development and tracking",
+      "Sales and operations planning"
+    ],
+    "soft_skills": [
+      "Team leadership",
+      "Vendor relations",
+      "Change management",
+      "Communication",
+      "Strategic thinking"
+    ]
+  },
+  {
+    "job_title": "Systems Analyst",
+    "technical_skills": [
+      "IT systems analysis",
+      "Troubleshooting",
+      "IT support and documentation",
+      "Business process modeling (BPMN)",
+      "UML diagramming",
+      "Requirements gathering",
+      "Process improvement"
+    ],
+    "soft_skills": [
+      "Stakeholder communication",
+      "Change management",
+      "Problem-solving",
+      "Analytical thinking"
+    ]
+  }
+]
