@@ -1,7 +1,7 @@
 import re
 import json
 import os
-from difflib import get_close_matches
+from difflib import get_close_matches, SequenceMatcher
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 
@@ -16,6 +16,23 @@ def _load_valid_courses() -> dict[str, str]:
 
 VALID_COURSES = _load_valid_courses()
 VALID_IDS     = list(VALID_COURSES.keys())
+VALID_TITLES  = list(VALID_COURSES.values())
+
+
+def _norm_title(s: str) -> str:
+    s = (s or "").strip().lower()
+    # keep alphanumerics/spaces only
+    s = re.sub(r"[^a-z0-9\s]+", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+TITLE_TO_ID: dict[str, str] = {
+    _norm_title(title): course_id
+    for course_id, title in VALID_COURSES.items()
+    if title
+}
+NORM_TITLES: list[str] = list(TITLE_TO_ID.keys())
 
 # Regex to find course ID patterns in text e.g. BUAN 6341, MIS 6380
 COURSE_ID_PATTERN = re.compile(r'\b([A-Z]{2,5})\s?(\d{4,5})\b')
@@ -69,6 +86,137 @@ def validate_course_id(course_id: str) -> dict:
     }
 
 
+def resolve_course_input(course_input: str) -> dict:
+    """
+    Resolves student input that may be a course ID ("BUAN 6312") OR a course title
+    ("Applied Econometrics and Time Series Analysis") into a canonical course ID.
+
+    Returns the same shape as validate_course_id(), plus:
+      - matched_by: "id" | "title" | None
+      - score: float | None  (title match similarity 0..1)
+    """
+    raw = (course_input or "").strip()
+    if not raw:
+        return {
+            "valid": False,
+            "original": course_input,
+            "corrected": None,
+            "title": None,
+            "matched_by": None,
+            "score": None,
+        }
+
+    # 1) If it looks like an ID, use ID validation/correction first.
+    if COURSE_ID_PATTERN.search(raw.upper()):
+        r = validate_course_id(raw)
+        r["matched_by"] = "id"
+        r["score"] = 1.0 if r["valid"] else None
+        return r
+
+    # 2) Try exact normalized title lookup.
+    norm = _norm_title(raw)
+    if norm in TITLE_TO_ID:
+        cid = TITLE_TO_ID[norm]
+        return {
+            "valid": False,
+            "original": course_input,
+            "corrected": cid,
+            "title": VALID_COURSES[cid],
+            "matched_by": "title",
+            "score": 1.0,
+        }
+
+    # 3) Try substring candidates, then best similarity.
+    candidates = [t for t in NORM_TITLES if norm and norm in t]
+    if not candidates:
+        candidates = get_close_matches(norm, NORM_TITLES, n=5, cutoff=0.55)
+
+    best_title = None
+    best_score = 0.0
+    for t in candidates[:25]:
+        score = SequenceMatcher(a=norm, b=t).ratio()
+        if score > best_score:
+            best_score = score
+            best_title = t
+
+    if best_title and best_score >= 0.62:
+        cid = TITLE_TO_ID[best_title]
+        return {
+            "valid": False,
+            "original": course_input,
+            "corrected": cid,
+            "title": VALID_COURSES[cid],
+            "matched_by": "title",
+            "score": round(best_score, 3),
+        }
+
+    return {
+        "valid": False,
+        "original": course_input,
+        "corrected": None,
+        "title": None,
+        "matched_by": None,
+        "score": None,
+    }
+
+
+def soften_length_truncation(text: str) -> str:
+    """
+    If generation stopped at the token limit, trim to the last complete sentence
+    in the latter part of the reply so it does not end mid-clause.
+    """
+    t = (text or "").rstrip()
+    if len(t) < 80:
+        return t
+    zone_start = max(0, int(len(t) * 0.35))
+    best = -1
+    for m in re.finditer(r"[.!?](?:\s+|$)", t):
+        if m.end() >= zone_start:
+            best = m.end()
+    if best > zone_start:
+        return t[:best].rstrip()
+    br = t.rfind("\n\n")
+    if br >= zone_start:
+        return t[:br].rstrip()
+    return t.rstrip() + "…"
+
+
+def strip_markdown_to_plain(text: str) -> str:
+    """
+    Remove common Markdown artifacts so chat UIs show clean plain text
+    (models often emit #, **, --- despite instructions).
+    """
+    s = (text or "").strip()
+    if not s:
+        return s
+
+    def _fence_body(m):
+        inner = (m.group(1) or "").strip()
+        return inner if inner else ""
+
+    s = re.sub(r"```(?:\w+)?\s*([\s\S]*?)```", _fence_body, s)
+    s = re.sub(r"`([^`]+)`", r"\1", s)
+    s = re.sub(r"!\[([^\]]*)\]\([^)]*\)", r"\1", s)
+    s = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", s)
+    s = re.sub(r"(?m)^#{1,6}\s*", "", s)
+    s = re.sub(r"(?m)^\s*>\s?", "", s)
+    s = re.sub(r"(?m)^\s*(?:---|\*\*\*|___)\s*$", "", s)
+
+    for _ in range(5):
+        prev = s
+        s = re.sub(r"\*\*([^*]+)\*\*", r"\1", s)
+        s = re.sub(r"__([^_]+)__", r"\1", s)
+        if s == prev:
+            break
+
+    s = re.sub(r"(?m)^\s*[\*\+-]\s+", "- ", s)
+    s = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"\1", s)
+    s = re.sub(r"(?<!_)_([^_\n]+)_(?!_)", r"\1", s)
+    s = re.sub(r"~~([^~]+)~~", r"\1", s)
+    s = re.sub(r"\n{3,}", "\n\n", s)
+    return s.strip()
+
+
 def validate_and_fix_response(text: str) -> dict:
     """
     Main validation function.
@@ -117,6 +265,8 @@ def validate_and_fix_response(text: str) -> dict:
             )
             removed.append(course_id)
 
+    fixed_text = strip_markdown_to_plain(fixed_text)
+
     return {
         "text":        fixed_text,
         "corrections": corrections,
@@ -132,14 +282,27 @@ def validate_course_list(course_ids: list[str]) -> dict:
     valid   = []
     invalid = []
 
-    for course_id in course_ids:
-        result = validate_course_id(course_id)
-        if result["valid"]:
+    for course_input in course_ids:
+        resolved = resolve_course_input(course_input)
+
+        # If it was an exact ID match, it's already valid.
+        if resolved.get("matched_by") == "id" and resolved.get("valid"):
             valid.append({
-                "course_id": result["corrected"],
-                "title":     result["title"]
+                "course_id": resolved["corrected"],
+                "title": resolved["title"],
             })
-        else:
-            invalid.append(result)
+            continue
+
+        # If we can correct it to a valid ID (title match OR close ID match), accept it.
+        if resolved.get("corrected") and resolved["corrected"] in VALID_COURSES:
+            valid.append({
+                "course_id": resolved["corrected"],
+                "title": VALID_COURSES[resolved["corrected"]],
+            })
+            # record as invalid correction (so UI can show what was normalized)
+            invalid.append(resolved)
+            continue
+
+        invalid.append(resolved)
 
     return {"valid": valid, "invalid": invalid}

@@ -39,8 +39,8 @@ export function ActionSearchBar({
   actions,
   onSelect,
   inputId = "comet-command-search",
-  label = "Select Component",
-  placeholder = "Search components or ask a question...",
+  label = "",
+  placeholder = "Search components...",
 }: ActionSearchBarProps) {
   const [query, setQuery] = useState("")
   const [result, setResult] = useState<SearchResult | null>(null)

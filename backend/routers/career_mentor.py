@@ -1,7 +1,12 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from backend.services.llm_client import chat
-from backend.services.pinecone_client import query_courses, query_job_role
+from backend.services.pinecone_client import (
+    get_embedding,
+    sanitize,
+    query_courses_by_embedding,
+    query_job_role_by_embedding,
+)
 
 router = APIRouter()
 
@@ -32,6 +37,9 @@ If asked about these topics redirect the student:
 For a detailed skills gap analysis please use the Skills Gap Analyzer."
 
 Be encouraging, honest, and conversational.
+
+Write plain text only: no Markdown (no # headings, **bold**, *italics*, --- rules, or code fences).
+Use short lines and "- " bullets when listing items.
 """
 
 class ChatRequest(BaseModel):
@@ -40,11 +48,12 @@ class ChatRequest(BaseModel):
 
 @router.post("/chat")
 def career_mentor_chat(request: ChatRequest):
-    # Step 1 — retrieve closest job role from Pinecone
-    job_role = query_job_role(request.message)
+    # Step 1 — embed query once (avoid duplicate embedding work)
+    embedding = get_embedding(sanitize(request.message))
 
-    # Step 2 — retrieve relevant courses
-    relevant_courses = query_courses(request.message, top_k=8)
+    # Step 2 — retrieve closest job role + relevant courses
+    job_role = query_job_role_by_embedding(embedding)
+    relevant_courses = query_courses_by_embedding(embedding, top_k=8)
 
     # Step 3 — build context
     job_context = ""

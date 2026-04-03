@@ -15,7 +15,7 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
   (
     {
       text,
-      gradientColors = "linear-gradient(90deg, #000, #fff, #000)",
+      gradientColors = "linear-gradient(90deg, #000, #ffffff, #000)",
       gradientAnimationDuration = 1,
       hoverEffect = false,
       className,

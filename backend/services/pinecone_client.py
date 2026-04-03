@@ -171,7 +171,14 @@ def query_courses(query: str, top_k: int = 8) -> list[dict]:
     Returns full course dicts with all metadata.
     """
     embedding = get_embedding(sanitize(query))
+    return query_courses_by_embedding(embedding, top_k=top_k)
 
+
+def query_courses_by_embedding(embedding: list[float], top_k: int = 8) -> list[dict]:
+    """
+    Same as query_courses(), but reuses a precomputed query embedding.
+    Useful when you need multiple Pinecone queries for the same user query.
+    """
     results = index.query(
         vector=embedding,
         top_k=top_k,
@@ -202,7 +209,13 @@ def query_job_role(job_title: str) -> dict | None:
     Finds the closest matching job role for a given title.
     """
     embedding = get_embedding(sanitize(job_title))
+    return query_job_role_by_embedding(embedding)
 
+
+def query_job_role_by_embedding(embedding: list[float]) -> dict | None:
+    """
+    Same as query_job_role(), but reuses a precomputed query embedding.
+    """
     results = index.query(
         vector=embedding,
         top_k=1,

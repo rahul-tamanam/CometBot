@@ -13,6 +13,9 @@ export interface DegreePlannerRequest {
   message:              string
   completed_courses:    string[]
   conversation_history: Message[]
+  student_type?:        'new' | 'current'
+  interests?:           string[]
+  course_history?:      { course: string; semester: string }[]
 }
 
 export interface DegreePlannerResponse {
@@ -30,12 +33,49 @@ export interface DegreePlannerResponse {
   }
   invalid_courses:  any[]
   eligible_count:   number
+  // Present when backend returns a deterministic plan via chat trigger
+  plan?:            { semester: number; courses: { course_id: string; title: string; course_type: string }[] }[]
+  warnings?:        string[]
 }
 
 export const degreePlannerChat = async (
   data: DegreePlannerRequest
 ): Promise<DegreePlannerResponse> => {
   const res = await axios.post(`${BASE}/degree-planner/chat`, data)
+  return res.data
+}
+
+export interface DegreePlannerPlanRequest {
+  completed_courses:    string[]
+  courses_per_semester?: number
+  max_semesters?:        number
+  core_per_semester?:    number | null
+  elective_per_semester?: number | null
+  interests?:            string[]
+  course_history?:       { course: string; semester: string }[]
+}
+
+export interface DegreePlannerPlanResponse {
+  plan: { semester: number; courses: { course_id: string; title: string; course_type: string }[] }[]
+  warnings: string[]
+  progress: {
+    total_completed: number
+    core_completed: number
+    elective_completed: number
+    total_remaining: number
+    core_remaining: number
+    elective_remaining: number
+    percent_complete: number
+  }
+  invalid_courses: any[]
+  next_semester_label?: string | null
+  semester_headings?:   string[]
+}
+
+export const degreePlannerPlan = async (
+  data: DegreePlannerPlanRequest
+): Promise<DegreePlannerPlanResponse> => {
+  const res = await axios.post(`${BASE}/degree-planner/plan`, data)
   return res.data
 }
 
@@ -88,6 +128,9 @@ export interface SkillsGapResponse {
   recommendations:    Record<string, { course_id: string; title: string }[]>
   student_skills:     string[]
   invalid_courses:    any[]
+  /** Present for resume upload when structured LLM parse failed but keyword fallback ran */
+  resume_parse_note?: string | null
+  resume_data?:      Record<string, unknown>
 }
 
 export const skillsGapAnalyze = async (
@@ -108,11 +151,8 @@ export const skillsGapAnalyzeResume = async (
   form.append('target_job',      targetJob)
   form.append('job_description', jobDescription)
 
-  const res = await axios.post(
-    `${BASE}/skills-gap/analyze-resume`,
-    form,
-    { headers: { 'Content-Type': 'multipart/form-data' } }
-  )
+  // Let axios set multipart boundary automatically — a manual Content-Type breaks uploads.
+  const res = await axios.post(`${BASE}/skills-gap/analyze-resume`, form)
   return res.data
 }
 export interface SkillsGapRequest {

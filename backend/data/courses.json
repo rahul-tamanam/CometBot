@@ -35,6 +35,33 @@
         ]
     },
     {
+        "course_id": "BUAN 6009",
+        "title": "Business Analytics Internship",
+        "credits": 0,
+        "course_type": "Elective",
+        "description": "Student gains experience and improves skills through appropriate developmental work assignments in a real business environment. The student must define specific business learning objectives at the beginning of the semester and demonstrate exposure to managerial perspectives through involvement or observation. At the end of the semester, the student presents their experience through an oral presentation, poster, or written report. Performance is evaluated by the work supervisor. This is a pass/fail course. Students cannot enroll after completing BUAN 6390 or BUAN 6V98.",
+        "prerequisites": [
+            [
+                "MAS 6102",
+                "MBA Major"
+            ]
+        ],
+        "only_one_of_these": [
+            [
+                "BUAN 6390",
+                "BUAN 6V98"
+            ]
+        ],
+        "skills_taught": [
+            "Business Analytics Application",
+            "Real-world Problem Solving",
+            "Professional Communication",
+            "Managerial Insight",
+            "Data-driven Decision Making",
+            "Workplace Collaboration"
+        ]
+    },
+    {
         "course_id": "BUAN 6346",
         "title": "Big Data",
         "credits": 3,

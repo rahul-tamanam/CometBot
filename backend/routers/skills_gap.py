@@ -34,6 +34,9 @@ CRITICAL RULES:
 - Course IDs always follow the pattern: PREFIX + space + 4-digit number
   e.g. BUAN 6341, MIS 6380, OPRE 6302
 - Any course ID that does not follow this pattern is invalid
+
+Write plain text only: no Markdown (no # headings, **bold**, *italics*, --- rules, or code fences).
+Use short lines and "- " bullets when listing items.
 """
 
 # ── Request models ────────────────────────────────────────────────────────────
@@ -302,5 +305,7 @@ Student Profile from Resume:
         "gap":                gap,
         "recommendations":    recommendations,
         "student_skills":     student_skills,
-        "resume_data":        resume_data
+        "resume_data":        resume_data,
+        # Optional: LLM JSON parse failed but heuristic skills were used — not prepended to chat text.
+        "resume_parse_note":  resume_data.get("parse_warning"),
     }

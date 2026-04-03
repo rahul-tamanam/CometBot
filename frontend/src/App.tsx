@@ -10,6 +10,7 @@ import { CometLanding } from '@/components/ui/comet-landing'
 import { LandingBackground } from '@/landing-background'
 import {
   degreePlannerChat,
+  degreePlannerPlan,
   careerMentorChat,
   skillsGapAnalyze,
   skillsGapAnalyzeResume
@@ -20,6 +21,17 @@ import './App.css'
 // ── Component definitions ─────────────────────────────────────────────────────
 
 type ComponentId = 'degree-planner' | 'career-mentor' | 'skills-gap'
+
+/** BUAN 6333-style IDs from assistant/user text — used to keep session plan in sync with Neo4j. */
+function extractPlanCourseIds(text: string): string[] {
+  const re = /\b([A-Z]{2,5})\s*(\d{4,5})\b/g
+  const out: string[] = []
+  let m: RegExpExecArray | null
+  while ((m = re.exec(text)) !== null) {
+    out.push(`${m[1]} ${m[2]}`.toUpperCase())
+  }
+  return [...new Set(out)]
+}
 
 const COMPONENTS = [
   {
@@ -83,6 +95,17 @@ export default function App() {
   /** Hide optional pre-inputs (courses, skills gap form) after continue or skip. */
   const [preInputDismissed, setPreInputDismissed] = useState(false)
 
+  // Degree Planner guided onboarding
+  const [dpStudentType, setDpStudentType] = useState<'new' | 'current' | null>(null)
+  const [dpInterests, setDpInterests] = useState<string[]>([])
+  /** Raw numeric input as string (typing/clearing works; empty on blur → default). */
+  const [dpCoursesPerSemesterStr, setDpCoursesPerSemesterStr] = useState('3')
+  const [dpCourseHistory, setDpCourseHistory] = useState<{ course: string; semester: string }[]>([])
+  const [dpCourseDraft, setDpCourseDraft] = useState({ course: '', semester: '' })
+  const [dpOnboardingDone, setDpOnboardingDone] = useState(false)
+  /** IDs from onboarding + assistant plans this session (sent as completed_courses for Neo4j). */
+  const [dpSessionCourseIds, setDpSessionCourseIds] = useState<string[]>([])
+
   const { ref: chatRef, adjust: chatAdjust } = useAutoResize()
   const bottomRef  = useRef<HTMLDivElement>(null)
   const fileInput  = useRef<HTMLInputElement>(null)
@@ -97,6 +120,16 @@ export default function App() {
     setMessages([])
     setAnalyzed(false)
     setPreInputDismissed(false)
+
+    if (id === 'degree-planner') {
+      setDpStudentType(null)
+      setDpInterests([])
+      setDpCoursesPerSemesterStr('3')
+      setDpCourseHistory([])
+      setDpCourseDraft({ course: '', semester: '' })
+      setDpOnboardingDone(false)
+      setDpSessionCourseIds([])
+    }
   }
 
   // ── Send message ──────────────────────────────────────────────────────────
@@ -118,14 +151,21 @@ export default function App() {
       let response = ''
 
       if (activeComponent === 'degree-planner') {
-        const courses = completedCourses
+        const fromField = completedCourses
           .split(',').map(c => c.trim().toUpperCase()).filter(Boolean)
+        const mergedCourses = [...new Set([...dpSessionCourseIds, ...fromField])]
         const res = await degreePlannerChat({
           message:              content.trim(),
-          completed_courses:    courses,
-          conversation_history: messages
+          completed_courses:    mergedCourses,
+          conversation_history: messages,
+          student_type:         dpStudentType ?? undefined,
+          interests:            dpInterests.length ? dpInterests : undefined,
+          course_history:       dpCourseHistory.length ? dpCourseHistory : undefined,
         })
         response = res.response
+        setDpSessionCourseIds(prev =>
+          [...new Set([...prev, ...extractPlanCourseIds(response)])]
+        )
 
       } else if (activeComponent === 'career-mentor') {
         const res = await careerMentorChat({
@@ -171,8 +211,23 @@ export default function App() {
       let response = ''
 
       if (sgMode === 'resume' && resumeFile) {
-        const res = await skillsGapAnalyzeResume(resumeFile, targetJob, jobDescription)
-        response  = res.response
+        if (!targetJob.trim() && !jobDescription.trim()) {
+          setAnalyzed(false)
+          response =
+            'Please enter a target job title or paste a job description so we can compare your resume to the role.'
+          setMessages([{ role: 'assistant', content: response }])
+          scrollDown()
+          return
+        }
+        const res = await skillsGapAnalyzeResume(resumeFile, targetJob, jobDescription) as {
+          response?: string
+          error?: string
+        }
+        if (res.error) {
+          response = res.error
+        } else {
+          response = res.response ?? 'No analysis text returned. Check backend logs and LM Studio.'
+        }
       } else {
         const courses = completedCourses
           .split(',').map(c => c.trim().toUpperCase()).filter(Boolean)
@@ -182,8 +237,12 @@ export default function App() {
           job_description:      jobDescription,
           conversation_history: [],
           message:              'Please perform a skills gap analysis.'
-        })
-        response = res.response
+        }) as { response?: string; error?: string }
+        if (res.error) {
+          response = res.error
+        } else {
+          response = res.response ?? 'No analysis text returned.'
+        }
       }
 
       setMessages([{ role: 'assistant', content: response }])
@@ -192,7 +251,7 @@ export default function App() {
     } catch {
       setMessages([{
         role:    'assistant',
-        content: 'Something went wrong. Please make sure the backend is running.'
+        content: 'Something went wrong. For resume upload: use a PDF, ensure the backend is running, LM Studio is up for parsing, and Pinecone/embeddings are available if job matching is used.'
       }])
     } finally {
       setLoading(false)
@@ -207,6 +266,98 @@ export default function App() {
     activeComponent !== 'skills-gap' ||
     analyzed ||
     preInputDismissed
+
+  const dpShowWizard = activeComponent === 'degree-planner' && !dpOnboardingDone
+
+  const parseDpCoursesPerSemester = (): number => {
+    const raw = dpCoursesPerSemesterStr.trim()
+    if (raw === '') return 3
+    const n = parseInt(raw.replace(/\D/g, ''), 10)
+    if (Number.isNaN(n)) return 3
+    return Math.min(9, Math.max(0, n))
+  }
+
+  const onDpCoursesPerSemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, '')
+    if (digits === '') {
+      setDpCoursesPerSemesterStr('')
+      return
+    }
+    const n = parseInt(digits, 10)
+    if (Number.isNaN(n)) return
+    setDpCoursesPerSemesterStr(String(Math.min(9, Math.max(0, n))))
+  }
+
+  const addDpCourse = () => {
+    const course = dpCourseDraft.course.trim()
+    const semester = dpCourseDraft.semester.trim()
+    if (!course || !semester) return
+    setDpCourseHistory(h => [...h, { course, semester }])
+    setDpCourseDraft({ course: '', semester: '' })
+  }
+
+  const runDpOnboarding = async () => {
+    if (!dpStudentType) return
+    setLoading(true)
+    try {
+      const completed = dpCourseHistory.map(x => x.course)
+      const cps = parseDpCoursesPerSemester()
+
+      const planRes = await degreePlannerPlan({
+        completed_courses: completed,
+        courses_per_semester: cps,
+        max_semesters: 4,
+        interests: dpInterests.length ? dpInterests : undefined,
+        course_history:
+          dpCourseHistory.length > 0 ? dpCourseHistory : undefined,
+      })
+
+      // Seed the chat with a deterministic first-semester plan summary.
+      const first = planRes.plan[0]
+      if (first?.courses?.length) {
+        setDpSessionCourseIds(
+          Array.from(new Set(first.courses.map(c => c.course_id.trim().toUpperCase())))
+        )
+      }
+
+      const lines: string[] = []
+      lines.push(dpStudentType === 'new'
+        ? "Welcome! I’ll start you with a first-semester plan based on your interests."
+        : "Thanks — I’ll start with a next-semester plan based on your completed courses."
+      )
+      if (dpInterests.length) lines.push(`Focus: ${dpInterests.join(', ')}`)
+      lines.push("")
+      if (first) {
+        const h0 = planRes.semester_headings?.[0] ?? 'Semester 1'
+        if (planRes.next_semester_label && dpStudentType === 'current') {
+          lines.push(`Next term: ${planRes.next_semester_label}`)
+          lines.push('')
+        }
+        lines.push(`${h0} (${cps} course${cps === 1 ? '' : 's'}):`)
+        for (const c of first.courses) {
+          lines.push(`- ${c.course_id} — ${c.title} (${c.course_type})`)
+        }
+      } else {
+        lines.push("I couldn’t build a first semester yet (missing prerequisites/constraints).")
+      }
+      if (planRes.warnings?.length) {
+        lines.push("")
+        lines.push("Notes:")
+        for (const w of planRes.warnings) lines.push(`- ${w}`)
+      }
+
+      setMessages([{ role: 'assistant', content: lines.join('\n') }])
+      setDpOnboardingDone(true)
+      setPreInputDismissed(true)
+      scrollDown()
+    } catch {
+      setMessages([{ role: 'assistant', content: 'Something went wrong while building your plan. Please make sure the backend is running.' }])
+      setDpOnboardingDone(true)
+      setPreInputDismissed(true)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="relative flex min-h-screen flex-col text-[#e8eaf6] font-sans">
@@ -228,39 +379,162 @@ export default function App() {
 
             {/* Optional pre-inputs above the thread */}
             <AnimatePresence mode="popLayout">
-              {activeComponent === 'degree-planner' && !preInputDismissed && (
+              {activeComponent === 'degree-planner' && dpShowWizard && (
                 <motion.div
                   key="dp-pre"
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mb-4 overflow-hidden rounded-xl border border-neutral-700/80 bg-black/40 px-4 py-3 backdrop-blur-md"
+                  className="mb-4 max-h-[min(70vh,36rem)] overflow-y-auto rounded-xl border border-neutral-700/80 bg-black/40 px-4 py-3 backdrop-blur-md"
                 >
-                  <p className="mb-2 text-xs text-neutral-400">
-                    Optional: list courses you&apos;ve already completed (comma-separated). Leave blank if you&apos;re a new student.
-                  </p>
-                  <input
-                    value={completedCourses}
-                    onChange={e => setCompletedCourses(e.target.value)}
-                    placeholder="e.g. BUAN 6333, BUAN 6340, BUAN 6312"
-                    className="mb-3 w-full rounded-lg border border-neutral-700/80 bg-black/50 px-3 py-2.5 text-sm text-white outline-none placeholder:text-neutral-500 focus:border-neutral-500"
-                  />
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setPreInputDismissed(true)}
-                      className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/15"
-                    >
-                      Continue
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setPreInputDismissed(true)}
-                      className="rounded-lg px-3 py-1.5 text-xs text-neutral-400 hover:text-neutral-200"
-                    >
-                      Skip — chat only
-                    </button>
-                  </div>
+                  <div className="mb-2 text-xs text-neutral-400">Degree Planner setup (quick)</div>
+
+                  {!dpStudentType && (
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setDpStudentType('new')}
+                        className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/15"
+                      >
+                        New student
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDpStudentType('current')}
+                        className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-medium text-white hover:bg-white/15"
+                      >
+                        Current student
+                      </button>
+                    </div>
+                  )}
+
+                  {dpStudentType === 'new' && (
+                    <div className="mt-3">
+                      <div className="mb-2 text-xs text-neutral-400">What are you interested in?</div>
+                      <div className="flex flex-wrap gap-2">
+                        {['AI/ML', 'Data Engineering', 'Cybersecurity', 'Finance', 'Marketing', 'Product/Analytics'].map(t => (
+                          <button
+                            key={t}
+                            type="button"
+                            onClick={() => setDpInterests(prev => prev.includes(t) ? prev.filter(x => x !== t) : [...prev, t])}
+                            className={`rounded-full border px-3 py-1.5 text-xs ${
+                              dpInterests.includes(t)
+                                ? 'border-neutral-500 bg-white/15 text-white'
+                                : 'border-neutral-700 bg-black/30 text-neutral-300 hover:text-white'
+                            }`}
+                          >
+                            {t}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="mt-3 flex items-center gap-2">
+                        <span className="text-xs text-neutral-400">Number of courses to take</span>
+                        <input
+                          inputMode="numeric"
+                          autoComplete="off"
+                          value={dpCoursesPerSemesterStr}
+                          onChange={onDpCoursesPerSemChange}
+                          onBlur={() => {
+                            if (dpCoursesPerSemesterStr.trim() === '') setDpCoursesPerSemesterStr('3')
+                          }}
+                          className="w-16 rounded-lg border border-neutral-700/80 bg-black/40 px-2 py-1 text-xs text-white"
+                        />
+                      </div>
+                      <div className="mt-3 flex gap-2">
+                        <button
+                          type="button"
+                          onClick={runDpOnboarding}
+                          className="rounded-lg bg-[#e87500] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#ff9a33] disabled:opacity-50"
+                          disabled={loading}
+                        >
+                          Generate my first semester
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => { setDpOnboardingDone(true); setPreInputDismissed(true) }}
+                          className="rounded-lg px-3 py-1.5 text-xs text-neutral-400 hover:text-neutral-200"
+                        >
+                          Skip setup
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {dpStudentType === 'current' && (
+                    <div className="mt-3">
+                      <div className="mb-2 text-xs text-neutral-400">Add the courses you’ve taken + semester</div>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-wrap gap-2">
+                          <input
+                            value={dpCourseDraft.course}
+                            onChange={e => setDpCourseDraft(d => ({ ...d, course: e.target.value }))}
+                            placeholder="Course (ID or name)"
+                            className="min-w-[8rem] flex-1 rounded-lg border border-neutral-700/80 bg-black/40 px-3 py-2 text-xs text-white placeholder:text-neutral-500"
+                          />
+                          <input
+                            value={dpCourseDraft.semester}
+                            onChange={e => setDpCourseDraft(d => ({ ...d, semester: e.target.value }))}
+                            placeholder="Semester (e.g., Fall 2025)"
+                            className="w-40 min-w-[8rem] rounded-lg border border-neutral-700/80 bg-black/40 px-3 py-2 text-xs text-white placeholder:text-neutral-500"
+                          />
+                          <button
+                            type="button"
+                            onClick={addDpCourse}
+                            className="rounded-lg bg-white/10 px-3 py-2 text-xs text-white hover:bg-white/15"
+                          >
+                            Add
+                          </button>
+                        </div>
+                        {dpCourseHistory.length > 0 && (
+                          <div className="rounded-lg border border-neutral-800 bg-black/30 p-2 text-xs text-neutral-300">
+                            {dpCourseHistory.map((x, idx) => (
+                              <div key={`${x.course}-${x.semester}-${idx}`} className="flex items-center justify-between gap-2 py-1">
+                                <span className="truncate">{x.course}</span>
+                                <span className="shrink-0 text-neutral-500">{x.semester}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => setDpCourseHistory(h => h.filter((_, i) => i !== idx))}
+                                  className="shrink-0 text-neutral-500 hover:text-neutral-200"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div className="mt-2 flex items-center gap-2">
+                          <span className="text-xs text-neutral-400">Number of courses to take</span>
+                          <input
+                            inputMode="numeric"
+                            autoComplete="off"
+                            value={dpCoursesPerSemesterStr}
+                            onChange={onDpCoursesPerSemChange}
+                            onBlur={() => {
+                              if (dpCoursesPerSemesterStr.trim() === '') setDpCoursesPerSemesterStr('3')
+                            }}
+                            className="w-16 rounded-lg border border-neutral-700/80 bg-black/40 px-2 py-1 text-xs text-white"
+                          />
+                        </div>
+                        <div className="mt-3 flex gap-2">
+                          <button
+                            type="button"
+                            onClick={runDpOnboarding}
+                            className="rounded-lg bg-[#e87500] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[#ff9a33] disabled:opacity-50"
+                            disabled={loading || dpCourseHistory.length === 0}
+                          >
+                            Build my next semester
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => { setDpOnboardingDone(true); setPreInputDismissed(true) }}
+                            className="rounded-lg px-3 py-1.5 text-xs text-neutral-400 hover:text-neutral-200"
+                          >
+                            Skip setup
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -401,10 +675,10 @@ export default function App() {
                       transition={{ duration: 0.2 }}
                     >
                       <div
-                        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+                        className={`max-w-[85%] rounded-2xl px-4 py-3 whitespace-pre-wrap break-words ${
                           msg.role === 'user'
-                            ? 'rounded-br-md text-white shadow-lg'
-                            : 'border border-neutral-700/60 bg-black/35 text-neutral-100 backdrop-blur-sm'
+                            ? 'text-sm leading-relaxed rounded-br-md text-white shadow-lg'
+                            : 'border border-neutral-700/60 bg-black/35 text-[15px] font-normal leading-[1.7] tracking-normal text-neutral-100/95 antialiased backdrop-blur-sm'
                         }`}
                         style={
                           msg.role === 'user'
