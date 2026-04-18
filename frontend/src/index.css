@@ -3,17 +3,43 @@
 
 @layer base {
   :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22263a;
-    --border: #2e3350;
-  --accent: #e87500;
-  --accent-glow: rgba(232, 117, 0, 0.18);
-    --text: #e8eaf6;
-    --text-muted: #7b82a8;
-  --success: #2f7a5f;
-  --warning: #ff9a33;
-    --error: #f75a5a;
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --surface2: #ffffff;
+    --border: #e5e7eb;
+    --accent: #ff7a1a;
+    --accent-glow: rgba(255, 122, 26, 0.18);
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    color-scheme: light;
+  }
+
+  /* Popular chatbot-like dark theme (ChatGPT/Claude-ish) */
+  html.dark {
+    /* Requested dark palette */
+    --bg: #181818;         /* sidebar / shell */
+    --panel: #212121;      /* main chat interface */
+    --surface: #232323;    /* buttons/links/active states */
+    --surface2: #303030;   /* chatbox/input surfaces */
+    --hover: #2f2f2f;      /* hover states */
+    --border: #2a2a2a;
+    --accent: #ff7a1a;
+    --accent-glow: rgba(255, 122, 26, 0.22);
+    --text: #eaeaea;
+    --text-muted: #b0b0b0;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+    color-scheme: dark;
+  }
+
+  html {
+    font-size: 17px;
   }
 
   body {
@@ -21,6 +47,7 @@
     color: var(--text);
     font-family: "Inter", "Segoe UI", sans-serif;
     min-height: 100vh;
+    line-height: 1.5;
   }
 
   ::-webkit-scrollbar {
@@ -28,11 +55,18 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--bg);
+    background: color-mix(in oklab, var(--bg) 88%, white 12%);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: var(--border);
+    background: color-mix(in oklab, var(--text-muted) 55%, var(--bg) 45%);
     border-radius: 3px;
+  }
+}
+
+@layer utilities {
+  @keyframes comet-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
   }
 }

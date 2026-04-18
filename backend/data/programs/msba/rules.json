@@ -1,0 +1,15 @@
+{
+  "program_id": "msba",
+  "program_name": "MS in Business Analytics and Artificial Intelligence",
+  "total_credits": 36,
+  "core_credits": 18,
+  "elective_credits": 18,
+  "credits_per_course": 3,
+  "only_one_of_these_groups": [
+    ["BUAN 6324", "BUAN 6356", "BUAN 6383"]
+  ],
+  "required_non_credit": ["MAS 6102"],
+  "gpa_requirement": 3.0,
+  "admission_semesters": ["Fall", "Spring", "Summer"]
+}
+

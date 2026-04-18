@@ -217,6 +217,70 @@ def strip_markdown_to_plain(text: str) -> str:
     return s.strip()
 
 
+def _load_course_title_map() -> dict[str, str]:
+    """
+    course_id -> exact title (from backend/data/courses.json)
+    """
+    with open(os.path.join(DATA_DIR, "courses.json"), "r", encoding="utf-8") as f:
+        courses = json.load(f)
+    return {str(c["course_id"]).strip().upper(): str(c["title"]).strip() for c in courses if c.get("course_id") and c.get("title")}
+
+
+def validate_and_fix_titles(text: str) -> dict:
+    """
+    Replace incorrect/paraphrased course titles near course IDs with the exact catalog title.
+
+    Strategy:
+    - Find course IDs in text (same regex)
+    - For each ID, look at up to ~10 words after the ID
+    - If there's a "ID — Title" or "ID - Title" pattern and Title differs, replace with exact title
+    """
+    fixed = text or ""
+    title_map = _load_course_title_map()
+    corrections: list[dict] = []
+
+    # Work on a snapshot of matches so replacements don't affect iteration offsets.
+    matches = list(COURSE_ID_PATTERN.finditer(fixed))
+    for m in reversed(matches):
+        cid = f"{m.group(1).upper()} {m.group(2)}"
+        exact = title_map.get(cid)
+        if not exact:
+            continue
+
+        after = fixed[m.end():]
+        # Look ahead window: first 10 "word" tokens
+        words = re.findall(r"\S+", after)
+        window = " ".join(words[:10])
+
+        # If exact title already present in near window, do nothing.
+        if exact.lower() in window.lower():
+            continue
+
+        # Try to detect "ID — something" right after the ID in the original string
+        # Capture until newline or "(" to avoid swallowing metadata like (Core)
+        pattern = re.compile(
+            re.escape(cid) + r"\s*(?:—|-|:)\s*([^\n(]{3,120})",
+            flags=re.IGNORECASE,
+        )
+        seg = fixed[max(0, m.start() - 8) : min(len(fixed), m.end() + 220)]
+        pm = pattern.search(seg)
+        if not pm:
+            continue
+
+        found_title = pm.group(1).strip()
+        if not found_title or found_title.lower() == exact.lower():
+            continue
+
+        # Replace only this occurrence inside the segment, then splice back.
+        before = fixed[: max(0, m.start() - 8)]
+        after_full = fixed[min(len(fixed), m.end() + 220) :]
+        seg_fixed = seg[: pm.start(1)] + exact + seg[pm.end(1) :]
+        fixed = before + seg_fixed + after_full
+        corrections.append({"course_id": cid, "from": found_title, "to": exact})
+
+    return {"text": fixed, "title_corrections": corrections}
+
+
 def validate_and_fix_response(text: str) -> dict:
     """
     Main validation function.

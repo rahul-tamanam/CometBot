@@ -1075,10 +1075,8 @@
         "prerequisites": [
             [
                 "OPRE 6359",
-                "BUAN 6359",
-                "BUAN 6324",
-                "BUAN 6356", 
-                "BUAN 6383"
+                "BUAN 6359"
+                
             ]
         ],
         "only_one_of_these": [

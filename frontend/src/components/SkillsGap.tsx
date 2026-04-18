@@ -1,20 +1,21 @@
-import { useState, useRef } from 'react'
+import { useMemo, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Send, ArrowLeft, Loader, Upload, X } from 'lucide-react'
 import { skillsGapAnalyze, skillsGapAnalyzeResume } from '../api'
 import type { Message } from '../api'
 import './SkillsGap.css'
+import { useProfile } from '@/hooks/useProfile'
 
 type InputMode = 'courses' | 'resume'
 
 
 export default function SkillsGap() {
   const navigate = useNavigate()
+  const { completedCourses, profile } = useProfile()
 
   // Input state
   const [mode,             setMode]             = useState<InputMode>('courses')
-  const [completedCourses, setCompletedCourses] = useState('')
   const [targetJob,        setTargetJob]        = useState('')
   const [jobDescription,   setJobDescription]   = useState('')
   const [resumeFile,       setResumeFile]       = useState<File | null>(null)
@@ -30,6 +31,11 @@ export default function SkillsGap() {
 
   const scrollDown = () =>
     setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 100)
+
+  const bgPrefix = useMemo(() => {
+    const bg = (profile.background || '').trim()
+    return bg ? `Student background: ${bg}\n\n` : ''
+  }, [profile.background])
 
   // ── Run initial analysis ──────────────────────────────────────────────────
 
@@ -58,17 +64,12 @@ export default function SkillsGap() {
         )
         response = res.response
       } else {
-        const courses = completedCourses
-          .split(',')
-          .map(c => c.trim().toUpperCase())
-          .filter(Boolean)
-
         const res = await skillsGapAnalyze({
-          completed_courses:    courses,
+          completed_courses:    completedCourses,
           target_job:           targetJob,
           job_description:      jobDescription,
           conversation_history: [],
-          message:              'Please perform a skills gap analysis.'
+          message:              `${bgPrefix}Please perform a skills gap analysis.`
         })
         response = res.response
       }
@@ -99,17 +100,12 @@ export default function SkillsGap() {
     setLoading(true)
 
     try {
-      const courses = completedCourses
-        .split(',')
-        .map(c => c.trim().toUpperCase())
-        .filter(Boolean)
-
       const res = await skillsGapAnalyze({
-        completed_courses:    courses,
+        completed_courses:    completedCourses,
         target_job:           targetJob,
         job_description:      jobDescription,
         conversation_history: newHistory,
-        message:              input.trim()
+        message:              `${bgPrefix}${input.trim()}`
       })
 
       setMessages([
@@ -173,12 +169,19 @@ export default function SkillsGap() {
         {/* Course input */}
         {mode === 'courses' && (
           <div className="sg-field">
-            <label>Completed courses (comma separated)</label>
-            <input
-              value={completedCourses}
-              onChange={e => setCompletedCourses(e.target.value)}
-              placeholder="e.g. BUAN 6333, BUAN 6340, BUAN 6341"
-            />
+            <label>Completed courses (from profile)</label>
+            <div
+              style={{
+                background: 'rgba(255,255,255,0.6)',
+                border: '1px solid var(--border)',
+                borderRadius: '10px',
+                padding: '0.6rem 0.9rem',
+                fontSize: '0.9rem',
+                color: 'var(--text)',
+              }}
+            >
+              {completedCourses.length === 0 ? 'None (new student)' : completedCourses.join(', ')}
+            </div>
           </div>
         )}
 

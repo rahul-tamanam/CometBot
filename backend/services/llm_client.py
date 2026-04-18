@@ -3,6 +3,7 @@ from openai import OpenAI
 from backend.services.validator import (
     validate_and_fix_response,
     soften_length_truncation,
+    validate_and_fix_titles,
 )
 
 client = OpenAI(
@@ -100,6 +101,10 @@ def chat(
 
     if validate:
         result = validate_and_fix_response(raw_text)
+        title_fix = validate_and_fix_titles(result["text"])
+        result["text"] = title_fix["text"]
+        # Keep a separate key; callers can ignore safely.
+        result["title_corrections"] = title_fix.get("title_corrections", [])
         return result
 
     return {

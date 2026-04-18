@@ -16,6 +16,10 @@ from backend.services.validator import (
     extract_course_ids,
     resolve_course_input,
 )
+from backend.services.program_rules import (
+    get_credit_requirements,
+    get_only_one_of_these_groups,
+)
 
 
 def _course_ids_from_assistant_messages(conversation_history: list[dict]) -> list[str]:
@@ -56,95 +60,133 @@ COURSE_CREDITS_BY_ID = {
 SYSTEM_PROMPT = """
 You are an academic advisor for the MSBA (Master of Science in Business Analytics and Artificial Intelligence) program at UT Dallas.
 
-========================
-DEGREE REQUIREMENTS
-========================
-- Total credits required: 36
-- Core credits required: 18 (6 courses)
-- Elective credits required: 18 (6 courses)
-- Each course = 3 credit hours
+DEGREE RULES:
+- 36 total credit hours required to graduate
+- 18 credit hours must come from CORE courses
+- 18 credit hours must come from ELECTIVE courses
+- Each course is 3 credit hours
+- Only ONE course from an 'Only One Of These' group counts toward credit
 
-========================
-COURSE CONSTRAINTS
-========================
-CRITICAL RULE — MUTUALLY EXCLUSIVE GROUP:
-- BUAN 6324, BUAN 6356, BUAN 6383 are in the same group
-- A student may take ONLY ONE of these
-- NEVER recommend more than one
-- If one is already completed, DO NOT recommend the others
+RESPONSE RULES — follow these without exception:
+1. When referring to a course, ALWAYS use the exact course ID and the EXACT title from the COURSE REFERENCE TABLE provided. Never paraphrase, shorten, or reword a course title.
+2. When recommending core courses, ONLY pick from the REMAINING CORE COURSES list. Never pick from the elective list for core requirements.
+3. When recommending elective courses, ONLY pick from the REMAINING ELECTIVE COURSES list. Never pick from the core list for elective requirements.
+4. Never recommend a course the student has already completed.
+5. Never recommend more than one course from the same Only One Of These group.
+6. If a student asks how many credits they have left, use the exact numbers from the STUDENT DEGREE PROGRESS section.
+7. Never invent course IDs, titles, descriptions, or credit counts.
 
-GENERAL RULES:
-- NEVER recommend the same course twice
-- NEVER rename or modify course titles or IDs
-- ONLY recommend courses from the provided ELIGIBLE COURSES list
-- CORE courses must ONLY appear in CORE recommendations
-- ELECTIVES must ONLY appear in ELECTIVE recommendations
+STRICT TOPIC BOUNDARIES:
+You ONLY answer questions about course selection, degree progress, prerequisites, and graduation planning.
+If a student asks about careers, job roles, salaries, skills, or anything outside academic planning, respond with:
+"That falls outside my scope as your Degree Planner. Please use the Career Mentor or Skills Gap Analyzer for that."
+""".strip()
 
-========================
-INTERNSHIP RULES
-========================
-- BUAN 6009:
-  - Can ONLY be used for the first internship
-- BUAN 6V98:
-  - Used for additional internships (0–3 credits allowed)
-  - If first internship (BUAN 6009) was 0 credits, second internship can be 1–3 credits
-- BUAN 6390 and BUAN 6V98:
-  - Can fulfill internship requirements
-- IMPORTANT:
-  - If a student has completed BUAN 6V98 or BUAN 6390, they are NOT eligible for BUAN 6009
 
-========================
-PREREQUISITES & NON-DEGREE COURSES
-========================
-- MAS 6102 Professional Development:
-  - Required (1 credit hour)
-  - DOES NOT count toward the 36 credits
+def build_course_lists(valid_completed_ids: list[str], all_courses: list[dict]) -> tuple[list[dict], list[dict], dict, list[str]]:
+    """
+    Returns (remaining_core, remaining_elective_prereqs_met, progress, notes)
+    """
+    rules = get_credit_requirements("msba")
+    total_req = float(rules["total_credits"])
+    core_req = float(rules["core_credits"])
+    elec_req = float(rules["elective_credits"])
 
-========================
-PLANNING & SCHEDULING RULES
-========================
-- Default recommendation: 3 courses per semester (balanced plan)
-- Students MAY take more or fewer courses based on preference
-- Maximum allowed: No strict cap
-- Recommendation:
-  - Above 5 courses per semester is NOT advised
-- If a student provides a preferred plan:
-  - Adapt recommendations to align with their structure
+    completed_set = {(_normalize_id(x)) for x in (valid_completed_ids or [])}
 
-========================
-CALCULATION RULES
-========================
-- Core courses needed = (18 - core_completed) / 3
-- Elective courses needed = (18 - elective_completed) / 3
-- Always calculate accurately before recommending
+    # Core remaining: all core catalog courses not completed.
+    remaining_core = []
+    for c in all_courses:
+        cid = _normalize_id(c.get("course_id", ""))
+        if not cid or cid in completed_set:
+            continue
+        if str(c.get("course_type", "")).lower() == "core":
+            remaining_core.append(c)
 
-========================
-SCOPE RESTRICTIONS
-========================
-You ONLY answer questions about:
-- Course selection and recommendations
-- Degree progress and credit tracking
-- Prerequisites and sequencing
-- Graduation planning and semester scheduling
+    # Elective remaining: electives whose prereqs are met (Neo4j eligibility)
+    eligible = get_valid_next_courses(list(completed_set))
+    eligible_ids = {_normalize_id(c.get("course_id", "")) for c in eligible if c.get("course_id")}
+    remaining_elective = []
+    for c in all_courses:
+        cid = _normalize_id(c.get("course_id", ""))
+        if not cid or cid in completed_set:
+            continue
+        if str(c.get("course_type", "")).lower() != "elective":
+            continue
+        if cid in eligible_ids:
+            remaining_elective.append(c)
 
-If asked anything outside scope (careers, jobs, salaries, skills, internships advice beyond course selection):
+    # Progress: compute from catalog types
+    core_done = 0.0
+    elec_done = 0.0
+    for cid in completed_set:
+        credits = float(COURSE_CREDITS_BY_ID.get(cid, rules["credits_per_course"]) or rules["credits_per_course"])
+        if _course_is_core(cid):
+            core_done += credits
+        elif _course_is_elective(cid):
+            elec_done += credits
 
-Respond EXACTLY:
-"That's a great question but it falls outside my scope as a Degree Planner.
-For career advice, please use the Career Mentor component.
-For skills gap analysis, please use the Skills Gap Analyzer component."
+    total_done = core_done + elec_done
+    core_rem = max(0.0, core_req - core_done)
+    elec_rem = max(0.0, elec_req - elec_done)
+    total_rem = max(0.0, total_req - total_done)
+    pct = 0.0 if total_req <= 0 else round((total_done / total_req) * 100, 1)
 
-- NEVER provide partial answers to out-of-scope questions
+    progress = {
+        "total_completed": round(total_done, 1),
+        "core_completed": round(core_done, 1),
+        "elective_completed": round(elec_done, 1),
+        "total_remaining": round(total_rem, 1),
+        "core_remaining": round(core_rem, 1),
+        "elective_remaining": round(elec_rem, 1),
+        "percent_complete": pct,
+    }
 
-========================
-OUTPUT EXPECTATIONS
-========================
-- Be precise, structured, and constraint-aware
-- Double-check all constraints before responding
-- Do not assume missing data — ask clarifying questions if needed
-- Output MUST be plain text (no Markdown). Do NOT use '#', '*', '**', or horizontal rules.
-- Use short headings like "Semester 1:" and bullet points starting with "- ".
-"""
+    return remaining_core, remaining_elective, progress, []
+
+
+def _apply_only_one_of_constraints(
+    completed_ids: list[str],
+    remaining_core: list[dict],
+    remaining_elective: list[dict],
+) -> tuple[list[dict], list[dict], list[str]]:
+    groups = get_only_one_of_these_groups("msba")
+    completed = {_normalize_id(x) for x in completed_ids or []}
+    notes: list[str] = []
+
+    core_by_id = {_normalize_id(c.get("course_id", "")): c for c in remaining_core if c.get("course_id")}
+    elec_by_id = {_normalize_id(c.get("course_id", "")): c for c in remaining_elective if c.get("course_id")}
+
+    for g in groups:
+        g_ids = [_normalize_id(x) for x in g]
+        done = [x for x in g_ids if x in completed]
+        if done:
+            keep = done[0]
+            for cid in g_ids:
+                if cid != keep:
+                    core_by_id.pop(cid, None)
+                    elec_by_id.pop(cid, None)
+            continue
+
+        # none completed -> keep only first representative among remaining lists (if present)
+        present = [cid for cid in g_ids if cid in core_by_id or cid in elec_by_id]
+        if present:
+            keep = present[0]
+            for cid in present[1:]:
+                core_by_id.pop(cid, None)
+                elec_by_id.pop(cid, None)
+            course_options: list[str] = []
+            for cid in g_ids:
+                course_obj = COURSE_MAP.get(cid)
+                title = course_obj.get("title", cid) if course_obj else cid
+                course_options.append(f"{cid} {title}")
+            notes.append(
+                "For this core requirement, you only need to complete ONE of the following courses — "
+                "pick whichever best fits your background and goals:\n"
+                + "\n".join(f"  • {opt}" for opt in course_options)
+            )
+
+    return list(core_by_id.values()), list(elec_by_id.values()), notes
 
 class ChatRequest(BaseModel):
     message: str
@@ -866,9 +908,8 @@ def degree_planner_chat(request: ChatRequest):
             if isinstance(item, dict) and isinstance(item.get("course"), str):
                 from_history.append(item["course"])
 
-    from_assistant_plans = _course_ids_from_assistant_messages(request.conversation_history)
     validation = validate_course_list(
-        list(request.completed_courses or []) + from_history + from_assistant_plans
+        list(request.completed_courses or []) + from_history
     )
     valid_completed = list(dict.fromkeys(c["course_id"] for c in validation["valid"]))
 
@@ -929,9 +970,8 @@ def degree_planner_chat(request: ChatRequest):
             "warnings": plan_out["warnings"],
         }
 
-    # Step 2/3 — get progress + eligible courses from Neo4j
+    # Step 2/3 — get eligible courses from Neo4j
     try:
-        progress = get_degree_progress(valid_completed)
         eligible_courses = get_valid_next_courses(valid_completed)
     except ServiceUnavailable:
         raise HTTPException(
@@ -950,22 +990,23 @@ def degree_planner_chat(request: ChatRequest):
     # Canonical types + eligible next steps from graph
     eligible_courses = [_enrich_course_record(c) for c in eligible_courses]
 
-    # If the student explicitly asks for CORE vs ELECTIVES, filter the pool accordingly
     requested_type = _detect_requested_course_type(request.message)
-    if requested_type:
-        eligible_courses = [
-            c for c in eligible_courses
-            if str(c.get("course_type", "")).lower() == requested_type.lower()
-        ]
+
+    # Pre-compute remaining lists (strict Core vs Elective) before LLM context is built.
+    remaining_core, remaining_elective, progress, list_notes = build_course_lists(
+        valid_completed_ids=valid_completed,
+        all_courses=_ALL_COURSES,
+    )
+    remaining_core, remaining_elective, group_notes = _apply_only_one_of_constraints(
+        completed_ids=valid_completed,
+        remaining_core=remaining_core,
+        remaining_elective=remaining_elective,
+    )
+    list_notes = (list_notes or []) + (group_notes or [])
     # Do not override Neo4j eligibility for new students with a tiny Pinecone slice.
     # Step 4 — semantic search for query-relevant courses
     relevant_courses = query_courses(request.message, top_k=8)
     relevant_courses = [_enrich_course_record(c) for c in relevant_courses]
-    if requested_type:
-        relevant_courses = [
-            c for c in relevant_courses
-            if str(c.get("course_type", "")).lower() == requested_type.lower()
-        ]
 
     # Step 5 — merge eligible and relevant, keeping only eligible ones
     # Step 5 — build courses to show
@@ -1025,16 +1066,19 @@ STUDENT DEGREE PROGRESS:
 - Percent complete: {progress['percent_complete']}%{chat_plan_note}{history_ctx}
     """.strip()
 
-    courses_context = "\n\n".join([
-        f"Course ID: {c['course_id']}\n"
-        f"Title: {c['title']}\n"
-        f"Type: {c['course_type']} | Credits: {c.get('credits', 3)}\n"
-        f"Description: {c.get('description', 'N/A')}\n"
-        f"Skills Taught: {', '.join(c.get('skills_taught') or []) or 'N/A'}\n"
-        f"Only One Of These Group: {', '.join(c.get('only_one_of_these') or []) or 'N/A'}\n"
-        f"Prerequisites Met: Yes"
-        for c in courses_to_show
-    ])
+    def _format_course_line(c: dict) -> str:
+        cc = _enrich_course_record(c)
+        cid = str(cc.get("course_id") or "").strip()
+        title = str(cc.get("title") or "").strip()
+        credits = cc.get("credits", 3)
+        return f"{cid} | {title} | {credits}"
+
+    remaining_core_context = "\n".join(_format_course_line(c) for c in remaining_core)
+    remaining_elective_context = "\n".join(_format_course_line(c) for c in remaining_elective)
+
+    rules_notes_context = ""
+    if list_notes:
+        rules_notes_context = "ONLY-ONE-OF CONSTRAINT NOTES:\n" + "\n".join(f"- {n}" for n in list_notes) + "\n\n"
 
     warnings_context = ""
     if plan_warnings:
@@ -1066,14 +1110,11 @@ STUDENT DEGREE PROGRESS:
     type_turn_rules = ""
     if requested_type == "Core":
         type_turn_rules = (
-            "THIS TURN IS CORE-ONLY: Every course you mention MUST have Type: Core in the list below. "
-            "Do not recommend or label any course as core if its Type is Elective. "
-            "If the list contains only Core courses, treat every bullet as Core.\n\n"
+            "THIS TURN IS CORE-ONLY: Recommend ONLY from the REMAINING CORE COURSES list.\n\n"
         )
     elif requested_type == "Elective":
         type_turn_rules = (
-            "THIS TURN IS ELECTIVE-ONLY: Every course you mention MUST have Type: Elective in the list below. "
-            "Do not recommend or label any course as an elective if its Type is Core.\n\n"
+            "THIS TURN IS ELECTIVE-ONLY: Recommend ONLY from the REMAINING ELECTIVE COURSES (prerequisites met) list.\n\n"
         )
 
     system_prompt_with_context = (
@@ -1081,12 +1122,22 @@ STUDENT DEGREE PROGRESS:
         f"{progress_context}\n\n"
         f"REQUEST TYPE: {requested_type or 'Any'}\n"
         f"{type_turn_rules}"
-        f"ELIGIBLE COURSES — ONLY RECOMMEND FROM THIS LIST, NO OTHERS:\n\n"
-        f"{courses_context}\n\n"
+        f"{rules_notes_context}"
+        f"REMAINING CORE COURSES — student must complete these for their core requirement.\n"
+        f"Recommend ONLY from this list when the student asks about core courses.\n"
+        f"Never move a course from this list into the elective section.\n"
+        f"Format: COURSE_ID | EXACT_TITLE | credits\n\n"
+        f"{remaining_core_context}\n\n"
+        f"REMAINING ELECTIVE COURSES (prerequisites met) — student can freely choose from these.\n"
+        f"Recommend ONLY from this list when the student asks about elective courses.\n"
+        f"Never move a course from this list into the core section.\n"
+        f"Format: COURSE_ID | EXACT_TITLE | credits\n\n"
+        f"{remaining_elective_context}\n\n"
         f"{warnings_context}"
         f"{plan_context}"
-        f"REMINDER: Never rename courses. Never recommend courses not in this list. "
-        f"Never recommend more than one course from the same Only One Of These group."
+        "The course type labels (Core/Elective) are FINAL and come from the database. "
+        "Never reclassify a course. Never recommend the same course in both sections. "
+        "Never recommend a course the student has already completed."
     )
 
     # Step 7 — build conversation history
