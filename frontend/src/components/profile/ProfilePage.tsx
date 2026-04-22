@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Lock, Trash2, User, ChevronDown, ChevronUp, X } from 'lucide-react'
-import type { CometbotProfile, ProfileSemester } from '@/hooks/useProfile'
+import { PROFILE_STORAGE_KEY, type CometbotProfile, type ProfileSemester } from '@/hooks/useProfile'
 
 type TabId = 'account' | 'personalization'
 
@@ -42,19 +42,24 @@ function nextSemesterLabel(prevLabel: string) {
   return `${nextTerm} ${nextYear}`
 }
 
-async function fetchCourseIdSet(): Promise<Set<string>> {
+type CatalogRow = { course_id: string; title: string }
+
+const COURSE_DATALIST_ID = 'msba-profile-courses'
+
+async function fetchCourseCatalog(): Promise<{ ids: Set<string>; rows: CatalogRow[] }> {
   const res = await fetch('http://localhost:8000/api/courses')
   if (!res.ok) throw new Error('bad_status')
-  const data = (await res.json()) as Array<{ course_id?: string }>
-  // Debug validation payload shape (Bug Fix 2)
-  // eslint-disable-next-line no-console
-  console.log('[Profile] /api/courses sample:', Array.isArray(data) ? data.slice(0, 3) : data)
-  const set = new Set<string>()
+  const data = (await res.json()) as Array<{ course_id?: string; title?: string }>
+  const ids = new Set<string>()
+  const rows: CatalogRow[] = []
   for (const c of data || []) {
     const id = normalizeCourseId(String(c.course_id || ''))
-    if (id) set.add(id)
+    if (!id) continue
+    ids.add(id)
+    rows.push({ course_id: id, title: String(c.title || '').trim() })
   }
-  return set
+  rows.sort((a, b) => a.course_id.localeCompare(b.course_id))
+  return { ids, rows }
 }
 
 function sortSemesters(semesters: ProfileSemester[]) {
@@ -159,9 +164,9 @@ export function ProfilePage({
 
   const [aboutDraft, setAboutDraft] = useState(profile.background)
 
-  const [courseIdSet, setCourseIdSet] = useState<Set<string> | null>(null)
-  const [courseValidateNote, setCourseValidateNote] = useState<string | null>(null)
+  const [courseCatalog, setCourseCatalog] = useState<{ ids: Set<string>; rows: CatalogRow[] } | null>(null)
   const [activeSemesterInput, setActiveSemesterInput] = useState<string | null>(null)
+  const [courseHistorySaveMsg, setCourseHistorySaveMsg] = useState<string | null>(null)
 
   const semesters = useMemo(() => sortSemesters(profile.semesters), [profile.semesters])
   const totalCourses = useMemo(() => {
@@ -171,18 +176,21 @@ export function ProfilePage({
     return s.size
   }, [semesters])
 
-  const ensureCourseSet = async () => {
-    if (courseIdSet) return courseIdSet
+  const loadCourseCatalog = useCallback(async () => {
+    if (courseCatalog) return courseCatalog
     try {
-      const set = await fetchCourseIdSet()
-      setCourseIdSet(set)
-      setCourseValidateNote(null)
-      return set
+      const cat = await fetchCourseCatalog()
+      setCourseCatalog(cat)
+      return cat
     } catch {
-      setCourseValidateNote('Could not validate — course added without verification')
       return null
     }
-  }
+  }, [courseCatalog])
+
+  useEffect(() => {
+    if (tab !== 'personalization') return
+    void loadCourseCatalog()
+  }, [tab, loadCourseCatalog])
 
   const updateField = (key: 'fullName' | 'studentId' | 'email', value: string) => {
     setDraft((d) => ({ ...d, [key]: value }))
@@ -234,6 +242,17 @@ export function ProfilePage({
       courses: [],
     }
     saveProfile((p) => ({ ...p, semesters: [...p.semesters, newSem] }))
+  }
+
+  const saveCourseHistory = () => {
+    try {
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile))
+      setCourseHistorySaveMsg('Course history saved on this device.')
+      window.setTimeout(() => setCourseHistorySaveMsg(null), 3200)
+    } catch {
+      setCourseHistorySaveMsg('Could not save. Check that storage is enabled for this site.')
+      window.setTimeout(() => setCourseHistorySaveMsg(null), 4000)
+    }
   }
 
   return (
@@ -484,12 +503,26 @@ export function ProfilePage({
                     + Add Semester
                   </SmallButton>
                 </div>
+                <p className="mt-2 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Only courses from the MSBA catalog can be added. Start typing to see suggestions, or enter an exact
+                  course ID (for example BUAN 6341).
+                </p>
+                {courseCatalog && courseCatalog.rows.length > 0 ? (
+                  <datalist id={COURSE_DATALIST_ID}>
+                    {courseCatalog.rows.map((r) => (
+                      <option key={r.course_id} value={r.course_id}>
+                        {r.title}
+                      </option>
+                    ))}
+                  </datalist>
+                ) : null}
 
                 <div className="mt-4 space-y-3">
                   {semesters.map((sem) => (
                     <SemesterCard
                       key={sem.id}
                       semester={sem}
+                      courseDatalistId={courseCatalog && courseCatalog.rows.length > 0 ? COURSE_DATALIST_ID : undefined}
                       activeSemesterInput={activeSemesterInput}
                       setActiveSemesterInput={setActiveSemesterInput}
                       canMoveUp={semesters[0]?.id !== sem.id}
@@ -504,30 +537,27 @@ export function ProfilePage({
                           courses: s.courses.filter((c) => normalizeCourseId(c) !== normalizeCourseId(courseId)),
                         }))
                       }
-                      onAddCourse={async (courseId, force) => {
+                      onAddCourse={async (courseId) => {
                         const cid = normalizeCourseId(courseId)
-                        if (!cid) return { ok: false, message: 'Enter a course ID.' }
+                        if (!cid) return { ok: false, message: 'Please enter a course ID.' }
 
-                        const set = await ensureCourseSet()
-                        if (!set) {
-                          // offline: allow add
-                          upsertSemester(sem.id, (s) => ({
-                            ...s,
-                            courses: Array.from(new Set([...s.courses.map(normalizeCourseId), cid])),
-                          }))
-                          return { ok: true, message: courseValidateNote }
+                        const catalog = await loadCourseCatalog()
+                        if (!catalog) {
+                          return {
+                            ok: false,
+                            message:
+                              'Could not load courses. Start the backend (port 8000) and try again.',
+                          }
                         }
-
-                        const valid = set.has(cid)
-                        if (!valid && !force) {
-                          return { ok: false, message: 'Course ID not found. Please check the ID and try again.', needsConfirm: true }
+                        if (!catalog.ids.has(cid)) {
+                          return { ok: false, message: 'Please enter a valid course ID.' }
                         }
 
                         upsertSemester(sem.id, (s) => ({
                           ...s,
                           courses: Array.from(new Set([...s.courses.map(normalizeCourseId), cid])),
                         }))
-                        return { ok: true, message: valid ? null : 'Course ID not found. Added anyway.' }
+                        return { ok: true, message: null }
                       }}
                     />
                   ))}
@@ -552,6 +582,20 @@ export function ProfilePage({
                     </span>
                   )}
                 </div>
+                <div className="mt-3 flex flex-wrap items-center gap-3">
+                  <SmallButton variant="solid" onClick={saveCourseHistory}>
+                    Save course history
+                  </SmallButton>
+                  {courseHistorySaveMsg ? (
+                    <span className="text-xs font-medium" style={{ color: 'var(--success)' }}>
+                      {courseHistorySaveMsg}
+                    </span>
+                  ) : (
+                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                      Saves semesters and courses to this browser (same as auto-save).
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -567,6 +611,7 @@ function SemesterCard({
   onRename,
   onRemoveCourse,
   onAddCourse,
+  courseDatalistId,
   activeSemesterInput,
   setActiveSemesterInput,
   canMoveUp,
@@ -578,7 +623,8 @@ function SemesterCard({
   onDelete: () => void
   onRename: (label: string) => void
   onRemoveCourse: (courseId: string) => void
-  onAddCourse: (courseId: string, force: boolean) => Promise<{ ok: boolean; message: string | null; needsConfirm?: boolean }>
+  onAddCourse: (courseId: string) => Promise<{ ok: boolean; message: string | null }>
+  courseDatalistId?: string
   activeSemesterInput: string | null
   setActiveSemesterInput: (id: string | null) => void
   canMoveUp: boolean
@@ -589,9 +635,12 @@ function SemesterCard({
   const [editingTitle, setEditingTitle] = useState(false)
   const [titleDraft, setTitleDraft] = useState(semester.label)
 
+  useEffect(() => {
+    setTitleDraft(semester.label)
+  }, [semester.label])
+
   const [courseDraft, setCourseDraft] = useState('')
   const [courseError, setCourseError] = useState<string | null>(null)
-  const [needsConfirm, setNeedsConfirm] = useState(false)
   const [note, setNote] = useState<string | null>(null)
   const [oneAtATimeHint, setOneAtATimeHint] = useState(false)
 
@@ -604,14 +653,12 @@ function SemesterCard({
     setEditingTitle(false)
   }
 
-  const tryAdd = async (force: boolean) => {
+  const tryAdd = async () => {
     setCourseError(null)
     setNote(null)
-    setNeedsConfirm(false)
-    const res = await onAddCourse(courseDraft, force)
+    const res = await onAddCourse(courseDraft)
     if (!res.ok) {
       setCourseError(res.message)
-      setNeedsConfirm(!!res.needsConfirm)
       return
     }
     setNote(res.message)
@@ -627,28 +674,57 @@ function SemesterCard({
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
+          <div className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: 'var(--text-muted)' }}>
+            Semester label
+          </div>
           {editingTitle ? (
-            <input
-              value={titleDraft}
-              onChange={(e) => setTitleDraft(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') saveTitle()
-                if (e.key === 'Escape') { setTitleDraft(semester.label); setEditingTitle(false) }
-              }}
-              className="h-10 w-full rounded-xl px-3 text-sm font-semibold outline-none focus:ring-orange-200"
-              style={{ backgroundColor: 'var(--surface)', color: 'var(--text)', border: '1px solid var(--border)' }}
-              autoFocus
-            />
+            <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <input
+                value={titleDraft}
+                onChange={(e) => setTitleDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') saveTitle()
+                  if (e.key === 'Escape') {
+                    setTitleDraft(semester.label)
+                    setEditingTitle(false)
+                  }
+                }}
+                placeholder="e.g. Spring 2026"
+                className="h-10 min-w-0 flex-1 rounded-xl px-3 text-sm font-semibold outline-none focus:ring-orange-200"
+                style={{ backgroundColor: 'var(--surface)', color: 'var(--text)', border: '1px solid var(--border)' }}
+                autoFocus
+              />
+              <div className="flex shrink-0 gap-2">
+                <SmallButton variant="solid" onClick={saveTitle}>
+                  Save
+                </SmallButton>
+                <SmallButton
+                  onClick={() => {
+                    setTitleDraft(semester.label)
+                    setEditingTitle(false)
+                  }}
+                >
+                  Cancel
+                </SmallButton>
+              </div>
+            </div>
           ) : (
-            <button
-              type="button"
-              onClick={() => { setTitleDraft(semester.label); setEditingTitle(true) }}
-              className="truncate text-left text-sm font-extrabold tracking-tight"
-              style={{ color: 'var(--text)' }}
-              title="Click to edit semester label"
-            >
-              {semester.label}
-            </button>
+            <div className="mt-1 flex flex-wrap items-center gap-2">
+              <span className="text-sm font-extrabold tracking-tight" style={{ color: 'var(--text)' }}>
+                {semester.label}
+              </span>
+              <SmallButton
+                onClick={() => {
+                  setTitleDraft(semester.label)
+                  setEditingTitle(true)
+                }}
+              >
+                Change term
+              </SmallButton>
+              <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                Use format: Spring 2026, Fall 2025, etc.
+              </span>
+            </div>
           )}
         </div>
 
@@ -719,7 +795,6 @@ function SemesterCard({
             onClick={() => {
               setActiveSemesterInput(semester.id)
               setCourseError(null)
-              setNeedsConfirm(false)
               setNote(null)
               setCourseDraft('')
               setOneAtATimeHint(false)
@@ -734,6 +809,7 @@ function SemesterCard({
             <div className="flex items-center gap-2">
               <input
                 value={courseDraft}
+                list={courseDatalistId}
                 onChange={(e) => {
                   const v = e.target.value
                   const commaAt = v.indexOf(',')
@@ -748,17 +824,17 @@ function SemesterCard({
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault()
-                    void tryAdd(false)
+                    void tryAdd()
                   }
                 }}
-                placeholder="e.g. BUAN 6341"
+                placeholder="Type to search or enter course ID (e.g. BUAN 6341)"
                 className="h-10 min-w-0 flex-1 rounded-xl px-3 text-sm outline-none focus:ring-orange-200"
                 style={{ backgroundColor: 'var(--surface)', color: 'var(--text)', border: '1px solid var(--border)' }}
                 autoFocus
               />
               <button
                 type="button"
-                onClick={() => tryAdd(false)}
+                onClick={() => void tryAdd()}
                 className="inline-flex h-10 items-center justify-center rounded-xl px-3 text-xs font-semibold text-white"
                 style={{
                   background:
@@ -773,7 +849,6 @@ function SemesterCard({
                   setActiveSemesterInput(null)
                   setCourseDraft('')
                   setCourseError(null)
-                  setNeedsConfirm(false)
                   setNote(null)
                   setOneAtATimeHint(false)
                 }}
@@ -788,18 +863,6 @@ function SemesterCard({
             )}
             {courseError && <div className="text-xs font-medium text-red-600">{courseError}</div>}
             {note && <div className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{note}</div>}
-            <div className="flex flex-wrap items-center gap-2">
-              {needsConfirm && (
-                <button
-                  type="button"
-                  onClick={() => tryAdd(true)}
-                  className="inline-flex items-center justify-center rounded-xl px-3 py-2 text-xs font-semibold"
-                  style={{ backgroundColor: 'var(--surface)', color: 'var(--text)', border: '1px solid var(--border)' }}
-                >
-                  Add anyway
-                </button>
-              )}
-            </div>
           </div>
         )}
       </div>

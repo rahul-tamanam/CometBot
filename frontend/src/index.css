@@ -15,6 +15,8 @@
     --warning: #f59e0b;
     --error: #ef4444;
     --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    /* Lighter scrim so /bg.png stays visible behind chat (88% white was washing it out) */
+    --chat-bg-scrim: color-mix(in oklab, var(--surface) 38%, transparent 62%);
     color-scheme: light;
   }
 
@@ -35,6 +37,7 @@
     --warning: #f59e0b;
     --error: #ef4444;
     --shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+    --chat-bg-scrim: color-mix(in oklab, var(--panel) 88%, transparent 12%);
     color-scheme: dark;
   }
 

@@ -15,7 +15,8 @@ export type CometbotProfile = {
   semesters: ProfileSemester[]
 }
 
-const STORAGE_KEY = 'cometbot_profile'
+/** Browser localStorage key for persisted profile (course history, etc.). */
+export const PROFILE_STORAGE_KEY = 'cometbot_profile'
 
 const DEFAULT_PROFILE: CometbotProfile = {
   fullName: '',
@@ -66,7 +67,7 @@ function coerceProfile(raw: unknown): CometbotProfile {
 export function useProfile() {
   const [profile, setProfile] = useState<CometbotProfile>(() => {
     try {
-      const raw = safeParse(localStorage.getItem(STORAGE_KEY))
+      const raw = safeParse(localStorage.getItem(PROFILE_STORAGE_KEY))
       return coerceProfile(raw)
     } catch {
       return DEFAULT_PROFILE
@@ -75,7 +76,7 @@ export function useProfile() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile))
+      localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile))
     } catch {
       // ignore storage errors (quota/disabled)
     }
@@ -105,7 +106,7 @@ export function useProfile() {
   const resetProfile = () => {
     setProfile(DEFAULT_PROFILE)
     try {
-      localStorage.removeItem(STORAGE_KEY)
+      localStorage.removeItem(PROFILE_STORAGE_KEY)
     } catch {
       // ignore
     }

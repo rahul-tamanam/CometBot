@@ -396,8 +396,7 @@ export function CometDashboard() {
                 className="absolute inset-0"
                 aria-hidden
                 style={{
-                  backgroundColor:
-                    'color-mix(in oklab, var(--panel, var(--surface)) 88%, transparent 12%)',
+                  backgroundColor: 'var(--chat-bg-scrim)',
                 }}
               />
               <div className="relative flex min-h-0 min-w-0 flex-1 flex-col px-4 overflow-hidden">
