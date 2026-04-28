@@ -18,24 +18,46 @@ export interface DegreePlannerRequest {
   course_history?:      { course: string; semester: string }[]
 }
 
+export interface CourseCard {
+  course_id:         string
+  title:             string
+  course_type:       'Core' | 'Elective'
+  credits:           number
+  is_completed:      boolean
+  prerequisites_met: boolean
+}
+
+export interface SemesterBlock {
+  label:   string
+  courses: CourseCard[]
+}
+
+export interface ProgressData {
+  core_completed_credits:     number
+  core_remaining_credits:     number
+  core_completed_count:       number
+  core_remaining_count:       number
+  elective_completed_credits: number
+  elective_remaining_credits: number
+  elective_completed_count:   number
+  elective_remaining_count:   number
+  total_completed_credits:    number
+  total_remaining_credits:    number
+  total_completed_count:      number
+  total_remaining_count:      number
+  percent_complete:           number
+}
+
 export interface DegreePlannerResponse {
-  response:         string
-  corrections:      any[]
-  removed:          any[]
-  progress:         {
-    total_completed:    number
-    core_completed:     number
-    elective_completed: number
-    total_remaining:    number
-    core_remaining:     number
-    elective_remaining: number
-    percent_complete:   number
-  }
-  invalid_courses:  any[]
-  eligible_count:   number
-  // Present when backend returns a deterministic plan via chat trigger
-  plan?:            { semester: number; courses: { course_id: string; title: string; course_type: string }[] }[]
-  warnings?:        string[]
+  narrative:           string
+  progress:            ProgressData
+  recommended_courses: CourseCard[]
+  semester_plan:       SemesterBlock[]
+  remaining_core:      CourseCard[]
+  remaining_elective:  CourseCard[]
+  choice_group_notes:  string[]
+  invalid_courses:     string[]
+  corrections:         any[]
 }
 
 export const degreePlannerChat = async (
@@ -79,11 +101,45 @@ export const degreePlannerPlan = async (
   return res.data
 }
 
+export interface HighlightCourse {
+  course_id: string
+  title: string
+}
+
+export interface HighlightCertificate {
+  cert_title: string
+}
+
+export const getHighlightCourses = async (): Promise<HighlightCourse[]> => {
+  const res = await axios.get(`${BASE}/courses`)
+  return res.data
+}
+
+export const getHighlightCertificates = async (): Promise<HighlightCertificate[]> => {
+  const res = await axios.get(`${BASE}/certificates`)
+  return res.data
+}
+
 // ── Career Mentor ─────────────────────────────────────────────────────────────
 
 export interface CareerMentorRequest {
   message:              string
   conversation_history: Message[]
+  completed_courses?:   string[]
+  student_type?:        'new' | 'current'
+  course_history?:      { course: string; semester: string }[]
+}
+
+export interface CareerMentorCertificate {
+  cert_title: string
+  total_credits: number
+  overview: string
+  course_id: string[][]
+  skills_taught: string[]
+  completed_courses_for_certificate: string[]
+  remaining_course_groups: string[][]
+  remaining_course_count: number
+  is_eligible_now: boolean
 }
 
 export interface CareerMentorResponse {
@@ -96,6 +152,9 @@ export interface CareerMentorResponse {
     soft_skills:      string[]
     score:            number
   } | null
+  matched_certificates: CareerMentorCertificate[]
+  valid_completed_courses?: string[]
+  invalid_profile_courses?: any[]
 }
 
 export const careerMentorChat = async (

@@ -12,7 +12,7 @@ export default function DegreePlanner() {
       completed_courses:    completedCourses,
       conversation_history: history
     })
-    return res.response
+    return res.narrative
   }
 
   const header = (

@@ -1,5 +1,5 @@
-import { useMemo, useRef, useState } from 'react'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { ChevronDown, ChevronUp, GraduationCap, Menu, Moon, Sun, X } from 'lucide-react'
 import { Sidebar } from './Sidebar'
 import { ResourcesPanel } from './ResourcesPanel'
 import { PromptCard } from './PromptCard'
@@ -9,10 +9,16 @@ import type { ChatMessage, ChatThread, ModeId } from './types'
 import {
   careerMentorChat,
   degreePlannerChat,
+  getHighlightCertificates,
+  getHighlightCourses,
+  type DegreePlannerResponse,
   type Message as ApiMessage,
 } from '@/api'
 import { useProfile } from '@/hooks/useProfile'
 import { ProfilePage } from '@/components/profile/ProfilePage'
+import ProgressBar from '@/components/degree/ProgressBar'
+import CourseCardComponent from '@/components/degree/CourseCardComponent'
+import SemesterTimeline from '@/components/degree/SemesterTimeline'
 
 function uid() {
   return Math.random().toString(16).slice(2) + Date.now().toString(16)
@@ -59,6 +65,15 @@ const SUGGESTED: Record<ModeId, string[]> = {
 
 export function CometDashboard() {
   const { profile, saveProfile, resetProfile, completedCourses } = useProfile()
+  const profileCourseHistory = useMemo(
+    () =>
+      (profile.semesters || []).flatMap((sem) =>
+        (sem.courses || [])
+          .map((course) => ({ course, semester: sem.label }))
+          .filter((row) => row.course.trim()),
+      ),
+    [profile.semesters],
+  )
   const [threads, setThreads] = useState<ChatThread[]>(() => {
     const now = Date.now()
     return [
@@ -98,6 +113,68 @@ export function CometDashboard() {
   const activeThread = threads.find((t) => t.id === activeId) ?? threads[0]
   const mode = activeThread.mode
   const accentClass = modeAccent(mode)
+
+  // Structured degree planner output — only populated when the user is in a
+  // degree-planner-driven mode. Reset whenever we leave those modes, switch
+  // threads, or open the profile view. The panel is not rendered inline;
+  // instead the user opens it on demand via the input-bar button.
+  const isDegreePlanner = mode === 'academic' || mode === 'course'
+  const [degreeResponse, setDegreeResponse] = useState<DegreePlannerResponse | null>(null)
+  const [progressOpen, setProgressOpen] = useState(false)
+  const [showRemaining, setShowRemaining] = useState(false)
+  const [courseIdsForHighlight, setCourseIdsForHighlight] = useState<string[]>([])
+  const [courseTitlesForHighlight, setCourseTitlesForHighlight] = useState<string[]>([])
+  const [certTitlesForHighlight, setCertTitlesForHighlight] = useState<string[]>([])
+
+  useEffect(() => {
+    let active = true
+    ;(async () => {
+      try {
+        const [courses, certs] = await Promise.all([
+          getHighlightCourses(),
+          getHighlightCertificates(),
+        ])
+        if (!active) return
+        setCourseIdsForHighlight(
+          courses
+            .map((c) => (c.course_id || '').trim().toUpperCase())
+            .filter((id) => id.length > 0),
+        )
+        setCourseTitlesForHighlight(
+          courses
+            .map((c) => (c.title || '').trim())
+            .filter((t) => t.length > 0),
+        )
+        setCertTitlesForHighlight(
+          certs
+            .map((c) => (c.cert_title || '').trim())
+            .filter((t) => t.length > 0),
+        )
+      } catch {
+        if (!active) return
+        setCourseIdsForHighlight([])
+        setCourseTitlesForHighlight([])
+        setCertTitlesForHighlight([])
+      }
+    })()
+    return () => {
+      active = false
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isDegreePlanner || activeView !== 'chat') {
+      setDegreeResponse(null)
+      setProgressOpen(false)
+      setShowRemaining(false)
+    }
+  }, [isDegreePlanner, activeView, activeId])
+
+  // The "Remaining Courses" section is opt-in — reset the toggle each time
+  // the modal is re-opened so users don't see a stale open state.
+  useEffect(() => {
+    if (!progressOpen) setShowRemaining(false)
+  }, [progressOpen])
   const profileBannerText = useMemo(() => {
     if (mode !== 'academic') return null
     if (completedCourses.length === 0) return 'No courses in profile · Treating you as a new student'
@@ -122,6 +199,21 @@ export function CometDashboard() {
     setThreads((prev) => prev.map((t) => (t.id === id ? patch(t) : t)))
   }
 
+  // Clear every piece of per-chat UI state in one place so both the
+  // "new chat / back to landing" action and any component/mode switch
+  // produce a truly fresh slate with no leaked bubbles, no stale degree
+  // response, and no lingering input text.
+  const resetChatState = () => {
+    setInput('')
+    setDegreeResponse(null)
+    setProgressOpen(false)
+    setShowRemaining(false)
+    setUserContext(null)
+    setMobileLeftOpen(false)
+    setActiveView('chat')
+    setProfileOpen(false)
+  }
+
   const newChat = () => {
     const now = Date.now()
     const t: ChatThread = {
@@ -134,18 +226,30 @@ export function CometDashboard() {
     }
     setThreads((p) => [t, ...p])
     setActiveId(t.id)
-    setInput('')
-    setMobileLeftOpen(false)
-    setActiveView('chat')
-    setProfileOpen(false)
-    setUserContext(null)
+    resetChatState()
   }
 
   const setMode = (m: ModeId) => {
-    setThread(activeId, (t) => ({ ...t, mode: m, updatedAt: Date.now() }))
-    setMobileLeftOpen(false)
-    setActiveView('chat')
-    setProfileOpen(false)
+    // No-op if the user clicked the mode they're already in — avoids
+    // wiping a conversation they did not intend to reset.
+    if (m === mode) {
+      setMobileLeftOpen(false)
+      setActiveView('chat')
+      setProfileOpen(false)
+      return
+    }
+
+    // Switching to a different component: the new component should load
+    // fresh, so wipe the current thread's messages + title and clear all
+    // chat-level UI state.
+    setThread(activeId, (t) => ({
+      ...t,
+      mode: m,
+      title: 'New chat',
+      messages: [],
+      updatedAt: Date.now(),
+    }))
+    resetChatState()
   }
 
   const startContextIfMissing = () => {
@@ -186,9 +290,13 @@ export function CometDashboard() {
       let botText = ''
       if (mode === 'career') {
         const bg = (profile.background || '').trim()
+        const ctx = startContextIfMissing()
         const res = await careerMentorChat({
           message: bg ? `Student background: ${bg}\n\n${text}` : text,
           conversation_history: historyForApi,
+          completed_courses: completedCourses,
+          student_type: ctx,
+          course_history: profileCourseHistory,
         })
         botText = res.response
       } else {
@@ -200,9 +308,10 @@ export function CometDashboard() {
           conversation_history: historyForApi,
           student_type: ctx,
           interests: undefined,
-          course_history: [],
+          course_history: profileCourseHistory,
         })
-        botText = res.response
+        setDegreeResponse(res)
+        botText = res.narrative
       }
 
       const botMsg: ChatMessage = {
@@ -404,11 +513,11 @@ export function CometDashboard() {
                   <div className="flex flex-1 items-center justify-center py-10">
                     <div className="w-full max-w-3xl text-center">
                       <div className="mx-auto mb-2 max-w-2xl text-2xl tracking-tight" style={{ color: 'var(--text)' }}>
-                        <span className="font-extrabold">CometBot — Plan your degree. Shape your career.</span>
+                        <span className="font-extrabold">Plan your degree. Shape your career.</span>
 
                       </div>
                       <div className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                        AI-powered tool that helps you track requirements, explore courses, and align your skills with real career paths
+                        CometBot is an AI-powered tool that helps you track requirements, explore courses, and align your skills with real career paths
                       </div>
                       <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
                         {SUGGESTED[mode].map((p) => (
@@ -433,7 +542,16 @@ export function CometDashboard() {
                         </div>
                       )}
                       {activeThread.messages.map((m, idx) => (
-                        <ChatBubble key={idx} message={m} accentClass={accentClass} />
+                        <ChatBubble
+                          key={idx}
+                          message={m}
+                          accentClass={accentClass}
+                          highlightCatalog={{
+                            courseIds: courseIdsForHighlight,
+                            courseTitles: courseTitlesForHighlight,
+                            certTitles: certTitlesForHighlight,
+                          }}
+                        />
                       ))}
                       {loading && (
                         <div className="flex justify-start">
@@ -445,6 +563,7 @@ export function CometDashboard() {
                           </div>
                         </div>
                       )}
+
                       <div ref={messagesEndRef} />
                     </div>
                   </div>
@@ -457,6 +576,31 @@ export function CometDashboard() {
                     onSend={() => send()}
                     disabled={loading}
                     placeholder="Start researching..."
+                    leadingButton={
+                      isDegreePlanner ? (
+                        <button
+                          type="button"
+                          onClick={() => setProgressOpen(true)}
+                          disabled={!degreeResponse}
+                          title={
+                            degreeResponse
+                              ? 'Show degree progress'
+                              : 'Ask a question first to load your degree progress'
+                          }
+                          className="hidden h-9 w-9 items-center justify-center rounded-xl transition-colors md:flex disabled:opacity-40"
+                          style={{
+                            color: degreeResponse ? '#c0392b' : 'var(--text-muted)',
+                            border: '1px solid var(--border)',
+                            background: degreeResponse
+                              ? 'rgba(192,57,43,0.08)'
+                              : 'transparent',
+                          }}
+                          aria-label="Show degree progress"
+                        >
+                          <GraduationCap size={18} />
+                        </button>
+                      ) : undefined
+                    }
                   />
                 )}
               </div>
@@ -602,6 +746,237 @@ export function CometDashboard() {
               </div>
               <div className="h-[min(72vh,720px)] min-h-0">
                 <ProfilePage profile={profile} saveProfile={saveProfile} resetProfile={resetProfile} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Degree progress modal — opened from the input-bar button.
+          Shows pre-computed progress, the semester plan (when present),
+          recommended courses, choice-group notes, and the full remaining
+          course catalog split by Core / Elective. */}
+      {progressOpen && degreeResponse && (
+        <div className="fixed inset-0 z-[60]">
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={() => setProgressOpen(false)}
+          />
+          <div className="absolute inset-0 flex items-center justify-center p-4">
+            <div
+              className="relative w-full max-w-3xl overflow-hidden rounded-3xl shadow-2xl flex flex-col"
+              style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
+            >
+              <div
+                className="flex items-center justify-between px-4 py-3"
+                style={{ borderBottom: '1px solid var(--border)' }}
+              >
+                <div className="flex items-center gap-2">
+                  <GraduationCap size={18} style={{ color: '#c0392b' }} />
+                  <div
+                    className="text-sm font-extrabold tracking-tight"
+                    style={{ color: 'var(--text)' }}
+                  >
+                    Degree Progress
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-xl"
+                  style={{ color: 'var(--text-muted)', border: '1px solid var(--border)' }}
+                  onClick={() => setProgressOpen(false)}
+                  title="Close"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className="h-[min(80vh,760px)] min-h-0 overflow-y-auto px-4 py-4">
+                <div className="flex flex-col gap-4">
+                  <ProgressBar progress={degreeResponse.progress} />
+
+                  {degreeResponse.semester_plan.length > 0 && (
+                    <SemesterTimeline semesters={degreeResponse.semester_plan} />
+                  )}
+
+                  {degreeResponse.recommended_courses.length > 0 && (() => {
+                    const recCore = degreeResponse.recommended_courses.filter(
+                      (c) => c.course_type === 'Core',
+                    )
+                    const recElec = degreeResponse.recommended_courses.filter(
+                      (c) => c.course_type === 'Elective',
+                    )
+                    // Soft green hue on the column shell — subtle enough to keep
+                    // the product's aesthetic but signals "active / actionable".
+                    const columnStyle = {
+                      background:
+                        'color-mix(in oklab, #4caf82 7%, var(--surface) 93%)',
+                      border:
+                        '1px solid color-mix(in oklab, #4caf82 24%, var(--border) 76%)',
+                    } as const
+                    return (
+                      <div>
+                        <h3
+                          className="text-sm font-semibold mb-2"
+                          style={{ color: 'var(--text)' }}
+                        >
+                          Recommended This Semester
+                        </h3>
+                        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                          <div className="rounded-2xl p-4" style={columnStyle}>
+                            <div
+                              className="text-center text-base font-bold uppercase tracking-[0.14em] mb-3"
+                              style={{ color: '#4f6ef7' }}
+                            >
+                              Core
+                            </div>
+                            {recCore.length === 0 ? (
+                              <p
+                                className="text-xs italic text-center py-6"
+                                style={{ color: 'var(--text-muted)' }}
+                              >
+                                No core recommendations in this response.
+                              </p>
+                            ) : (
+                              <div className="flex flex-col gap-2">
+                                {recCore.map((course, i) => (
+                                  <CourseCardComponent
+                                    key={`rec-core-${i}`}
+                                    course={course}
+                                    hideBadge
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="rounded-2xl p-4" style={columnStyle}>
+                            <div
+                              className="text-center text-base font-bold uppercase tracking-[0.14em] mb-3"
+                              style={{ color: '#4caf82' }}
+                            >
+                              Elective
+                            </div>
+                            {recElec.length === 0 ? (
+                              <p
+                                className="text-xs italic text-center py-6"
+                                style={{ color: 'var(--text-muted)' }}
+                              >
+                                No elective recommendations in this response.
+                              </p>
+                            ) : (
+                              <div className="flex flex-col gap-2">
+                                {recElec.map((course, i) => (
+                                  <CourseCardComponent
+                                    key={`rec-elec-${i}`}
+                                    course={course}
+                                    hideBadge
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })()}
+
+                  {degreeResponse.choice_group_notes.length > 0 && (
+                    <div
+                      className="rounded-lg p-3"
+                      style={{
+                        border: '1px solid rgba(245, 158, 11, 0.35)',
+                        background: 'rgba(245, 158, 11, 0.08)',
+                      }}
+                    >
+                      {degreeResponse.choice_group_notes.map((note, i) => (
+                        <p
+                          key={i}
+                          className="text-xs leading-relaxed whitespace-pre-wrap"
+                          style={{ color: 'var(--warning)' }}
+                        >
+                          {note}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+
+                  {(degreeResponse.remaining_core.length > 0 ||
+                    degreeResponse.remaining_elective.length > 0) && (
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => setShowRemaining((v) => !v)}
+                        className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold transition-colors"
+                        style={{
+                          color: 'var(--text)',
+                          border: '1px solid var(--border)',
+                          background: 'var(--surface)',
+                        }}
+                        aria-expanded={showRemaining}
+                      >
+                        <span>
+                          {showRemaining ? 'Hide' : 'Show'} all remaining courses
+                          <span
+                            className="ml-2 text-xs font-normal"
+                            style={{ color: 'var(--text-muted)' }}
+                          >
+                            ({degreeResponse.progress.core_remaining_count} core,{' '}
+                            {degreeResponse.progress.elective_remaining_count} elective)
+                          </span>
+                        </span>
+                        {showRemaining ? (
+                          <ChevronUp size={16} style={{ color: 'var(--text-muted)' }} />
+                        ) : (
+                          <ChevronDown size={16} style={{ color: 'var(--text-muted)' }} />
+                        )}
+                      </button>
+
+                      {showRemaining && (
+                        <div className="mt-3 flex flex-col gap-2">
+                          {degreeResponse.remaining_core.length > 0 && (
+                            <div className="flex flex-col gap-1.5">
+                              <p
+                                className="text-[11px] font-semibold uppercase tracking-[0.12em] px-1"
+                                style={{ color: '#4f6ef7' }}
+                              >
+                                Core
+                                <span
+                                  className="ml-2 font-normal normal-case tracking-normal"
+                                  style={{ color: 'var(--text-muted)' }}
+                                >
+                                  {degreeResponse.progress.core_remaining_count} remaining
+                                </span>
+                              </p>
+                              {degreeResponse.remaining_core.map((c, i) => (
+                                <CourseCardComponent key={`core-${i}`} course={c} hideBadge />
+                              ))}
+                            </div>
+                          )}
+                          {degreeResponse.remaining_elective.length > 0 && (
+                            <div className="flex flex-col gap-1.5 mt-2">
+                              <p
+                                className="text-[11px] font-semibold uppercase tracking-[0.12em] px-1"
+                                style={{ color: '#4caf82' }}
+                              >
+                                Elective
+                                <span
+                                  className="ml-2 font-normal normal-case tracking-normal"
+                                  style={{ color: 'var(--text-muted)' }}
+                                >
+                                  {degreeResponse.progress.elective_remaining_count} remaining
+                                </span>
+                              </p>
+                              {degreeResponse.remaining_elective.map((c, i) => (
+                                <CourseCardComponent key={`elec-${i}`} course={c} hideBadge />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

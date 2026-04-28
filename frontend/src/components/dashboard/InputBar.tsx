@@ -1,5 +1,5 @@
 import { Mic, Send } from 'lucide-react'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 
 export function InputBar({
   value,
@@ -7,12 +7,16 @@ export function InputBar({
   onSend,
   disabled,
   placeholder,
+  leadingButton,
 }: {
   value: string
   onChange: (v: string) => void
   onSend: () => void
   disabled?: boolean
   placeholder?: string
+  /** Replaces the default (disabled) mic button. Use this to surface a
+   *  mode-specific action such as "Show Degree Progress". */
+  leadingButton?: ReactNode
 }) {
   const ref = useRef<HTMLInputElement>(null)
 
@@ -39,15 +43,17 @@ export function InputBar({
         className="flex items-center gap-2 rounded-2xl px-3 py-2 shadow-sm"
         style={{ backgroundColor: 'var(--surface2, var(--surface))', border: '1px solid var(--border)' }}
       >
-        <button
-          type="button"
-          className="hidden h-9 w-9 items-center justify-center rounded-xl md:flex"
-          style={{ color: 'var(--text-muted)' }}
-          title="Voice (optional)"
-          disabled
-        >
-          <Mic size={18} />
-        </button>
+        {leadingButton ?? (
+          <button
+            type="button"
+            className="hidden h-9 w-9 items-center justify-center rounded-xl md:flex"
+            style={{ color: 'var(--text-muted)' }}
+            title="Voice (optional)"
+            disabled
+          >
+            <Mic size={18} />
+          </button>
+        )}
         <input
           ref={ref}
           value={value}
