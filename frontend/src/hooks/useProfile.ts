@@ -10,7 +10,8 @@ export type CometbotProfile = {
   fullName: string
   studentId: string
   email: string
-  program: 'MSBA'
+  program_id: 'msba' | 'msitm'
+  program_name: string
   background: string
   semesters: ProfileSemester[]
 }
@@ -22,7 +23,8 @@ const DEFAULT_PROFILE: CometbotProfile = {
   fullName: '',
   studentId: '',
   email: '',
-  program: 'MSBA',
+  program_id: 'msba',
+  program_name: 'MS in Business Analytics and Artificial Intelligence',
   background: '',
   semesters: [],
 }
@@ -54,11 +56,19 @@ function coerceProfile(raw: unknown): CometbotProfile {
         .filter((s) => s.id && s.label)
     : []
 
+  const pid = String((r as any).program_id ?? 'msba').toLowerCase() === 'msitm' ? 'msitm' : 'msba'
+  const pname =
+    String((r as any).program_name ?? '').trim() ||
+    (pid === 'msitm'
+      ? 'MS in Information Technology and Management'
+      : 'MS in Business Analytics and Artificial Intelligence')
+
   return {
     fullName: String(r.fullName ?? ''),
     studentId: String(r.studentId ?? ''),
     email: String(r.email ?? ''),
-    program: 'MSBA',
+    program_id: pid,
+    program_name: pname,
     background: String(r.background ?? ''),
     semesters,
   }

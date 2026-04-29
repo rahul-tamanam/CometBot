@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Lock, Trash2, User, ChevronDown, ChevronUp, X } from 'lucide-react'
+import { Trash2, User, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { PROFILE_STORAGE_KEY, type CometbotProfile, type ProfileSemester } from '@/hooks/useProfile'
 
 type TabId = 'account' | 'personalization'
@@ -45,9 +45,19 @@ function nextSemesterLabel(prevLabel: string) {
 type CatalogRow = { course_id: string; title: string }
 
 const COURSE_DATALIST_ID = 'msba-profile-courses'
+const PROGRAMS = [
+  {
+    program_id: 'msba',
+    program_name: 'MS in Business Analytics and Artificial Intelligence',
+  },
+  {
+    program_id: 'msitm',
+    program_name: 'MS in Information Technology and Management',
+  },
+] as const
 
-async function fetchCourseCatalog(): Promise<{ ids: Set<string>; rows: CatalogRow[] }> {
-  const res = await fetch('http://localhost:8000/api/courses')
+async function fetchCourseCatalog(programId: string): Promise<{ ids: Set<string>; rows: CatalogRow[] }> {
+  const res = await fetch(`http://localhost:8000/api/courses?program_id=${encodeURIComponent(programId || 'msba')}`)
   if (!res.ok) throw new Error('bad_status')
   const data = (await res.json()) as Array<{ course_id?: string; title?: string }>
   const ids = new Set<string>()
@@ -60,22 +70,6 @@ async function fetchCourseCatalog(): Promise<{ ids: Set<string>; rows: CatalogRo
   }
   rows.sort((a, b) => a.course_id.localeCompare(b.course_id))
   return { ids, rows }
-}
-
-function sortSemesters(semesters: ProfileSemester[]) {
-  const copy = [...semesters]
-  copy.sort((a, b) => {
-    const pa = parseSemesterLabel(a.label)
-    const pb = parseSemesterLabel(b.label)
-    if (pa && pb) {
-      if (pa.year !== pb.year) return pa.year - pb.year
-      return pa.termIdx - pb.termIdx
-    }
-    if (pa && !pb) return -1
-    if (!pa && pb) return 1
-    return a.label.localeCompare(b.label)
-  })
-  return copy
 }
 
 function Row({
@@ -151,10 +145,12 @@ export function ProfilePage({
   profile,
   saveProfile,
   resetProfile,
+  onProgramChanged,
 }: {
   profile: CometbotProfile
   saveProfile: (next: CometbotProfile | ((p: CometbotProfile) => CometbotProfile)) => void
   resetProfile: () => void
+  onProgramChanged?: (nextProgramId: string) => void
 }) {
   const [tab, setTab] = useState<TabId>('account')
 
@@ -168,7 +164,7 @@ export function ProfilePage({
   const [activeSemesterInput, setActiveSemesterInput] = useState<string | null>(null)
   const [courseHistorySaveMsg, setCourseHistorySaveMsg] = useState<string | null>(null)
 
-  const semesters = useMemo(() => sortSemesters(profile.semesters), [profile.semesters])
+  const semesters = useMemo(() => profile.semesters || [], [profile.semesters])
   const totalCourses = useMemo(() => {
     const s = new Set<string>()
     for (const sem of semesters) for (const c of sem.courses) s.add(normalizeCourseId(c))
@@ -179,18 +175,39 @@ export function ProfilePage({
   const loadCourseCatalog = useCallback(async () => {
     if (courseCatalog) return courseCatalog
     try {
-      const cat = await fetchCourseCatalog()
+      const cat = await fetchCourseCatalog(profile.program_id || 'msba')
       setCourseCatalog(cat)
       return cat
     } catch {
       return null
     }
-  }, [courseCatalog])
+  }, [courseCatalog, profile.program_id])
 
   useEffect(() => {
     if (tab !== 'personalization') return
     void loadCourseCatalog()
   }, [tab, loadCourseCatalog])
+
+  useEffect(() => {
+    setCourseCatalog(null)
+  }, [profile.program_id])
+
+  const handleProgramChange = (newProgramId: string) => {
+    const normalized = newProgramId === 'msitm' ? 'msitm' : 'msba'
+    if (normalized === profile.program_id) return
+    const confirmed = window.confirm(
+      'Changing your program will clear your saved course history since courses differ between programs. Continue?',
+    )
+    if (!confirmed) return
+    const selected = PROGRAMS.find((p) => p.program_id === normalized)
+    saveProfile((p) => ({
+      ...p,
+      program_id: normalized,
+      program_name: selected?.program_name || '',
+      semesters: [],
+    }))
+    onProgramChanged?.(normalized)
+  }
 
   const updateField = (key: 'fullName' | 'studentId' | 'email', value: string) => {
     setDraft((d) => ({ ...d, [key]: value }))
@@ -425,9 +442,29 @@ export function ProfilePage({
                 <div className="h-px" style={{ backgroundColor: 'var(--border)' }} />
 
                 <div className="px-5">
-                  <Row label="Program" action={<Lock size={16} className="text-slate-400" />}>
+                  <Row label="Program">
                     <div className="flex items-center gap-2 text-slate-700">
-                      <span>MS in Business Analytics and Artificial Intelligence</span>
+                      <select
+                        value={profile.program_id || 'msba'}
+                        onChange={(e) => handleProgramChange(e.target.value)}
+                        className="h-10 w-full rounded-xl px-3 text-sm outline-none"
+                        style={{ backgroundColor: 'var(--surface2)', color: 'var(--text)', border: '1px solid var(--border)' }}
+                      >
+                        {PROGRAMS.map((p) => (
+                          <option key={p.program_id} value={p.program_id}>
+                            {p.program_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </Row>
+                </div>
+                <div className="h-px" style={{ backgroundColor: 'var(--border)' }} />
+
+                <div className="px-5">
+                  <Row label="Active Program Name">
+                    <div className="flex items-center gap-2 text-slate-700">
+                      <span>{profile.program_name}</span>
                     </div>
                   </Row>
                 </div>
@@ -504,7 +541,7 @@ export function ProfilePage({
                   </SmallButton>
                 </div>
                 <p className="mt-2 text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                  Only courses from the MSBA catalog can be added. Start typing to see suggestions, or enter an exact
+                  Only courses from your selected program catalog can be added. Start typing to see suggestions, or enter an exact
                   course ID (for example BUAN 6341).
                 </p>
                 {courseCatalog && courseCatalog.rows.length > 0 ? (

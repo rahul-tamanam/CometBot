@@ -1,4 +1,5 @@
 import type { ChatMessage } from './types'
+import type { ReactNode } from 'react'
 
 type HighlightCatalog = {
   courseIds: string[]
@@ -55,7 +56,7 @@ function buildRanges(content: string, catalog: HighlightCatalog): MatchRange[] {
 
 function renderWithHighlights(content: string, catalog: HighlightCatalog) {
   const ranges = buildRanges(content, catalog)
-  const out: Array<string | JSX.Element> = []
+  const out: ReactNode[] = []
   let last = 0
 
   for (const { start, end } of ranges) {
@@ -79,7 +80,7 @@ export function ChatBubble({
 }) {
   const isUser = message.role === 'user'
   return (
-    <div className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div className={`animate-chat-pop flex ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
         className={[
           'max-w-[min(85%,100%)] rounded-2xl px-4 py-3 text-[15px] leading-[1.65] shadow-sm',

@@ -16,6 +16,7 @@ export interface DegreePlannerRequest {
   student_type?:        'new' | 'current'
   interests?:           string[]
   course_history?:      { course: string; semester: string }[]
+  program_id?:          string
 }
 
 export interface CourseCard {
@@ -75,6 +76,7 @@ export interface DegreePlannerPlanRequest {
   elective_per_semester?: number | null
   interests?:            string[]
   course_history?:       { course: string; semester: string }[]
+  program_id?:           string
 }
 
 export interface DegreePlannerPlanResponse {
@@ -110,13 +112,13 @@ export interface HighlightCertificate {
   cert_title: string
 }
 
-export const getHighlightCourses = async (): Promise<HighlightCourse[]> => {
-  const res = await axios.get(`${BASE}/courses`)
+export const getHighlightCourses = async (program_id = 'msba'): Promise<HighlightCourse[]> => {
+  const res = await axios.get(`${BASE}/courses`, { params: { program_id } })
   return res.data
 }
 
-export const getHighlightCertificates = async (): Promise<HighlightCertificate[]> => {
-  const res = await axios.get(`${BASE}/certificates`)
+export const getHighlightCertificates = async (program_id = 'msba'): Promise<HighlightCertificate[]> => {
+  const res = await axios.get(`${BASE}/certificates`, { params: { program_id } })
   return res.data
 }
 
@@ -128,6 +130,7 @@ export interface CareerMentorRequest {
   completed_courses?:   string[]
   student_type?:        'new' | 'current'
   course_history?:      { course: string; semester: string }[]
+  program_id?:          string
 }
 
 export interface CareerMentorCertificate {
@@ -171,6 +174,8 @@ export interface SkillsGapRequest {
   target_job:           string
   conversation_history: Message[]
   message:              string
+  job_description?:     string
+  program_id?:          string
 }
 
 export interface SkillsGapResponse {
@@ -203,21 +208,16 @@ export const skillsGapAnalyze = async (
 export const skillsGapAnalyzeResume = async (
   file:           File,
   targetJob:      string,
-  jobDescription: string
+  jobDescription: string,
+  programId:      string = 'msba'
 ): Promise<SkillsGapResponse> => {
   const form = new FormData()
   form.append('file',            file)
   form.append('target_job',      targetJob)
   form.append('job_description', jobDescription)
+  form.append('program_id',      programId)
 
   // Let axios set multipart boundary automatically — a manual Content-Type breaks uploads.
   const res = await axios.post(`${BASE}/skills-gap/analyze-resume`, form)
   return res.data
-}
-export interface SkillsGapRequest {
-  completed_courses:    string[]
-  target_job:           string
-  job_description:      string    
-  conversation_history: Message[]
-  message:              string
 }

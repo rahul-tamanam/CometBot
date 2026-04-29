@@ -60,7 +60,8 @@ export default function SkillsGap() {
         const res = await skillsGapAnalyzeResume(
           resumeFile,
           targetJob,
-          jobDescription
+          jobDescription,
+          profile.program_id || 'msba',
         )
         response = res.response
       } else {
@@ -69,7 +70,8 @@ export default function SkillsGap() {
           target_job:           targetJob,
           job_description:      jobDescription,
           conversation_history: [],
-          message:              `${bgPrefix}Please perform a skills gap analysis.`
+          message:              `${bgPrefix}Please perform a skills gap analysis.`,
+          program_id:           profile.program_id || 'msba',
         })
         response = res.response
       }
@@ -105,7 +107,8 @@ export default function SkillsGap() {
         target_job:           targetJob,
         job_description:      jobDescription,
         conversation_history: newHistory,
-        message:              `${bgPrefix}${input.trim()}`
+        message:              `${bgPrefix}${input.trim()}`,
+        program_id:           profile.program_id || 'msba',
       })
 
       setMessages([

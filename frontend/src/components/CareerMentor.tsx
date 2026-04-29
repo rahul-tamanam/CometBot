@@ -18,6 +18,7 @@ export default function CareerMentor() {
       completed_courses: completedCourses,
       student_type: isNewStudent() ? 'new' : 'current',
       course_history: courseHistory,
+      program_id: profile.program_id || 'msba',
     })
     return res.response
   }

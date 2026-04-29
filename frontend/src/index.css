@@ -72,4 +72,19 @@
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
   }
+
+  @keyframes chat-pop {
+    0% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-chat-pop {
+    animation: chat-pop 220ms ease-out both;
+  }
 }

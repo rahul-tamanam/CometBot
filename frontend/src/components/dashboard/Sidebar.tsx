@@ -5,6 +5,7 @@ import {
   Lightbulb,
   User,
 } from 'lucide-react'
+import { useState } from 'react'
 import type { ModeId } from './types'
 import { ChatHistoryList } from './ChatHistoryList'
 import type { ChatThread } from './types'
@@ -43,6 +44,11 @@ export function Sidebar({
   collapsed: boolean
   onToggleCollapsed: () => void
 }) {
+  const isDarkMode =
+    typeof document !== 'undefined' &&
+    document.documentElement.classList.contains('dark')
+  const [isNewChatHovered, setIsNewChatHovered] = useState(false)
+
   return (
     <aside
       className="relative flex h-full min-h-0 w-full flex-col p-3 overflow-hidden"
@@ -75,13 +81,19 @@ export function Sidebar({
       <button
         type="button"
         onClick={onNewChat}
+        onMouseEnter={() => setIsNewChatHovered(true)}
+        onMouseLeave={() => setIsNewChatHovered(false)}
         className={[
-          'mb-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold tracking-tight text-white shadow-sm',
+          'mb-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-extrabold tracking-tight shadow-sm transition-all',
+          isNewChatHovered ? '-translate-y-[1px] shadow-md' : '',
           collapsed ? 'px-0' : '',
         ].join(' ')}
         style={{
-          background:
-            'linear-gradient(90deg, #ff4d4d 0%, #ff7a1a 55%, #ff9a33 100%)',
+          backgroundColor: isDarkMode
+            ? (isNewChatHovered ? '#3b3b3b' : '#303030')
+            : (isNewChatHovered ? '#f1f1f1' : 'var(--surface)'),
+          color: 'var(--text-muted)',
+          border: '1px solid var(--border)',
         }}
         title="New chat"
       >

@@ -42,7 +42,7 @@ function threadTitleFrom(text: string) {
   return t.length > 34 ? t.slice(0, 34) + '…' : t
 }
 
-const SUGGESTED: Record<ModeId, string[]> = {
+const SUGGESTED_MSBA: Record<ModeId, string[]> = {
   academic: [
     'What courses should I take next semester?',
     'What are the core courses for Business Analytics?',
@@ -61,6 +61,33 @@ const SUGGESTED: Record<ModeId, string[]> = {
     'Which electives cover machine learning?',
     'What is the difference between core and electives?',
   ],
+}
+
+const SUGGESTED_MSITM: Record<ModeId, string[]> = {
+  academic: [
+    'What should I take next semester to finish both Part A and Part B core requirements?',
+    'How many core track slots do I still need for MSITM?',
+    'Which core track course should I take next from a different track?',
+    'Show prerequisites for MIS 6380',
+  ],
+  career: [
+    'What does an IT Product Manager do day-to-day?',
+    'What skills do I need for Technology Consultant roles?',
+    'What roles fit someone interested in enterprise systems and strategy?',
+    'Which courses help prepare for IT leadership interviews?',
+  ],
+  course: [
+    'Tell me about MIS 6378',
+    'What are the prerequisites for MIS 6380?',
+    'Which electives are best for product and innovation careers?',
+    'What is the difference between required core and core track courses?',
+  ],
+}
+
+function getSuggestedPrompts(mode: ModeId, programId: string): string[] {
+  return (programId || '').trim().toLowerCase() === 'msitm'
+    ? SUGGESTED_MSITM[mode]
+    : SUGGESTED_MSBA[mode]
 }
 
 export function CometDashboard() {
@@ -113,6 +140,10 @@ export function CometDashboard() {
   const activeThread = threads.find((t) => t.id === activeId) ?? threads[0]
   const mode = activeThread.mode
   const accentClass = modeAccent(mode)
+  const suggestedPrompts = useMemo(
+    () => getSuggestedPrompts(mode, profile.program_id || 'msba'),
+    [mode, profile.program_id],
+  )
 
   // Structured degree planner output — only populated when the user is in a
   // degree-planner-driven mode. Reset whenever we leave those modes, switch
@@ -131,8 +162,8 @@ export function CometDashboard() {
     ;(async () => {
       try {
         const [courses, certs] = await Promise.all([
-          getHighlightCourses(),
-          getHighlightCertificates(),
+          getHighlightCourses(profile.program_id || 'msba'),
+          getHighlightCertificates(profile.program_id || 'msba'),
         ])
         if (!active) return
         setCourseIdsForHighlight(
@@ -160,7 +191,7 @@ export function CometDashboard() {
     return () => {
       active = false
     }
-  }, [])
+  }, [profile.program_id])
 
   useEffect(() => {
     if (!isDegreePlanner || activeView !== 'chat') {
@@ -297,6 +328,7 @@ export function CometDashboard() {
           completed_courses: completedCourses,
           student_type: ctx,
           course_history: profileCourseHistory,
+          program_id: profile.program_id || 'msba',
         })
         botText = res.response
       } else {
@@ -309,6 +341,7 @@ export function CometDashboard() {
           student_type: ctx,
           interests: undefined,
           course_history: profileCourseHistory,
+          program_id: profile.program_id || 'msba',
         })
         setDegreeResponse(res)
         botText = res.narrative
@@ -391,6 +424,9 @@ export function CometDashboard() {
                 >
                   CometBot
                 </button>
+              </div>
+              <div className="text-[11px] font-semibold" style={{ color: 'var(--text-muted)' }}>
+                Program: {profile.program_name || 'MS in Business Analytics and Artificial Intelligence'}
               </div>
             </div>
           </div>
@@ -520,7 +556,7 @@ export function CometDashboard() {
                         CometBot is an AI-powered tool that helps you track requirements, explore courses, and align your skills with real career paths
                       </div>
                       <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
-                        {SUGGESTED[mode].map((p) => (
+                        {suggestedPrompts.map((p) => (
                           <PromptCard key={p} text={`“${p}”`} onClick={() => handleFaqClick(p)} />
                         ))}
                       </div>
@@ -554,7 +590,7 @@ export function CometDashboard() {
                         />
                       ))}
                       {loading && (
-                        <div className="flex justify-start">
+                        <div className="animate-chat-pop flex justify-start">
                           <div
                             className="rounded-2xl px-4 py-3 text-sm shadow-sm"
                             style={{ backgroundColor: 'var(--surface2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
@@ -745,7 +781,22 @@ export function CometDashboard() {
                 </button>
               </div>
               <div className="h-[min(72vh,720px)] min-h-0">
-                <ProfilePage profile={profile} saveProfile={saveProfile} resetProfile={resetProfile} />
+                <ProfilePage
+                  profile={profile}
+                  saveProfile={saveProfile}
+                  resetProfile={resetProfile}
+                  onProgramChanged={() => {
+                    setThread(activeId, (t) => ({
+                      ...t,
+                      title: 'New chat',
+                      messages: [],
+                      updatedAt: Date.now(),
+                    }))
+                    resetChatState()
+                    setProfileOpen(false)
+                    setActiveView('chat')
+                  }}
+                />
               </div>
             </div>
           </div>
