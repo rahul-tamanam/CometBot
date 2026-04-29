@@ -1,4 +1,5 @@
 import os
+
 from openai import OpenAI
 from backend.services.validator import (
     validate_and_fix_response,
@@ -6,13 +7,11 @@ from backend.services.validator import (
     validate_and_fix_titles,
 )
 
-client = OpenAI(
-    base_url="http://localhost:1234/v1",
-    api_key="not-needed-using-local-lmstudio"
-)
-
-MODEL = os.getenv("LLM_MODEL", "local-model")
+from groq import Groq
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+MODEL = "llama-3.3-70b-versatile"
 DEFAULT_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "1024"))
+INJECT_SYSTEM_INTO_USER = False
 FORCE_SYSTEM_IN_USER = os.getenv("LLM_FORCE_SYSTEM_IN_USER", "0") == "1"
 
 
@@ -67,7 +66,7 @@ def chat(
 
     normalized = _normalize_messages(messages)
 
-    if FORCE_SYSTEM_IN_USER:
+    if INJECT_SYSTEM_INTO_USER or FORCE_SYSTEM_IN_USER:
         # Prepend system prompt into the first user message (legacy fallback)
         formatted: list[dict] = []
         system_injected = False

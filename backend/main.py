@@ -19,15 +19,6 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# ── Routers ───────────────────────────────────────────────────────────────────
-# We'll add these as we build each component
-# from routers import degree_planner, career_mentor, skills_gap
-# app.include_router(degree_planner.router, prefix="/api/degree-planner")
-# app.include_router(career_mentor.router,  prefix="/api/career-mentor")
-# app.include_router(skills_gap.router,     prefix="/api/skills-gap")
-
-# ── Health check ──────────────────────────────────────────────────────────────
-
 @app.get("/api/health")
 def health_check():
     return {
@@ -37,24 +28,52 @@ def health_check():
 
 
 @app.get("/api/courses")
-def get_all_courses():
-    """
-    Returns all valid course IDs and titles.
-    Used by the frontend for validation and autocomplete.
-    """
-    import json
-    data_path = os.path.join(os.path.dirname(__file__), "data", "courses.json")
-    with open(data_path) as f:
-        courses = json.load(f)
+def get_all_courses(program_id: str = "msba"):
+    from backend.services.course_loader import load_courses_for_program
+    courses = load_courses_for_program(program_id)
     return [
         {
-            "course_id":   c["course_id"],
-            "title":       c["title"],
-            "course_type": c["course_type"],
-            "credits":     c.get("credits", 3)
+            "course_id":    c["course_id"],
+            "title":        c["title"],
+            "course_type":  c["course_type"],
+            "credits":      c.get("credits", 3),
+            "course_track": c.get("course_track"),
         }
         for c in courses
+        if (c.get("course_type") or "").strip().lower()
+        not in ("noncredit", "external")
     ]
+
+
+@app.get("/api/programs")
+def get_programs():
+    import json
+    programs_dir = os.path.join(os.path.dirname(__file__), "data", "programs")
+    result = []
+    for pid in os.listdir(programs_dir):
+        rules_path = os.path.join(programs_dir, pid, "rules.json")
+        if os.path.exists(rules_path):
+            with open(rules_path, encoding="utf-8") as f:
+                rules = json.load(f)
+            result.append({
+                "program_id":   rules.get("program_id", pid),
+                "program_name": rules.get("program_name", pid.upper())
+            })
+    return result
+
+
+@app.get("/api/certificates")
+def get_certificates(program_id: str = "msba"):
+    import json
+    certs_path = os.path.join(
+        os.path.dirname(__file__), "data", "certificates",
+        f"{program_id}_certs.json"
+    )
+    if not os.path.exists(certs_path):
+        return []
+    with open(certs_path, encoding="utf-8") as f:
+        return json.load(f)
+
 from backend.routers import degree_planner, career_mentor, skills_gap
 
 app.include_router(

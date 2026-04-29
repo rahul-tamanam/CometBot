@@ -45,13 +45,17 @@ def load_graph(courses: list[dict]):
                         c.credits     = $credits,
                         c.course_type = $course_type,
                         c.description = $description,
+                        c.programs    = $programs,
+                        c.course_track = $course_track,
                         c.is_external = false
                 """, {
                     "course_id":   c["course_id"],
                     "title":       c["title"],
-                    "credits":     float(c.get("credits", 3)),
+                    "credits":     float(c.get("credits", 3) or 3),
                     "course_type": c["course_type"],
-                    "description": c.get("description") or ""
+                    "description": c.get("description") or "",
+                    "programs":    c.get("programs") or [],
+                    "course_track": c.get("course_track") or "",
                 })
             else:
                 # External prerequisite — create placeholder node
@@ -64,7 +68,7 @@ def load_graph(courses: list[dict]):
                         c.is_external = true
                 """, {"course_id": course_id})
 
-        print(f"  ✓ Created {len(all_ids)} course nodes "
+        print(f"  [ok] Created {len(all_ids)} course nodes "
               f"({len(msba_map)} MSBA + "
               f"{len(all_ids) - len(msba_map)} external prerequisites)")
 
@@ -94,9 +98,9 @@ def load_graph(courses: list[dict]):
                     })
                     rel_count += 1
 
-        print(f"  ✓ Created {rel_count} prerequisite relationships")
+        print(f"  [ok] Created {rel_count} prerequisite relationships")
 
-    print(f"✅ Graph loaded successfully")
+    print(f"[done] Graph loaded successfully")
 
 
 # ── Query Helpers ─────────────────────────────────────────────────────────────
@@ -203,7 +207,8 @@ def check_prerequisites_met(
 
 def get_valid_next_courses(
     completed_course_ids: list[str],
-    course_type_filter: str = None
+    course_type_filter: str = None,
+    program_id: str = None
 ) -> list[dict]:
     """
     Returns all courses a student is currently eligible
@@ -214,18 +219,22 @@ def get_valid_next_courses(
         result = session.run("""
             MATCH (c:Course)
             WHERE NOT c.course_id IN $completed
+            AND ($program_id IS NULL OR $program_id IN c.programs)
+            AND c.is_external = false
             RETURN c.course_id   AS course_id,
                    c.title       AS title,
                    c.credits     AS credits,
-                   c.course_type AS course_type
-        """, {"completed": completed_course_ids})
+                   c.course_type AS course_type,
+                   c.course_track AS course_track
+        """, {"completed": completed_course_ids, "program_id": program_id})
 
         all_remaining = [
             {
                 "course_id":   r["course_id"],
                 "title":       r["title"],
                 "credits":     r["credits"],
-                "course_type": r["course_type"]
+                "course_type": r["course_type"],
+                "course_track": r["course_track"],
             }
             for r in result
         ]
@@ -239,7 +248,7 @@ def get_valid_next_courses(
         )
         if check["eligible"]:
             if course_type_filter is None or \
-               course["course_type"].lower() == course_type_filter.lower():
+               (course["course_type"] or "").lower() == course_type_filter.lower():
                 eligible.append(course)
 
     return eligible

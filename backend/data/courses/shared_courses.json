@@ -1,0 +1,566 @@
+[
+  {
+    "course_id": "MAS 6102",
+    "title": "Professional Development",
+    "credits": 1,
+    "course_type": "NonCredit",
+    "description": "Required professional development seminar for all graduate students. Must be completed in the first semester of graduate study. Does not count toward the 36-credit degree total. Grade counts toward GPA.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6320",
+    "title": "Database Foundations for Business Analytics",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "This course covers Structured Query Language (SQL) and NoSQL databases and focuses on understanding the differences and learning how to query SQL and NoSQL databases effectively. Topics include ER models, SQL, mapping an ER model to a relational schema, NoSQL database types, and NoSQL querying.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "BUAN 6320",
+      "ACCT 6320",
+      "ACCT 6321",
+      "SYSM 6338",
+      "OPRE 6393"
+    ],
+    "skills_taught": [
+      "SQL",
+      "MySQL",
+      "MongoDB",
+      "Relational Databases",
+      "NoSQL Databases",
+      "Database Design",
+      "Entity-Relationship Modeling (ER Modeling)",
+      "Data Modeling",
+      "Query Optimization",
+      "Stored Procedures",
+      "Triggers",
+      "Transaction Management",
+      "Concurrency Control",
+      "Database Schema Design",
+      "Data Retrieval and Manipulation",
+      "Microsoft SQL Server",
+      "PostgreSQL",
+      "Oracle Database"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6335",
+    "title": "Organizing for Business Analytics Platforms",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The course develops conceptual understanding of platforms for business analytics and key business drivers\r\nthat lead to business initiatives. The course examines how decision-makers in key functional areas of an\r\nenterprise rely on data teams, how teams identify and develop analytical and engineering techniques to solve\r\nbusiness problems, and how data analytics platforms are adopted successfully. The course also emphasizes\r\nthe development of business cases for strategic analytics initiatives and discusses best practices for\r\ndescriptive, predictive, and prescriptive analytics.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "business analytics platforms",
+      "business drivers",
+      "data-driven decision making",
+      "analytical techniques",
+      "engineering techniques",
+      "solving business problems",
+      "data teams collaboration",
+      "strategic analytics initiatives",
+      "business case development",
+      "descriptive analytics",
+      "predictive analytics",
+      "prescriptive analytics",
+      "adoption of analytics platforms",
+      "enterprise analytics"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6340",
+    "title": "Programming for Data Science",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "In the era of big data, it is critical to utilize said data to extract useful knowledge and\ninsights. The primary objective of this course is to introduce students to various data\nanalytics techniques for extracting business intelligence. Along the way we will develop\nfamiliarity with Python, a widely used programming language across academia and\nindustry. The course will cover both basic programming concepts in Python as well as\nuseful packages for data science, including NumPy, Pandas, Polars, Matplotlib, Seaborn\nand Scikit-Learn.",
+    "prerequisites": [
+      [
+        "BUAN 6356",
+        "BUAN 6383"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Python",
+      "Programming Fundamentals",
+      "Data Manipulation",
+      "Feature Engineering",
+      "Anomaly Detection",
+      "Regression Analysis"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6309",
+    "title": "Business Data Warehousing",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Provides in-depth knowledge of data warehousing principles, data warehouse techniques, and business intelligence systems. Discusses the topics of data warehouse design, Extract-Transform-Load (ETL), data cubes, and data marts. Will create business intelligence using data warehouses with several OLAP and analytical tools. SAP, Business Objects, Cognos, or other data warehousing tools will be used to illustrate data warehousing concepts.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "MIS 6309",
+      "ACCT 6309"
+    ],
+    "skills_taught": [
+      "data warehousing",
+      "data warehouse architecture",
+      "data warehouse design",
+      "extract transform load (etl)",
+      "data integration",
+      "data cubes",
+      "data marts",
+      "business intelligence systems",
+      "online analytical processing (olap)",
+      "multidimensional data analysis",
+      "business intelligence reporting",
+      "analytical tools",
+      "sap",
+      "sap businessobjects",
+      "ibm cognos"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6316",
+    "title": "Data Communications",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course provides students with an understanding of intelligent enterprise systems using the SAP S/4 HANA platform. The course focuses on managing enterprise-wide business processes such as Design to Operate, Record to Report (Core Finance), Lead to Cash, Source to Pay, and Hire to Retire, and integrations among them in large organizations. The course also introduces enterprise-wide analytics, enterprise system development methodologies, project management, and cloud solutions (Ariba, Concur, SuccessFactors, and Fieldglass). The course relies heavily on hands-on experience and case studies that utilize SAP Fiori and SAP GUI.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "intelligent enterprise systems",
+      "SAP S/4HANA enterprise platform",
+      "enterprise resource planning (ERP)",
+      "enterprise business process management",
+      "design-to-operate processes",
+      "record-to-report (core finance)",
+      "lead-to-cash processes",
+      "source-to-pay procurement systems",
+      "hire-to-retire human capital management",
+      "cross-functional business process integration",
+      "enterprise-wide analytics",
+      "ERP analytics and reporting",
+      "enterprise systems development methodologies",
+      "enterprise IT project management",
+      "cloud enterprise solutions",
+      "SAP Ariba procurement solutions",
+      "SAP Concur expense management systems",
+      "SAP SuccessFactors HR systems",
+      "SAP Fieldglass workforce management",
+      "SAP Fiori user interface",
+      "SAP GUI enterprise systems interface",
+      "ERP implementation and configuration",
+      "enterprise digital transformation",
+      "enterprise case study analysis"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6319",
+    "title": "Intelligent Enterprise Systems with SAP",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course provides students with an understanding of intelligent enterprise systems using the SAP S/4 HANA platform. The course focuses on managing enterprise-wide business processes such as Design to Operate, Record to Report (Core Finance), Lead to Cash, Source to Pay, and Hire to Retire, and integrations among them in large organizations. The course also introduces enterprise-wide analytics, enterprise system development methodologies, project management, and cloud solutions (Ariba, Concur, SuccessFactors, and Fieldglass). The course relies heavily on hands-on experience and case studies that utilize SAP Fiori and SAP GUI.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "enterprise resource planning (ERP)",
+      "SAP S/4HANA",
+      "intelligent enterprise systems",
+      "enterprise business processes",
+      "design-to-operate processes",
+      "record-to-report (core finance)",
+      "lead-to-cash processes",
+      "source-to-pay procurement",
+      "hire-to-retire HR systems",
+      "enterprise process integration",
+      "enterprise-wide analytics",
+      "ERP analytics",
+      "enterprise systems development methodologies",
+      "enterprise IT project management",
+      "cloud enterprise solutions",
+      "SAP Ariba procurement systems",
+      "SAP Concur expense management",
+      "SAP SuccessFactors HR systems",
+      "SAP Fieldglass workforce management",
+      "SAP Fiori interface",
+      "SAP GUI systems",
+      "enterprise system implementation",
+      "business process management in ERP",
+      "enterprise digital transformation"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6330",
+    "title": "Cybersecurity Fundamentals",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course prepares business decision makers to recognize the threats and vulnerabilities present in current information systems and how to design and develop secure systems. This course introduces the concept of defense-in-depth and covers different layers in a typical security architecture. Topics include security risk management, cyber laws related to security and privacy, access controls, network security, host security, detective controls, cryptography, and communications security.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "information systems security",
+      "cybersecurity risk management",
+      "secure system design",
+      "defense-in-depth strategy",
+      "multi-layered security architecture",
+      "access control systems",
+      "network security",
+      "host security",
+      "detective security controls",
+      "cryptography applications",
+      "communications security",
+      "cyber laws and privacy regulations",
+      "vulnerability identification",
+      "threat assessment",
+      "secure system development",
+      "enterprise cybersecurity practices"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6332",
+    "title": "Intelligent Enterprise Systems Configurations and Implementation with SAP",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The course focuses on Intelligent Enterprise System business processes and configuring an Intelligent Enterprise System from start up with hands-on experience with configuring Sales, Material Management, Production, Financial Accounting, and Management Accounting Modules on the S/4HANA platform. Several case studies are provided by which students can configure the Intelligent Enterprise System to meet the requirements so that products can be produced, purchased, sold, and generate reports - analytics.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "MIS 6332",
+      "OPRE 6390"
+    ],
+    "skills_taught": [
+      "intelligent enterprise systems",
+      "SAP S/4HANA configuration",
+      "enterprise system implementation",
+      "ERP system configuration",
+      "sales and distribution processes",
+      "materials management systems",
+      "production planning systems",
+      "financial accounting systems",
+      "management accounting systems",
+      "enterprise business process configuration",
+      "integrated enterprise operations",
+      "procurement and purchasing systems",
+      "product lifecycle operations",
+      "enterprise resource planning analytics",
+      "operational reporting and analytics",
+      "ERP case study analysis",
+      "enterprise system customization",
+      "cross-functional business process integration",
+      "ERP-driven business operations",
+      "enterprise systems management"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6333",
+    "title": "Digital Forensics and Incident Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course discusses methods and techniques for responding to security incidents and breaches and in-depth coverage of digital forensics of client devices, databases, web servers, application servers, and computer networks. The use and application of data analysis techniques in support of forensic efforts and chain of evidence are also discussed. The course provides students with opportunities to work hands-on utilizing a digital forensics lab.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "incident response",
+      "security breach management",
+      "digital forensics",
+      "client device forensics",
+      "database forensics",
+      "web server forensics",
+      "application server forensics",
+      "network forensics",
+      "forensic data analysis",
+      "evidence handling and chain of custody",
+      "forensic investigation techniques",
+      "cybersecurity incident handling",
+      "digital forensic lab exercises",
+      "applied forensic analytics",
+      "forensic reporting and documentation",
+      "cybercrime investigation methods"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6337",
+    "title": "Information Technology Audit and Risk Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Management's role in designing and controlling information technology used to process data is studied. Topics include the role of internal and external auditors in systems development, information security, business continuity, information technology, internet, change management, and operations. Focus is placed on the assurance of controls over information technology risks and covers topics directly related to the Certified Information Systems Auditor (CISA) exam.",
+    "prerequisites": [
+      [
+        "ACCT 6334",
+        "ACCT 6380"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "IT governance",
+      "information technology management",
+      "IT control and oversight",
+      "internal auditing in IT",
+      "external auditing in IT",
+      "systems development auditing",
+      "information security management",
+      "business continuity planning",
+      "IT risk management",
+      "change management in IT",
+      "IT operations management",
+      "IT assurance",
+      "information technology compliance",
+      "audit controls for IT systems",
+      "enterprise IT governance",
+      "CISA-aligned IT practices",
+      "IT auditing methodologies"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6363",
+    "title": "Cloud Computing Fundamentals",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed as a primer to discuss the information technology that is impacting\r\nour businesses and changing our lives: cloud computing. The course is designed to\r\nunderstand the fundamentals of cloud computing and then deep dive into Amazon Web\r\nServices (AWS), Google Cloud Platform (GCP), and GenAI in Google Cloud, so the\r\nstudents will build a T-Shape structure: Multi-cloud and Hybrid-cloud.\r\nThe course examines Cloud Computing from both technology and business perspectives,\r\nso students will explore how Cloud Computing revolutionizes diverse business sectors. It\r\naims to deliver a holistic and balanced view of the business model, technology framework,\r\ndata intelligence, and security practice of Cloud Computing, and thus provide concepts\r\nand ideas for the technology students to address business challenges and the business\r\nstudents to decode technology encryptions. It serves as a launchpad to develop our\r\nvisionary technology and business leaders in the future.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "cloud computing",
+      "multi cloud architecture",
+      "hybrid cloud architecture",
+      "cloud computing fundamentals",
+      "cloud service models",
+      "cloud infrastructure",
+      "cloud security",
+      "cloud business models",
+      "cloud data intelligence",
+      "amazon web services aws",
+      "google cloud platform gcp",
+      "generative ai in cloud",
+      "cloud based application development",
+      "cloud deployment strategies",
+      "cloud solutions for business"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6369",
+    "title": "Supply Chain Software with SAP",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course introduces supply chain planning with software such as SAP's S/4 HANA and Integrated Business Planning (IBP) with case discussions and lab exercises. This software is used in lab exercises with a focus on the supply planning function of supply chain management. Topics include fundamentals of ERP and SAP, master and transaction data, MRP, forecasting, supply and demand matching. This course is intended for students with interests in software-based supply chain management or digital supply chains. Emerging trends including Artificial Intelligence and Blockchain Solutions in supply chain systems will also be discussed. No prior SAP experience required.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "supply chain planning",
+      "supply chain management systems",
+      "SAP S/4HANA supply chain modules",
+      "SAP Integrated Business Planning (IBP)",
+      "ERP fundamentals",
+      "SAP enterprise systems",
+      "supply planning processes",
+      "master data management",
+      "transactional data management",
+      "material requirements planning (MRP)",
+      "demand forecasting",
+      "supply and demand matching",
+      "digital supply chain systems",
+      "supply chain analytics",
+      "ERP-based supply chain operations",
+      "supply chain case study analysis",
+      "AI in supply chain systems",
+      "blockchain in supply chain management",
+      "software-based supply chain planning",
+      "enterprise supply chain optimization"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6380",
+    "title": "Data Visualization",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Studies the technologies, techniques and algorithms for the creation of effective data visualization in the context of data science. Explores topics related to data wrangling, insight modeling, cognitive science, and graphical communication. Develops practical skills using data visualization tools including SAP Lumira, Tableau, Excel Powerview, and D3. Primary objective will be creation of data visualizations for strategic communication.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "data visualization",
+      "data science visualization",
+      "data wrangling",
+      "insight modeling",
+      "cognitive science for visualization",
+      "graphical communication",
+      "strategic data communication",
+      "sap lumira",
+      "tableau",
+      "excel powerview",
+      "d3.js",
+      "data storytelling",
+      "visualization design techniques"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6384",
+    "title": "Preparing for Cybersecurity Threats",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Threats from cyber criminals always exist, but the level of preparation and investment in cybersecurity varies greatly between organizations. This course discusses the current threat environment and specific risk mitigation countermeasures that should be deployed. Students learn through hands-on lab and analysis of well-publicized hacks, on how to build and manage secure networks, and specific steps necessary to harden the technology environment and reduce vulnerabilities before they can be exploited.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "cybersecurity threat analysis",
+      "cyber risk assessment",
+      "threat mitigation strategies",
+      "network hardening",
+      "vulnerability management",
+      "secure network design",
+      "cybersecurity defense planning",
+      "proactive security measures",
+      "hands-on cybersecurity labs",
+      "analysis of real-world cyber attacks",
+      "enterprise cyber defense",
+      "security control implementation",
+      "IT environment hardening",
+      "risk reduction strategies",
+      "organizational cybersecurity preparedness",
+      "cyberattack prevention",
+      "network security management",
+      "defensive cybersecurity techniques"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6389",
+    "title": "AWS Cloud Solution Architecture",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed as a primer for our\r\ngraduate students to learn the Amazon Web Services (AWS) cloud computing and security. The\r\ncourse focuses on the AWS Well-Architected Framework and deep-dives the five architectural\r\npillars: operational excellence, security, reliability, performance efficiency, and cost\r\noptimization. This course builds a solid foundation for our graduate students in AWS cloud\r\ncomputing architecture design and helps to prepare for the AWS Solution Architecture\r\ncertifications",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "amazon web services aws",
+      "cloud computing architecture",
+      "aws well architected framework",
+      "operational excellence in cloud",
+      "cloud security",
+      "cloud reliability",
+      "performance efficiency in cloud systems",
+      "cloud cost optimization",
+      "cloud architecture design",
+      "cloud infrastructure management",
+      "aws solution architecture",
+      "cloud deployment strategies"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6398",
+    "title": "Blockchain Technology and Applications",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Introduces blockchain technology and its business applications including digital payments, smart contracts, supply chain finance, and decentralized value networks. Students gain hands-on exposure to blockchain tools and platforms.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "blockchain technology",
+      "distributed ledger systems",
+      "smart contracts",
+      "digital asset systems",
+      "blockchain business applications",
+      "decentralized finance concepts"
+    ],
+    "programs": [
+      "msba",
+      "msitm"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  }
+]

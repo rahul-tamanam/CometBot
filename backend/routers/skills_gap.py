@@ -5,8 +5,7 @@ from backend.services.pinecone_client import query_courses_for_skills, query_job
 from backend.services.validator import validate_course_list
 from backend.services.resume_parser import parse_resume
 from backend.services.jd_parser import extract_skills_from_jd
-import json
-import os
+from backend.services.course_loader import load_courses_for_program
 
 router = APIRouter()
 
@@ -47,6 +46,7 @@ class CourseGapRequest(BaseModel):
     job_description:      str       = ""
     conversation_history: list[dict] = []
     message:              str       = "Please perform a skills gap analysis."
+    program_id:          str        = "msba"
 
 # ── Gap computation ───────────────────────────────────────────────────────────
 
@@ -145,11 +145,7 @@ def analyze_from_courses(request: CourseGapRequest):
     validation    = validate_course_list(request.completed_courses)
     valid_courses = validation["valid"]
 
-    data_path = os.path.join(
-        os.path.dirname(__file__), "..", "data", "courses.json"
-    )
-    with open(data_path) as f:
-        all_courses = json.load(f)
+    all_courses = load_courses_for_program(request.program_id or "msba")
 
     course_map     = {c["course_id"]: c for c in all_courses}
     student_skills = []
@@ -193,7 +189,9 @@ def analyze_from_courses(request: CourseGapRequest):
     # Step 3 — compute gap
     gap             = compute_gap(student_skills, job_role)
     recommendations = query_courses_for_skills(
-        gap["missing_technical"], n_per_skill=2
+        gap["missing_technical"],
+        n_per_skill=2,
+        program_id=request.program_id or "msba"
     )
 
     # Step 4 — build summary and get LLM response

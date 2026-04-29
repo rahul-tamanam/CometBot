@@ -10,9 +10,12 @@ def _load_valid_courses() -> dict[str, str]:
     """
     Returns a dict of course_id -> title for all valid courses.
     """
-    with open(os.path.join(DATA_DIR, "courses.json")) as f:
-        courses = json.load(f)
-    return {c["course_id"].strip().upper(): c["title"] for c in courses}
+    from backend.services.course_loader import load_all_courses
+    return {
+        c["course_id"].strip().upper(): c["title"]
+        for c in load_all_courses()
+        if c.get("course_id") and c.get("title")
+    }
 
 VALID_COURSES = _load_valid_courses()
 VALID_IDS     = list(VALID_COURSES.keys())
@@ -219,10 +222,10 @@ def strip_markdown_to_plain(text: str) -> str:
 
 def _load_course_title_map() -> dict[str, str]:
     """
-    course_id -> exact title (from backend/data/courses.json)
+    course_id -> exact title (from all loaded program course catalogs)
     """
-    with open(os.path.join(DATA_DIR, "courses.json"), "r", encoding="utf-8") as f:
-        courses = json.load(f)
+    from backend.services.course_loader import load_all_courses
+    courses = load_all_courses()
     return {str(c["course_id"]).strip().upper(): str(c["title"]).strip() for c in courses if c.get("course_id") and c.get("title")}
 
 

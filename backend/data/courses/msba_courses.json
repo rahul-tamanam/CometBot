@@ -1,0 +1,2148 @@
+[
+  {
+    "course_id": "BUAN 6333",
+    "title": "Foundations of Programming for Business Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course will introduce students to two of the most popular and widely used languages in analytics: Python and R. Various packages, libraries, and functions associated with these languages will be covered in detail. The course is intended to prepare students for advanced courses that use one or both of these languages, i.e., the intended audience comprises students who want to gain a solid understanding of programming in the context of analytics.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Python",
+      "R"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6009",
+    "title": "Business Analytics Internship",
+    "credits": 0,
+    "course_type": "Elective",
+    "description": "Student gains experience and improves skills through appropriate developmental work assignments in a real business environment. The student must define specific business learning objectives at the beginning of the semester and demonstrate exposure to managerial perspectives through involvement or observation. At the end of the semester, the student presents their experience through an oral presentation, poster, or written report. Performance is evaluated by the work supervisor. This is a pass/fail course. Students cannot enroll after completing BUAN 6390 or BUAN 6V98.",
+    "prerequisites": [
+      [
+        "MAS 6102",
+        "MBA Major"
+      ]
+    ],
+    "only_one_of_these": [
+      [
+        "BUAN 6390",
+        "BUAN 6V98"
+      ]
+    ],
+    "skills_taught": [
+      "Business Analytics Application",
+      "Real-world Problem Solving",
+      "Professional Communication",
+      "Managerial Insight",
+      "Data-driven Decision Making",
+      "Workplace Collaboration"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6390",
+    "title": "Business Analytics Project",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Applied business analytics project. Used to fulfill the internship requirement for students who do not complete BUAN 6009 or BUAN 6V98.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "BUAN 6390",
+      "BUAN 6V98"
+    ],
+    "skills_taught": [
+      "business analytics application",
+      "project management",
+      "real-world problem solving"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6V98",
+    "title": "Business Analytics Internship",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Credit-bearing internship course for MSBA students. Used for second and subsequent internships, or as the primary internship fulfillment course. Maximum 3 credit hours total.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "BUAN 6390",
+      "BUAN 6V98"
+    ],
+    "skills_taught": [
+      "business analytics application",
+      "professional experience",
+      "workplace collaboration"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6346",
+    "title": "Big Data",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Master the rapidly evolving Big Data landscape with this comprehensive course, delving into Spark\r\nand the essential components of the Hadoop ecosystem. Not only will you gain a thorough\r\nunderstanding of core Spark and Hadoop concepts, but you'll also learn to expertly wield industrystandard tools such as Sqoop, Hive, Impala, Pig, Flume, and Spark to efficiently develop end-to-end\r\nBig Data applications. Perfect for both professionals and students, this course equips you with the\r\nskills to tackle the complex challenges faced by today's enterprises and research institutions.",
+    "prerequisites": [
+      [
+        "BUAN 6320"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Big Data",
+      "Hadoop",
+      "HDFS",
+      "Impala",
+      "Hive",
+      "Data Modeling",
+      "Spark",
+      "Data Aggregation",
+      "Spark SQL"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6347",
+    "title": "Advanced Big Data Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The course covers Spark using Scala in a Hadoop environment. The topics include Scala syntax, Spark streaming, GraphX, MLlib, and other features of Spark. This advanced course requires students to have prior skills and working knowledge of big data environment and Python functional programming.",
+    "prerequisites": [
+      [
+        "BUAN 6346"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "scala programming",
+      "spark programming",
+      "big data processing",
+      "spark streaming",
+      "graph analytics using graphx",
+      "machine learning with mllib",
+      "distributed data processing",
+      "hadoop ecosystem",
+      "functional programming concepts"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6358",
+    "title": "AWS Cloud Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course integrates data engineering, machine learning, and AI services to build enterprise analytics platforms. Students will create data pipelines for ingesting, storing, processing, and visualizing batch and streaming data. The course covers selecting and applying machine learning models, including foundation models and LLMs, to solve business problems. Through hands-on labs, students will model, build, train, and deploy custom ML models and AI algorithms. Aligned with AWS Data Engineering and Machine Learning certifications, this course prepares students to lead data-driven AI initiatives",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "data engineering",
+      "data pipeline development",
+      "data ingestion",
+      "data storage architecture",
+      "batch data processing",
+      "streaming data processing",
+      "data visualization",
+      "machine learning model development",
+      "model training",
+      "model deployment",
+      "ai model development",
+      "foundation models",
+      "large language models",
+      "enterprise analytics platforms",
+      "cloud data engineering",
+      "aws",
+      "aws data engineering tools",
+      "aws machine learning services"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6385",
+    "title": "Robotic Process Automation",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is intended to provide students with practical literacy on robotic process automation\r\nthrough real-world, relevant data preparation use cases. It will help identify potential uses and the\r\nbenefits and considerations for robotic process automation. The students will learn the elements\r\nof a business process and the basics of developing a BPM application, implementing triggers to\r\nautomate processes, defining and measuring KPIs. Students will use elements of artificial\r\nintelligence (AI) and machine learning capabilities to handle high-volume, repeatable tasks that\r\npreviously required humans to perform. These tasks can include queries, calculations, and\r\nmaintenance of records and transactions. Students will be able to use apply analytics to the\r\ngenerated data for a systematic computational analysis of data for the discovery, interpretation,\r\nand communication of meaningful patterns in data that will be used towards effective decision\r\nmaking",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "SYSM 6339",
+      "BUAN 6385"
+    ],
+    "skills_taught": [
+      "robotic process automation",
+      "business process management",
+      "business process modeling",
+      "process orchestration",
+      "process reengineering",
+      "process optimization",
+      "bpm application development",
+      "workflow automation",
+      "automation triggers",
+      "kpi development and measurement",
+      "data preparation",
+      "artificial intelligence applications",
+      "machine learning applications",
+      "task automation",
+      "query automation",
+      "transaction processing automation",
+      "data analytics",
+      "pattern discovery",
+      "data interpretation",
+      "decision making analytics"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6311",
+    "title": "Robotics and Financial Technology",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course focuses on different robotic technologies used in finance.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "FTEC 6311",
+      "BUAN 6311"
+    ],
+    "skills_taught": [
+      "robotic process automation",
+      "financial automation",
+      "robotics in finance",
+      "process automation tools",
+      "business process management",
+      "automation technologies",
+      "financial workflow automation",
+      "task automation in finance"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6341",
+    "title": "Applied Machine Learning",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course covers machine learning models for business data including text mining, natural language processing, non-linear regression models, resampling methods and advanced neural networks and artificial intelligence-based models for data-driven analytics. The course will be taught using either R or Python language.",
+    "prerequisites": [
+      [
+        "BUAN 6356",
+        "BUAN 6324",
+        "BUAN 6383",
+        "OPRE 6399"
+      ],
+      [
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "OPRE 6343",
+      "BUAN 6341"
+    ],
+    "skills_taught": [
+      "machine learning",
+      "applied machine learning",
+      "business data analytics",
+      "text mining",
+      "natural language processing",
+      "non linear regression",
+      "resampling methods",
+      "neural networks",
+      "artificial intelligence models",
+      "data-driven analytics",
+      "r programming",
+      "python programming"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6342",
+    "title": "Applied Natural Language Processing",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This is an advanced course focusing on natural language processing and the utility of textual data to gain\r\nmeaningful quantitative and actionable insights about the language (mainly English) using rule-based and\r\nstatistical methods and to extract the information for real-world applications. This class will focus both on\r\nmodern neural methods for these problems (including architectures such as RNNs, LSTMs,\r\nTransformers) and on classical methods (logistic/linear regression).",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "natural language processing",
+      "text analytics",
+      "rule-based data analysis",
+      "statistical data analysis",
+      "machine learning for text",
+      "human language understanding",
+      "social media text analysis",
+      "business text analysis",
+      "unstructured data analysis",
+      "textual data interpretation",
+      "actionable insights extraction"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6357",
+    "title": "Advanced Business Analytics with R",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course covers theories and applications of business analytics. The focus is on\r\nextracting business intelligence from internal or external business data for various\r\napplications. Topics include data manipulation, imputation, variable selection, as well as\r\nadvanced analytic methods, including (but not limited to) business data analytics,\r\nmodeling, customer analytics, web intelligence analytics, business performance analytics,\r\nand decision-making analytics. The emphasis is placed on the 'know-how' -- knowing\r\nhow and why to extract and apply business analytics to improve business decisionmaking. Students will also acquire hands-on experience with business analytics software,\r\nspecifically R",
+    "prerequisites": [
+      [
+        "BUAN 6356",
+        "OPRE 6305"
+      ],
+      [
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "BUAN 6357"
+    ],
+    "skills_taught": [
+      "business analytics",
+      "business intelligence",
+      "data manipulation",
+      "data imputation",
+      "variable selection",
+      "advanced analytic methods",
+      "business data analytics",
+      "predictive modeling",
+      "customer analytics",
+      "web intelligence analytics",
+      "business performance analytics",
+      "decision-making analytics",
+      "r programming",
+      "hands-on business analytics",
+      "data-driven decision making"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6383",
+    "title": "Modeling for Business Analytics",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "This is a fast-paced course that starts with an introduction of popular approaches in business analytics (e.g., preprocessing, dimensionality reduction, association rules, clustering, basics of classification), proceeds into advanced\r\nmethods (e.g., additional classification models, ensemble methods), and concludes with advanced models in customer\r\nanalytics (e.g., discrete time models, continuous time models, count models, choice models, zero-inflated models,\r\nfinite mixture models, models for non-contractual settings). While the tool of choice will be Python, the focus of the\r\ncourse will be on modeling (i.e., this is not a course intended to teach you Python) \u2013 familiarity with Python is\r\nassumed.",
+    "prerequisites": [
+      [
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "BUAN 6357",
+      "OPRE 6334",
+      "BUAN 6383",
+      "BUAN 6324",
+      "BUAN 6356"
+    ],
+    "skills_taught": [
+      "business analytics",
+      "data preprocessing",
+      "dimensionality reduction",
+      "association rules",
+      "clustering",
+      "classification models",
+      "ensemble methods",
+      "customer analytics",
+      "discrete time models",
+      "continuous time models",
+      "count models",
+      "choice models",
+      "zero-inflated models",
+      "finite mixture models",
+      "non-contractual customer models",
+      "predictive modeling",
+      "advanced modeling techniques",
+      "python programming"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6382",
+    "title": "Applied Deep Learning",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Covers fundamentals of Deep Learning applied to business data. Includes various neural network architectures such as Feedforward Artificial Neural Networks, Convolutional Neural Networks, and Transformer Models for Computer Vision in different business scenarios.",
+    "prerequisites": [
+      [
+        "OPRE 6343",
+        "BUAN 6341"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "deep learning",
+      "applied deep learning",
+      "neural networks",
+      "feedforward neural networks",
+      "convolutional neural networks",
+      "transformer models",
+      "computer vision",
+      "business data analytics",
+      "predictive modeling",
+      "business applications of ai",
+      "deep learning architectures"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6392",
+    "title": "Causal Analytics and A/B Testing",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "All managers need to make decisions to achieve specific objectives. For example, a firm like Spotify wants to grow its customer base (it's objective). It intends to send promotional emails to\npotential subscribers to achieve its goal. So, it must decide what design of promotional email messages would help it get the maximum number of new subscribers. This is a cause and effect\nquestion because the design of the email message (cause) induces a person receiving the email to purchase the subscription (effect). Common sense dictates that Spotify can analyze email\ndesigns used in the past to ascertain the most effective email design. Unfortunately, this common-sense approach is wrong! This is because email designs that are correlated with high\nsubscription rates may not be better. To identify the best email design, Spotify must make a distinction between correlation and causation in data. The gold standard in making this\ndistinction is a randomized control trial (aka, an A/B Test). Organizations and policymakers in government constantly grapple with such causal questions.\nFor example, firms want to know how does a price change affect the sales of a product, or how to create websites that increase consumer engagement and lead generation; political parties\nwant to know what messaging on social media sites can boost their political influence, and governments want to know whether allowing parents to pay for private schools using publicly\nfunded vouchers make the education system more effective. In particular, firms rooted in the digital economy like Netflix, Airbnb, eBay, Groupon,\nBooking.com, Uber and Amazon, etc. make extensive and continuous use of A/B tests and have a dedicated team of data scientists and IT-personnel to implement, monitor and analyze such\ntests. Banks and Insurance companies constitute another important sector where the use of A/B testing is ubiquitous.\nWhile A/B tests are the best way to answer causal questions, sometimes they are too expensive, too time taking, or even unethical to implement. In such situations, the only recourse for data\nscientists is to use observational data to tease out the causal effects of an intervention. Therefore, the course will focus on the design and analysis of A/B tests and also on statistical\ntechniques that can be used with observational data to achieve reliable causal inferences. We will employ a combination of lectures, cases, and other assignments to discuss the course\nmaterial. The approach is hands-on, exposing students to simulated and real-world datasets, and equipping them with the tools and experience they can leverage immediately on the job.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "BUAN 6392"
+    ],
+    "skills_taught": [
+      "causal analytics",
+      "a/b testing",
+      "correlation vs causation",
+      "experimental design",
+      "statistical analysis",
+      "observational data analysis",
+      "causal inference",
+      "marketing analytics",
+      "promotional effectiveness analysis",
+      "data-driven decision making",
+      "practical data analysis",
+      "real-world dataset analysis"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "HMGT 6320",
+    "title": "The American Healthcare System",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is centered on understanding how the American healthcare system works from the ground up. It is designed for students who either plan to build a career in healthcare management or simply want to become more informed about the system they interact with as patients and citizens.\nThe course starts by tracing the historical development of healthcare in the United States, how the system evolved over time, what forces shaped it, and why it looks the way it does today. From there, it moves into the structural side of healthcare, examining the different types of settings where care is delivered, such as hospitals, outpatient facilities, and community health organizations, as well as the wide range of professionals who make up the healthcare workforce.\n\nA significant portion of the course is dedicated to how healthcare is financed. Students will explore how money flows through the system, from insurance models and managed care to accountable care organizations and pay-for-performance structures, and how financial decisions affect the quality and accessibility of care. Students will also examine the relationship between cost and measurable outcomes, which is one of the central tensions in American healthcare policy.\n\nThe course also dives into health policy and regulation, looking at how laws get made, how public sector policymakers implement change, and how advocacy and organized efforts influence the direction of the system. Alongside this, students will engage with the major ethical, legal, and equity-related issues that providers, insurers, and policymakers navigate on a daily basis, including social drivers of health and population health management.\n\nFinally, the course looks forward, covering emerging areas like health information technology, cybersecurity, artificial intelligence in clinical and administrative settings, and interoperability between health systems. Guest speakers from the industry are brought in throughout the semester to ground these topics in real, current practice.\n\nThe course is highly interactive, built around discussions, team-based case presentations, and written briefings, ensuring that students do not just learn the content but can also analyze, communicate, and apply it in a professional context.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Healthcare System Navigation",
+      "Health Policy Analysis",
+      "Financial Management in Healthcare",
+      "Regulatory & Legal Compliance",
+      "Ethical Decision-Making",
+      "Data Analysis & Outcome Measurement",
+      "Critical Thinking & Problem Solving",
+      "Medical Terminology",
+      "Emerging Technology Evaluation (AI",
+      "Health IT",
+      "Cybersecurity)",
+      "Research & Information Synthesis",
+      "Written Communication (Briefing Papers)",
+      "Oral Presentation & Public Speaking",
+      "Team Collaboration & Project Management",
+      "Peer Evaluation & Feedback",
+      "Stakeholder Communication",
+      "Healthcare Workforce & Operations Knowledge",
+      "Population Health Management",
+      "Strategic Decision-Making"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "HMGT 6323",
+    "title": "Healthcare Informatics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course sits at the intersection of healthcare and technology, exploring how digital information systems are designed, implemented, and used to transform raw clinical and administrative data into meaningful knowledge that drives better decisions. At its foundation, the course is about understanding how technology can make healthcare smarter \u2014 reducing medical errors, cutting unnecessary costs, and ultimately improving patient outcomes.\nThe course begins by establishing a clear picture of the healthcare IT landscape today \u2014 where it came from, how it has evolved, and what the major systems and architectures look like in practice. Students will learn how data flows through a healthcare organization, from the moment a patient walks in the door to the billing, reporting, and compliance processes that follow. This includes a deep look at Electronic Medical Records (EMRs) and Electronic Health Records (EHRs), which are the backbone of modern clinical information management, as well as the major legislation that has shaped how these systems are built and adopted across the industry.\nA significant portion of the course focuses on the challenge of making different healthcare systems talk to each other \u2014 known as interoperability \u2014 and the data standards that make that possible. Students will examine how healthcare organizations build and manage their information architectures, how databases are structured and queried, and how data integration works across complex, multi-system environments.\nThe course also covers the business and strategic side of health IT, including how organizations evaluate, acquire, and govern technology investments, how to calculate the total cost of ownership of a system, and how IT planning aligns with broader organizational strategy. Students will work through real-world frameworks for making technology decisions in resource-constrained healthcare environments.\nAnalytics and artificial intelligence represent another major thread running through the course. Students will explore how big data and AI are being applied in clinical and administrative healthcare settings, what the real-world challenges of implementing these tools look like, and how to think critically about whether an AI solution is actually creating value. Emerging technologies including telehealth, cloud computing, and ubiquitous connectivity are also covered, giving students a forward-looking perspective on where the field is heading.\nThroughout the course, students work with real case studies and practical assignments, ensuring that the concepts covered are grounded in actual healthcare industry problems rather than theory alone.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "HMGT 6323"
+    ],
+    "skills_taught": [
+      "Health IT Systems Knowledge",
+      "Electronic Medical Records (EMR/EHR) Management",
+      "Healthcare Data Architecture & Integration",
+      "Database Management & SQL",
+      "Interoperability & Data Standards",
+      "Healthcare Analytics",
+      "Artificial Intelligence",
+      "Applications in Healthcare",
+      "IT Governance & Project Management",
+      "Strategic IT",
+      "Planning & Alignment",
+      "Health IT Legislation & Regulatory Compliance",
+      "Privacy & Cybersecurity in Healthcare",
+      "Technology Investment Evaluation",
+      "Critical Thinking & Evidence-Based Decision Making",
+      "Data Transformation & Information Architecture Design",
+      "Population Health & Reimbursement Reform Understanding",
+      "Case Analysis & Problem Solving",
+      "Team Collaboration",
+      "Written & Oral Communication"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "HMGT 6325",
+    "title": "Healthcare Operations Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is about understanding and improving the processes that make healthcare organizations run efficiently. At its core, it asks a fundamental question \u2014 how do you take limited resources, whether that is staff, equipment, time, or supplies, and organize them in a way that delivers the best possible care to the most people, at the lowest cost, with the shortest wait? These are not abstract questions. They are the daily challenges faced by hospital administrators, clinic managers, and healthcare executives, and this course gives students the analytical toolkit to tackle them head-on.\nThe course begins with process flow analysis, which is the foundation of operations management. Students learn how to map out how patients, information, and resources move through a healthcare system, identify where bottlenecks occur, and calculate how those bottlenecks affect capacity, wait times, and overall efficiency. From there, the course moves into project management, teaching students how to plan and execute complex healthcare initiatives on time and within budget, accounting for uncertainty along the way.\nInventory management is another major topic, covering how healthcare organizations decide how much of a supply to keep on hand, when to reorder, and how to balance the cost of holding inventory against the risk of running out. Closely related is queueing theory, which gives students a mathematical framework for understanding why waiting lines form in healthcare settings and what can be done to reduce them \u2014 a directly applicable skill in emergency departments, clinics, and surgical scheduling.\nThe course then introduces linear programming, a powerful optimization technique that helps managers make the best possible decision when facing multiple competing constraints, such as budget limits, staffing caps, and patient demand. Students use Excel Solver to apply these methods to real healthcare scenarios. The course also covers healthcare analytics through regression modeling, quality control methods for monitoring and improving process performance, and supply chain management principles including how the healthcare supply chain behaves and how disruptions like the bullwhip effect can ripple through the system.\nThroughout the semester, students apply these techniques to a real-world group project, conducting original analysis on an actual healthcare issue and presenting their findings to stakeholders \u2014 mirroring exactly what is expected of operations analysts and managers in the field.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6325",
+      "HMGT 6325"
+    ],
+    "skills_taught": [
+      "Process Flow Analysis & Bottleneck Identification",
+      "Capacity Planning & Resource Optimization",
+      "Project Management & Scheduling",
+      "Inventory Management & Supply Chain Analysis",
+      "Queueing Theory & Wait Time Reduction",
+      "Linear Programming & Optimization",
+      "Healthcare Analytics & Regression Modeling",
+      "Quality Control & Performance Measurement",
+      "Excel & Solver Application",
+      "Data-Driven Decision Making",
+      "Operations Strategy & Process Improvement",
+      "Supply Chain Management",
+      "Outcome Measurement & Management",
+      "Critical Thinking & Quantitative Problem Solving",
+      "Team Collaboration & Group Project Management",
+      "Written & Oral Communication",
+      "Stakeholder Presentation & Reporting",
+      "Healthcare Policy & Operations Context"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "HMGT 6327",
+    "title": "Electronic Health Records Applications",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is unlike most traditional graduate courses \u2014 it is built around doing, not just learning. Rather than studying electronic health records from a purely theoretical standpoint, students get direct, hands-on access to EPIC, the most widely used electronic medical record system in the United States, and work through real clinical and administrative scenarios inside the software itself. This makes the course one of the most practically valuable in the healthcare management program, because students graduate with direct experience in the exact tools they will encounter on the job.\nThe course begins by establishing a foundational understanding of what an EMR and EHR actually are, how they differ, and why they matter to every stakeholder in the healthcare system \u2014 from physicians and nurses to administrators, billing staff, and IT managers. From there, students dive into workflow analysis, learning how to map, evaluate, and improve the processes that govern how patients move through a healthcare system and how information flows alongside them. This is a critical skill because poorly designed workflows are one of the leading causes of inefficiency, errors, and frustration in clinical settings.\nA large portion of the course is dedicated to exploring the major functional areas of EPIC, guided by staff from UT Southwestern Medical Center. Students work hands-on through patient registration and scheduling, ambulatory and outpatient care workflows, inpatient care workflows for both providers and nurses, revenue cycle management and billing, specialty and ancillary modules, and clinical decision support and reporting tools. Each of these areas represents a core operational domain in any major healthcare organization, and understanding how they connect within a single integrated system is what separates effective healthcare IT professionals from those who only understand one piece of the puzzle.\nThe course also addresses the broader strategic and regulatory landscape surrounding EHR systems. Students examine the regulatory and market-driven pressures that shape how EHRs are adopted and used, the challenges of integrating EHR systems with other enterprise platforms, and what it takes to implement, upgrade, and sustain a large-scale clinical information system over time. The course closes with a forward-looking discussion of emerging trends \u2014 including accountable care organizations, telemedicine, and the future direction of health IT \u2014 giving students a complete picture of where the field is heading.",
+    "prerequisites": [
+      [
+        "HMGT 6323"
+      ]
+    ],
+    "only_one_of_these": [
+      "HMGT 6327"
+    ],
+    "skills_taught": [
+      "EPIC EMR Software Proficiency",
+      "Electronic Health Record (EHR) Operations & Workflow",
+      "Clinical Workflow Analysis & Mapping",
+      "Patient Registration & Scheduling Systems",
+      "Ambulatory & Inpatient Care Workflow Management",
+      "Revenue Cycle & Billing Operations",
+      "Clinical Decision Support & Reporting",
+      "Data & System Integration",
+      "EHR Implementation & Lifecycle Management",
+      "Healthcare IT Architecture & Interoperability",
+      "Regulatory & Compliance Knowledge in Health IT",
+      "Telemedicine & Emerging Technology Awareness",
+      "Critical Thinking & Organizational Problem Solving",
+      "Hands-On Lab-Based Technical Skills",
+      "Written & Oral Communication",
+      "Class Participation & Professional Engagement"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "HMGT 6334",
+    "title": "Healthcare Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed for students who want to understand how data and analytics can be used to solve some of the most pressing problems in healthcare \u2014 rising costs, inefficient resource allocation, uneven care quality, and missed opportunities to use existing data more effectively. It sits at the intersection of healthcare management and data science, giving students both the conceptual framework to think analytically about healthcare problems and the hands-on technical skills to actually build and implement analytics solutions.\nThe course begins by introducing the broader landscape of analytics \u2014 what it is, how it is applied across industries, and why healthcare in particular has so much untapped potential for data-driven improvement. From there, students are introduced to R and RStudio, the primary tools used throughout the course, learning how to navigate the software, retrieve and prepare data, and perform foundational analytical functions. No prior programming experience is assumed, and the course builds these skills progressively from the ground up.\nA significant portion of the course is dedicated to statistical and predictive modeling techniques. Students learn exploratory data analysis, simple and multiple regression, classification methods including decision trees and logistic regression, and clustering techniques such as hierarchical and k-means clustering. All of these methods are taught in the context of real healthcare problems, so students are always connecting the technical work back to meaningful business and clinical questions \u2014 such as predicting patient outcomes, segmenting populations for targeted interventions, or identifying inefficiencies in care delivery.\nData visualization and communication is another key focus. Students learn how to present analytical findings in ways that are clear, compelling, and actionable for decision makers \u2014 a skill that is just as important as the analysis itself in professional settings. The course covers effective dashboard design and data storytelling, ensuring students can bridge the gap between complex analysis and practical organizational decision making.\nThe course culminates in a group project where students select a real healthcare analytics problem, source and analyze data, and present their findings to the class \u2014 simulating exactly the kind of work expected of analytics professionals in hospitals, insurance companies, consulting firms, and health IT organizations.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "SYSM 6303",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "HMGT 6334"
+    ],
+    "skills_taught": [
+      "Healthcare Data Analytics",
+      "R & RStudio Programming",
+      "Exploratory Data Analysis (EDA)",
+      "Simple & Multiple Regression Analysis",
+      "Classification Modeling & Decision Trees",
+      "Logistic Regression",
+      "Clustering & Segmentation Techniques",
+      "Machine Learning Foundations",
+      "Data Visualization & Dashboard Design",
+      "Data Storytelling & Communication",
+      "Data Retrieval & Preparation",
+      "Predictive Modeling",
+      "Business Intelligence in Healthcare",
+      "Critical Thinking & Evidence-Based Decision Making",
+      "Healthcare Delivery & Policy Context",
+      "Project Design & Management",
+      "Team Collaboration & Peer Evaluation",
+      "Written & Oral Presentation Skills"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6301",
+    "title": "Marketing Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course provides graduate students with a comprehensive foundation in marketing \u2014 how it works, why it matters, and how to apply it strategically in a competitive, global business environment. It is not a course about memorizing marketing definitions. It is designed to develop the kind of analytical, strategic thinking that marketing professionals and business leaders use when making real decisions about products, customers, pricing, distribution, and communication.\nThe course is built heavily around the case method, which means students spend a significant amount of time stepping into the shoes of real managers at real companies \u2014 analyzing the situation they faced, evaluating the options available to them, and defending a clear, data-supported recommendation. Cases covered in the course span a wide range of marketing contexts, from Dell's early e-commerce strategy and Starbucks' customer service investment decisions, to new product launches, digital direct-to-consumer marketing at Hubble Contact Lenses, AI-powered e-commerce at THE YES, and pharmaceutical pricing strategy at The Medicines Company. Each case forces students to apply marketing frameworks to a unique, ambiguous business problem \u2014 exactly the kind of challenge they will face in their careers.\nThe course covers all the core pillars of marketing strategy and management. Students learn how to analyze the marketing environment, understand consumer behavior, and apply segmentation, targeting, and positioning frameworks to identify and reach the right customers. Product strategy and new product development are explored in depth, including how to move an innovation from concept to market successfully. The course also covers marketing research methods, channel and distribution strategy, promotional planning across traditional and digital media, and pricing strategy \u2014 including the ethical dimensions of pricing decisions.\nA major component of the course is a group marketing project where students develop a full marketing plan for an original product or service idea that does not yet exist commercially. This involves defining the problem the product solves, analyzing the competitive landscape, estimating market size, designing the marketing mix, and presenting the plan to the class as if pitching to investors. This project ties together everything covered in the course and gives students a tangible, end-to-end experience in strategic marketing planning.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "SYSM 6318",
+      "MKT 6301"
+    ],
+    "skills_taught": [
+      "Marketing Strategy & Planning",
+      "Consumer Behavior Analysis",
+      "Market Segmentation",
+      "Targeting & Positioning",
+      "New Product Development & Innovation",
+      "Marketing Research & Demand Estimation",
+      "Pricing Strategy & Ethics",
+      "Promotional Planning & Media Strategy",
+      "Distribution & Channel Management",
+      "Digital & Direct-to-Consumer Marketing",
+      "Case Analysis & Business Problem Solving",
+      "Data-Driven Decision Making",
+      "Competitive Analysis & SWOT",
+      "Marketing Plan Development",
+      "Quantitative Analysis & Financial Estimation",
+      "Oral Presentation & Persuasive Communication",
+      "Written Business Communication",
+      "Team Collaboration & Peer Evaluation",
+      "Critical Thinking & Analytical Reasoning"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6309",
+    "title": "Marketing Data Analysis and Research",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course sits at the intersection of marketing and data science, teaching students the rigorous methods and analytical techniques that underpin sound marketing decisions. While marketing is often associated with creativity and intuition, this course makes clear that the most effective marketing is grounded in systematic research, carefully collected data, and statistically defensible analysis. Students leave the course equipped to design, execute, and interpret marketing research studies from start to finish.\nThe course begins by establishing the foundation of marketing research \u2014 how to define a research problem clearly, develop a research approach, and choose the right research design for the question at hand. Students explore the full landscape of data sources available to marketers, including secondary data and qualitative methods such as focus groups and in-depth interviews, before moving into the design of primary research instruments. A significant portion of the course is dedicated to survey design \u2014 how to write effective questions, choose the right measurement and scaling approaches, and construct a questionnaire that produces reliable, actionable data.\nFrom there, the course moves into the statistical side of marketing research. Students learn sampling techniques and how to determine appropriate sample sizes, followed by a thorough grounding in the analytical methods used to make sense of survey data. This includes frequency distributions, cross-tabulations, hypothesis testing, ANOVA and ANCOVA, correlation analysis, and regression modeling. These are not abstract statistical exercises \u2014 every technique is taught in the context of real marketing decisions, so students always understand not just how to run an analysis but what the results mean for a business.\nThe course also dedicates meaningful attention to data visualization and storytelling \u2014 how to take complex analytical findings and present them in a way that is clear, compelling, and persuasive to clients and senior management. This is a critical professional skill that many analytically strong students overlook, and the course treats it as an essential part of the research process rather than an afterthought.\nThe capstone of the course is a two-part group research project in which students design and conduct an actual marketing research study. Teams define a research problem, develop a survey instrument, collect at least fifty real responses, analyze the data using the statistical methods covered in the course, and produce a full written research report complete with executive summary, findings, and recommendations. This end-to-end project mirrors exactly what marketing research professionals do in practice and gives students a polished, real-world deliverable for their portfolio.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Marketing Research Design & Methodology",
+      "Survey Design & Questionnaire Development",
+      "Primary & Secondary Data Collection",
+      "Measurement & Scaling Techniques",
+      "Sampling Methods & Sample Size Determination",
+      "Descriptive Statistics & Frequency Analysis",
+      "Cross-Tabulation & Hypothesis Testing",
+      "ANOVA & ANCOVA Analysis",
+      "Correlation & Regression Analysis",
+      "Data Visualization & Dashboard Storytelling",
+      "Research Report Writing & Executive Communication",
+      "Consumer Behavior Analysis",
+      "Market Size Estimation & Forecasting",
+      "Qualitative Research Methods",
+      "Causal & Descriptive Research Design",
+      "Critical Thinking & Analytical Reasoning",
+      "Team Collaboration & Peer Evaluation",
+      "Written & Oral Presentation Skills"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6336",
+    "title": "Pricing Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is built around one of the most consequential decisions any business makes \u2014 how to price its products and services. As one Harvard Business School professor famously put it, pricing is the moment of truth where all of marketing strategy comes into focus. Get it right and a company can dramatically improve profitability without changing a single thing about its product. Get it wrong and even the best product in the market can fail. This course gives students the analytical framework and strategic thinking to get it right.\nThe course is organized around what it calls the three C's of pricing \u2014 Costs, Competition, and Customers \u2014 and uses this structure to systematically work through every dimension of a sound pricing decision. From the customer side, students learn how to estimate the economic value a product delivers to buyers, how price sensitivity works and what drives it, how psychological factors and perceptions of fairness shape buying behavior, and how to identify and exploit meaningful differences across customer segments. From the competitive side, students examine how to price strategically in markets with rivals, including how to avoid destructive price wars, when cooperative pricing makes sense, how price leadership works, and how differentiation affects pricing power. From the company side, students learn how to think about relevant costs, credible commitment, and long-term profitability rather than short-term revenue maximization.\nThe course then builds on this foundation to cover a wide range of pricing strategies and structures that are relevant in today's business environment. These include value-in-use analysis, price discrimination across customer segments, bundling strategies, product-line pricing, dynamic pricing over the product lifecycle, channel pricing, and the use of AI and machine learning in modern pricing systems. Psychological pricing and the ethics and sustainability of pricing decisions are also addressed, ensuring students develop not just technical competence but sound judgment about when and how pricing strategies should be applied.\nA distinctive feature of the course is its use of real business case studies drawn from diverse industries and contexts \u2014 from Toblerone's airport duty-free pricing strategy and Tata Nano's failed low-cost car launch in India, to Altius Golf's fighter brand dilemma, JCPenney's disastrous \"Fair and Square\" pricing experiment, Uber's regulatory battles in Hong Kong, and a complex water rights pricing scenario in the American West. Each case forces students to apply the frameworks they have learned to a messy, real-world situation and defend a clear recommendation \u2014 exactly the kind of work expected of pricing analysts, strategy consultants, and marketing managers in practice.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Strategic Pricing Framework & Decision Making",
+      "Economic Value Analysis & Value Communication",
+      "Customer Segmentation for Pricing",
+      "Price Sensitivity & Demand Analysis",
+      "Psychological Pricing & Behavioral Economics",
+      "Price Discrimination & Bundling Strategies",
+      "Product-Line & Channel Pricing",
+      "Dynamic Pricing & Lifecycle Pricing",
+      "Competitive Pricing Strategy & Price War Analysis",
+      "Incremental Break-Even & Profitability Analysis",
+      "AI & Machine Learning Applications in Pricing",
+      "Pricing Ethics & Sustainability Considerations",
+      "Case Analysis & Strategic Recommendation",
+      "Excel-Based Pricing Modeling & Quantitative Analysis",
+      "Critical Thinking & Analytical Reasoning",
+      "Written Business Communication",
+      "Oral Presentation & Defense of Recommendations",
+      "Team Collaboration & Peer Evaluation"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6343",
+    "title": "Social Media Marketing and Insights",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed to provide students with a theoretical foundation and working knowledge of social media strategies and tools used by marketing departments and agencies. Students are exposed to best practices in social media marketing for brand awareness improvement, lead generation, customer relationship management, viral campaign, influencer marketing, and Generative AI-assisted content creation. The course also provides a strategic foundation for social media analytics in both B-C and B-B environments, including AI-powered social listening and media analysis, platform selection, attribution and ROI measurement of social media interventions using various metrics. The course includes a hands-on component.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Social Media Strategy & Planning",
+      "Brand Awareness & Positioning",
+      "Lead Generation via Social Media",
+      "Customer Relationship Management (CRM)",
+      "Viral Campaign Design & Execution",
+      "Influencer Marketing Strategy",
+      "Generative AI-Assisted Content Creation",
+      "Social Media Analytics & Performance Measurement",
+      "AI-Powered Social Listening & Sentiment Analysis",
+      "Platform Selection & Channel Strategy",
+      "Attribution Modeling & ROI Measurement",
+      "B2C & B2B Social Media Marketing",
+      "Content Strategy & Creation",
+      "Audience Targeting & Segmentation",
+      "Campaign Performance Metrics & KPIs",
+      "Data-Driven Marketing Decision Making",
+      "Media Analysis & Competitive Monitoring",
+      "Critical Thinking & Strategic Planning"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6349",
+    "title": "MarTech Ecosystem",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed for students who want to understand how modern marketing actually gets executed at scale \u2014 through technology. In today's business environment, marketing is no longer just about creativity and strategy. It is powered by a complex and interconnected set of tools, platforms, and data systems collectively known as the Marketing Technology stack, or MarTech. This course gives students a comprehensive, end-to-end understanding of how that ecosystem works and how to build, manage, and optimize it to deliver measurable business results.\nThe course begins by establishing what a customer-centric data ecosystem looks like and why it matters. Students learn how customer data is collected, integrated, and activated across multiple marketing touchpoints \u2014 from email and social media to websites, e-commerce platforms, and beyond. A central focus is on Customer Data Platforms, which serve as the backbone of modern personalized marketing, and how they connect with CRM systems, marketing automation tools, content management systems, and analytics platforms to create a seamless, unified view of the customer.\nPersonalization is a major theme throughout the course. Students explore how advanced marketing technologies enable brands to deliver the right message to the right person at the right time \u2014 at scale. This includes dynamic content creation, automated customer journey mapping, and predictive segmentation, all of which are increasingly powered by artificial intelligence. Generative AI is given particular attention as a transformative force in the MarTech landscape, enabling marketers to automate content generation, personalize interactions in real time, and make smarter decisions about where and how to deploy marketing spend.\nThe course also addresses the strategic and operational challenges of building an effective MarTech stack. Students learn how to evaluate and select external marketing technology vendors and partners, how to integrate third-party solutions into an existing ecosystem, and how to ensure that the technology choices an organization makes are aligned with its broader marketing and business goals. SEO, SEM, social media tools, testing and optimization platforms, and e-commerce integrations are all covered, giving students exposure to the full breadth of tools that marketing teams use in practice.\nPerformance measurement is woven throughout the course. Students learn how to define and track the right KPIs for different marketing objectives \u2014 from brand awareness and customer engagement to upsell, retention, and return on marketing investment. The course closes with a look at marketing privacy regulations and the future trends shaping the MarTech landscape, ensuring students are prepared not just for today's environment but for where the field is heading.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "MarTech Stack Design & Optimization",
+      "Customer Data Platform (CDP) Management",
+      "Marketing Automation & CRM Integration",
+      "Personalization Strategy at Scale",
+      "Generative AI for Content Creation & Marketing",
+      "Predictive Analytics & Customer Journey Mapping",
+      "Multi-Channel Marketing Strategy & Orchestration",
+      "SEO & SEM Tools & Strategy",
+      "Social Media Marketing Tools",
+      "Content Management Systems (CMS)",
+      "E-commerce & MarTech Integration",
+      "Data Integration & Customer Data Management",
+      "Marketing Performance Measurement & KPI Tracking",
+      "ROI & Attribution Modeling",
+      "AI-Enhanced Marketing Decision Making",
+      "Testing & Optimization Techniques",
+      "Vendor Evaluation & Partner Management",
+      "Marketing Privacy & Compliance Awareness",
+      "Critical Thinking & Strategic Planning",
+      "Team Collaboration & Group Project Management"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6352",
+    "title": "Marketing Web Analytics and Insights",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed for students who want to understand how web analytics drives modern digital marketing decision-making. In today's business environment, marketing performance is no longer guesswork,  it is measured, tracked, and optimized through data. This course gives students a comprehensive understanding of how to collect, analyze, and act on web data to deliver measurable marketing results.\n\nThe course begins by establishing the foundational concepts of web analytics, including key metrics, KPIs, and digital marketing principles. Students learn how data is captured and reported across platforms, with a central focus on Adobe Analytics, covering everything from basic reporting to advanced techniques like segment building, conversion funnels, tag management, and data visualization.\n\nActionable insight is a major theme throughout the course. Students explore how raw analytics data can be transformed into clear, evidence-based business recommendations. This includes hands-on experience with real transactional datasets, report building, and dashboard creation tailored to stakeholder needs.\n\nThe course also integrates Generative AI as a transformative force in marketing analytics. Students learn how AI tools can automate report generation, optimize multichannel content, build predictive customer segmentation models, and personalize user experiences at scale.\n\nThe second half of the course shifts focus to Google Analytics, covering it in depth across multiple weeks through lectures, a group project, and hands-on application. The course closes with students sitting for the official Google Analytics Certification, ensuring they leave with not just practical knowledge but a recognized industry credential.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Web Analytics Fundamentals & Strategy",
+      "Adobe Analytics Configuration & Reporting",
+      "Metrics & KPI Definition",
+      "Digital Marketing Performance Evaluation",
+      "Visitor Behavior Analysis & Reporting",
+      "Data Visualization & Dashboard Creation",
+      "Segment Builder & Customer Segmentation",
+      "Conversion Funnel Setup & Optimization",
+      "Tag Management & Debugging",
+      "Report Builder & Workspace Analysis",
+      "Excel-Based Analytics",
+      "Google Analytics Implementation & Reporting",
+      "A/B Testing & Optimization",
+      "Generative AI for Marketing Analytics",
+      "Automated Report Generation",
+      "Predictive Analytics & Customer Segmentation",
+      "Multichannel Content Optimization",
+      "Data-Driven Business Recommendations",
+      "Marketing Performance Measurement",
+      "Team Collaboration & Group Project Management"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6353",
+    "title": "Customer Analytics and Insights",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course equips students with the analytical techniques and critical thinking skills needed to harness marketing data for real business impact. At its core, the course focuses on understanding customer behavior through data, teaching students how to analyze, interpret, and activate marketing datasets to identify high-value prospects, acquire new customers, and retain the most profitable ones over time.\n\nA central emphasis is placed on retail and omnichannel data, reflecting the reality that today's customers interact with brands across multiple touchpoints, in-store, online, mobile, and beyond. Students learn how to work with data across these channels to build a complete picture of the customer and make smarter marketing decisions.\n\nKey analytical techniques covered include Life-Time Value modeling, which helps marketers understand the long-term revenue potential of individual customers; RFM analysis (Recency, Frequency, and Monetary value), a powerful segmentation framework for prioritizing marketing efforts; response analysis, which measures how customers react to marketing campaigns; and attribution modeling, which identifies which touchpoints and channels deserve credit for driving conversions.\n\nBeyond the technical methods, the course places strong emphasis on developing critical thinking and problem-solving skills. Students are challenged not just to run analyses, but to interpret what the data means, draw meaningful conclusions, and translate those findings into clear, actionable recommendations for management. The ability to tell a compelling story with data, and present it persuasively to decision-makers \u2014 is treated as just as important as the analysis itself.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Customer Data Analysis & Interpretation",
+      "Life-Time Value (LTV) Modeling",
+      "RFM Analysis & Customer Segmentation",
+      "Response Analysis & Campaign Measurement",
+      "Attribution Modeling & Channel Credit Analysis",
+      "Retail & Omnichannel Data Management",
+      "Customer Prospecting & Acquisition Strategy",
+      "Customer Retention & Profitability Analysis",
+      "Data-Driven Decision Making",
+      "Marketing Performance Measurement & KPI Tracking",
+      "Multichannel Customer Journey Analysis",
+      "Predictive Analytics & Behavioral Modeling",
+      "Data Visualization & Insight Presentation",
+      "Actionable Insight Development & Storytelling",
+      "Critical Thinking & Problem Solving",
+      "Strategic Marketing Recommendations",
+      "Management Communication & Presentation Skills",
+      "Team Collaboration & Group Project Management"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6384",
+    "title": "Advanced Marketing Web Analytics and Insights",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed for students who want to push beyond the fundamentals of web analytics and develop true mastery of advanced techniques across the full spectrum of modern digital data sources. In today's connected world, marketing data no longer comes from a single channel \u2014 it flows from websites, mobile apps, marketing platforms, and an ever-expanding network of IoT devices. This course teaches students how to harness all of that data and turn it into strategic, high-impact decisions.\nThe course begins by deepening students' understanding of web analytics across multiple platform types \u2014 desktop, mobile, and app environments \u2014 giving them the skills to work with complex, multi-source datasets that reflect how real consumers interact with brands today. From there, students learn how to connect web analytics data to basic AI models, using those insights to optimize eCommerce platform performance and sharpen digital marketing strategy in meaningful, measurable ways.\nA major focus of the course is data visualization and real-time reporting. Students learn how to integrate web analytics data with Tableau, one of the industry's leading visualization tools, to build dynamic, real-time dashboards that track conversion funnels, marketing channel performance, and customer segments. These dashboards are designed not just for analysis, but for communication \u2014 giving stakeholders a clear, live view of marketing performance.\nThe course also provides a thorough grounding in A/B testing, covering the full lifecycle from test design and measurement planning to data collection, analysis, and insight generation. Students leave with the ability to design and execute rigorous experiments that drive continuous improvement across digital marketing initiatives.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Advanced Web Analytics & Strategy",
+      "Multi-Platform Data Analysis (Web",
+      "Mobile",
+      "App)",
+      "IoT Data Integration & Marketing Applications",
+      "AI Model Integration for eCommerce Optimization",
+      "Digital Marketing Strategy & Optimization",
+      "Tableau Dashboard Design & Development",
+      "Real-Time Data Visualization & Reporting",
+      "Conversion Funnel Analysis & Optimization",
+      "Marketing Channel Performance Tracking",
+      "Customer Segmentation & Behavioral Analysis",
+      "A/B Test Design & Measurement Planning",
+      "Data Collection & Experimental Analysis",
+      "Insight Generation & Actionable Recommendations",
+      "eCommerce Performance Optimization",
+      "Marketing Performance Measurement & KPI Tracking",
+      "Data-Driven Decision Making",
+      "Critical Thinking & Problem Solving",
+      "Team Collaboration & Group Project Management"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "MKT 6347",
+    "title": "Marketing Analytics Project",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6312",
+    "title": "Applied Econometrics and Time Series Analysis",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "A survey of techniques used in analyzing cross-sectional, time series and panel data with special emphasis on time series methods",
+    "prerequisites": [
+      [
+        "SYSM 6303",
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "MECO 6312",
+      "BUAN 6312"
+    ],
+    "skills_taught": [
+      "Econometrics",
+      "causal inference",
+      "simple and multiple regression",
+      "hypothesis testing",
+      "confidence intervals",
+      "model specification",
+      "heteroskedasticity",
+      "endogeneity",
+      "instrumental variables",
+      "2SLS",
+      "panel data",
+      "fixed effects",
+      "difference-in-differences",
+      "time series analysis",
+      "forecasting",
+      "cross-sectional data analysis",
+      "empirical research",
+      "Stata",
+      "R",
+      "statistical modeling",
+      "data interpretation",
+      "research presentation"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6324",
+    "title": "Business Analytics With SAS",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "This course covers theories and applications of business analytics. The focus is on extracting business intelligence from firms' business data for various applications, including (but not limited to) customer segmentation, customer relationship management (CRM), personalization, online recommendation systems, web mining, and product assortment. The emphasis is placed on the 'know-how' -- knowing how to extract and apply business analytics to improve business decision-making. Students will also acquire hands-on experience with business analytics software in the form of SAS Enterprise Miner",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "BUAN 6324",
+      "OPRE 6399",
+      "BUAN 6356",
+      "BUAN 6383"
+    ],
+    "skills_taught": [
+      "Business Analytics",
+      "SAS Enterprise Miner",
+      "Data Preprocessing",
+      "PCA",
+      "Dimensionality Reduction",
+      "Association Rule Mining",
+      "Clustering",
+      "Classification",
+      "Decision Trees",
+      "Logistic Regression",
+      "Maximum Likelihood Estimation",
+      "Naive Bayes",
+      "Bayesian Networks",
+      "Ensemble Methods",
+      "Model Evaluation",
+      "Customer Analytics",
+      "Count Models",
+      "Count Regression",
+      "Predictive Analytics",
+      "Excel"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6356",
+    "title": "Business Analytics With R",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "This course covers theories and applications of business analytics. The focus is on extracting business intelligence from firms' business data for various applications, including (but not limited to) customer segmentation, customer relationship management (CRM), personalization, online recommendation systems, web mining, and product assortment. The emphasis is placed on the 'know-how' -- knowing how to extract and apply business analytics to improve business decision-making. Students will also acquire hands-on experience with business analytics software in the form of R.",
+    "prerequisites": [
+      [
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "BUAN 6324",
+      "BUAN 6356"
+    ],
+    "skills_taught": [
+      "R",
+      "RStudio",
+      "data exploration",
+      "data visualization",
+      "descriptive analytics",
+      "predictive analytics",
+      "business analytics",
+      "business intelligence",
+      "data mining",
+      "association rules",
+      "clustering",
+      "k-means",
+      "hierarchical clustering",
+      "classification",
+      "decision trees",
+      "logistic regression",
+      "neural networks",
+      "linear regression",
+      "model evaluation",
+      "PCA",
+      "dimensionality reduction",
+      "recommendation systems",
+      "collaborative filtering",
+      "A/B testing",
+      "customer analytics",
+      "CRM analytics",
+      "lift analysis",
+      "text mining",
+      "time series",
+      "forecasting",
+      "simulation",
+      "risk analysis",
+      "generative AI",
+      "agents"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6337",
+    "title": "Predictive Analytics for Data Science",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "This course is designed to provide students with in-depth knowledge of the data-driven analytical techniques used in data-driven decision-making, especially in marketing. Students analyze data from real-world datasets to make managerial decisions. These Data-Science methods are commonly employed in online marketing, retail, and financial services. Students will acquire knowledge about the methods and software that are used to understand issues such as who the profitable segments/customers are, how to acquire them, and how to retain them. The tools can also be used to manage data-driven decisions from consumer purchase behavior to firms' policy settings such as pricing and branding.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Predictive Analytics",
+      "Marketing Analytics",
+      "Data Cleaning",
+      "Exploratory Data Analysis",
+      "Hypothesis Testing",
+      "ANOVA",
+      "Chi-square Tests",
+      "Linear Regression",
+      "Logistic Regression",
+      "Multinomial Logit",
+      "Ordered Logit",
+      "Probit Regression",
+      "Discrete Choice Models",
+      "Panel Data Analysis",
+      "Fixed Effects",
+      "Random Effects",
+      "Model Evaluation",
+      "Factor Analysis",
+      "Cluster Analysis",
+      "Customer Segmentation",
+      "A/B Testing",
+      "Conjoint Analysis",
+      "Customer Lifetime Value",
+      "Churn Analysis",
+      "Lift Analysis",
+      "TOBIT Models",
+      "Selection Models",
+      "Limited Dependent Variable Models",
+      "SUR",
+      "2SLS",
+      "3SLS",
+      "Time Series Analysis",
+      "Forecasting",
+      "Survival Analysis",
+      "Hazard Models",
+      "SAS",
+      "R",
+      "RStudio",
+      "Python",
+      "Tableau"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6398",
+    "title": "Prescriptive Analytics",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "Introduction to decision analysis and optimization techniques. Topics include linear programming, decision analysis, integer programming, and other optimization models. Applications of these models to business problems will be emphasized.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Prescriptive Analytics",
+      "Optimization Modeling",
+      "Linear Programming",
+      "Integer Programming",
+      "Binary Constraints",
+      "Goal Programming",
+      "Multi-Objective Optimization",
+      "Spreadsheet Modeling",
+      "Excel",
+      "Excel Solver",
+      "Analytic Solver Platform",
+      "Sensitivity Analysis",
+      "Network Optimization",
+      "Shortest Path",
+      "Minimum Spanning Tree",
+      "Maximum Flow",
+      "Time Series Forecasting",
+      "Moving Averages",
+      "Exponential Smoothing",
+      "Queuing Theory",
+      "Decision Analysis",
+      "Decision Trees",
+      "Project Management Analytics"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6359",
+    "title": "Advanced Statistics for Data Science",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "This course uses statistical methods to analyze data from observational studies and experimental designs to communicate results to a business audience. The course mandates prior knowledge of fundamental statistical concepts such as measures of central location, standard deviations, histograms, the normal and t-distributions (knowledge of calculus is not required). The course also emphasizes interpretation and inference, as well as computation using a statistical software package such as R or Python",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6301",
+      "OPRE 6359",
+      "BUAN 6359"
+    ],
+    "skills_taught": [
+      "Descriptive Statistics",
+      "Probability",
+      "Discrete Distributions",
+      "Continuous Distributions",
+      "Sampling",
+      "Confidence Intervals",
+      "Hypothesis Testing",
+      "t-tests",
+      "One-way ANOVA",
+      "Two-factor ANOVA",
+      "Multiple Comparison of Means",
+      "Data Screening",
+      "Log Transformation",
+      "Linear Regression",
+      "Multiple Regression",
+      "Regression Diagnostics",
+      "R-squared",
+      "Logistic Regression",
+      "Chi-square Tests",
+      "Variable Selection",
+      "Observational vs Experimental Study Analysis",
+      "Statistical Inference",
+      "R",
+      "Excel"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6301",
+    "title": "Financial Accounting",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course focuses on the development, analysis and use of the information contained in financial statements. It discusses what the financial statements contain, what assumptions and concepts accountants use to prepare them, and why they use those assumptions and concepts. May not be used to fulfill degree requirements in MS Accounting program.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Financial Accounting",
+      "Financial Reporting",
+      "Financial Statement Analysis",
+      "Balance Sheet Analysis",
+      "Income Statement Analysis",
+      "Cash Flow Statement Analysis",
+      "Ratio Analysis",
+      "Profitability Analysis",
+      "Liquidity Analysis",
+      "Company Benchmarking",
+      "Accounting Data Interpretation",
+      "Business Decision Support",
+      "Microsoft Excel."
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6330",
+    "title": "Intermediate Financial Accounting I",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "A study of external financial reporting, including revenue recognition and the measurement and reporting of cash, receivables, inventories, property, plant, and equipment, and intangibles. Financial statement presentation issues are analyzed to gain an appreciation for the impact of generally accepted accounting principles on business decisions.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "ACCT 6330",
+      "ACCT 6301"
+    ],
+    "skills_taught": [
+      "Financial Accounting",
+      "Intermediate Accounting",
+      "GAAP",
+      "Financial Reporting",
+      "Transaction Analysis",
+      "Accounting Cycle",
+      "Revenue Recognition",
+      "Cash and Receivables Accounting",
+      "Inventory Accounting",
+      "LIFO",
+      "Asset Valuation",
+      "Long-Term Asset Accounting",
+      "Asset Acquisition and Disposal",
+      "Asset Utilization",
+      "Impairment Accounting",
+      "Business Combination Accounting",
+      "R&D Accounting",
+      "Financial Statement Preparation",
+      "Accounting Standards Application",
+      "WileyPlus"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6336",
+    "title": "Information Technology Audit and Risk Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Management's role in designing and controlling information technology used to process data is studied. Topics include the role of internal and external auditors in systems development, information security, business continuity, information technology, internet, change management, and operations. Focus is placed on the assurance of controls over information technology risks and covers topics directly related to the Certified Information Systems Auditor (CISA) exam.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "IT Audit",
+      "IT Risk Management",
+      "IT Controls",
+      "Application Controls",
+      "General IT Controls",
+      "IT Governance",
+      "COBIT",
+      "Information Security",
+      "Privacy Risk Auditing",
+      "Encryption",
+      "Identity and Access Management",
+      "Business Continuity",
+      "Contingency Planning",
+      "Change Management",
+      "Patch Management",
+      "Systems Development Controls",
+      "Network Auditing",
+      "Database Auditing",
+      "Operating System Auditing",
+      "ERP Auditing",
+      "Financial Systems Auditing",
+      "Transaction Processing Auditing",
+      "User-Developed Application Auditing",
+      "CAATs",
+      "Continuous Auditing",
+      "Data Analysis Technologies",
+      "E-business Risk",
+      "Cloud Computing Risk",
+      "Virtualization Risk",
+      "Fraud Detection",
+      "Business Ethics",
+      "GTAG",
+      "CISA"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6343",
+    "title": "Accounting Information Systems",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Managing the design, control, and operation of accounting information systems with a focus on design thinking and digital transformation. Emphasis will be on identifying the information needs of decision makers and developing appropriate process control with an overall focus on business transformation. Modern concepts, including cloud-based enterprise systems and robotic process automation, will be applied to streamline integration of accounting and business processes.",
+    "prerequisites": [
+      [
+        "ACCT 6305",
+        "ACCT 6320",
+        "ACCT 6301"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Accounting Information Systems",
+      "AIS",
+      "Business Process Analysis",
+      "Transaction Cycles",
+      "Sales and Cash Receipts Cycle",
+      "Purchases and Cash Disbursements Cycle",
+      "Payroll Processing",
+      "Month-End Close",
+      "Year-End Close",
+      "Financial Reporting Systems",
+      "SEC Filings",
+      "Internal Controls",
+      "COSO",
+      "COSO ERM",
+      "COBIT",
+      "IT Infrastructure Controls",
+      "Data Integrity",
+      "Backup Protocols",
+      "System Testing",
+      "Information Security",
+      "Database Systems",
+      "Flowcharting",
+      "Systems Documentation",
+      "Cloud-Based Enterprise Systems",
+      "Robotic Process Automation",
+      "SOC Reports",
+      "Systems Understanding Aid",
+      "Consolidation Systems",
+      "Accounting Cycle Analysis"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6344",
+    "title": "Financial Statement Analysis",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Analysis of financial statements for evaluating firm performance and risk. Topics include interpretation of financial statements and footnotes, managers' incentives for earnings manipulation, comparative analysis of firms, and ethics in financial reporting.",
+    "prerequisites": [
+      [
+        "ACCT 6330",
+        "ACCT 6305",
+        "ACCT 6301"
+      ]
+    ],
+    "only_one_of_these": [
+      "ACCT 6344",
+      "ACCT 6332"
+    ],
+    "skills_taught": [
+      "Financial Statement Analysis",
+      "Business Analysis",
+      "Valuation",
+      "Intrinsic Value Estimation",
+      "Profitability Analysis",
+      "Credit Risk Analysis",
+      "Revenue Recognition Analysis",
+      "Asset Recognition Analysis",
+      "Liability Recognition Analysis",
+      "Equity Analysis",
+      "Earnings Quality Analysis",
+      "Forecasting Financial Statements",
+      "Cost of Capital",
+      "Cash Flow Valuation",
+      "Operating Income Valuation",
+      "Multiples Valuation",
+      "Ratio Analysis",
+      "ROE",
+      "ROA",
+      "Liquidity Analysis",
+      "Solvency Analysis",
+      "Efficiency Analysis",
+      "Industry Benchmarking",
+      "SWOT Analysis",
+      "SEC Filings Analysis",
+      "Financial Risk Assessment",
+      "Business Risk Assessment"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6332",
+    "title": "Intermediate Financial Accounting II",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is a continuation of topics in external financial reporting, including: issues related to the measurement and reporting of current liabilities and contingencies, bonds, leases, deferred taxes, pensions, stock-based compensation plans, shareholders equity, earnings per share, accounting changes, and cash flows. Current generally accepted accounting principles for financial reporting are analyzed.",
+    "prerequisites": [
+      [
+        "ACCT 6330"
+      ]
+    ],
+    "only_one_of_these": [
+      "ACCT 6344",
+      "ACCT 6332"
+    ],
+    "skills_taught": [
+      "Intermediate Accounting",
+      "Financial Reporting",
+      "US GAAP",
+      "Current Liabilities",
+      "Contingencies",
+      "Long-Term Liabilities",
+      "Stockholders\u2019 Equity",
+      "Investment Accounting",
+      "Dilutive Securities",
+      "Earnings Per Share",
+      "Lease Accounting",
+      "Financial Statement Disclosure",
+      "Income Tax Accounting",
+      "Accounting Changes",
+      "Error Corrections",
+      "Statement of Cash Flows",
+      "Journal Entries",
+      "Time Value of Money",
+      "WileyPlus"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6374",
+    "title": "Advanced Data Analytics and AI for Accountants and Auditors",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course provides an understanding of data analytics and artificial intelligence and how its theories and procedures can benefit accounting and auditing professionals. The central theme for the course will be the use and application of analytic techniques and artificial intelligence for decision making and the examination of \"big data\" involving accounting information. It will also cover the application of data analytics and artificial intelligence concepts and techniques to accounting, auditing, forensic, and risk management scenarios.",
+    "prerequisites": [
+      [
+        "ACCT 6202",
+        "ACCT 6301"
+      ],
+      [
+        "ACCT 6330",
+        "ACCT 6331"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Data Analytics",
+      "Accounting Analytics",
+      "Audit Analytics",
+      "Artificial Intelligence",
+      "Big Data",
+      "Data Governance",
+      "Data Extraction",
+      "Data Provisioning",
+      "Data Cleansing",
+      "Data Integrity",
+      "Relational Databases",
+      "Financial Statement Analytics",
+      "Financial Modeling",
+      "Ratio Analysis",
+      "XBRL",
+      "Managerial Analytics",
+      "Tax Analytics",
+      "KPIs",
+      "Balanced Scorecard",
+      "Data Visualization",
+      "Dashboards",
+      "Pivot Tables",
+      "Excel",
+      "VBA",
+      "Macros",
+      "Tableau",
+      "Power BI",
+      "R",
+      "Statistical Analysis",
+      "Fraud Analytics",
+      "Risk Management Analytics",
+      "Assurance Analytics"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6384",
+    "title": "Analytical Reviews Using Audit Software",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course introduces the theory and tools used to leverage automated auditing software such as ACL and IDEA. The course includes an analytical review of accounting and operational data for internal auditors and hands-on use of audit software and the development of an audit dashboard. The course also explores ways to leverage the enterprise technology and use available technology to monitor controls and detect fraud.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6334",
+    "title": "Auditing",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course introduces the basic concepts, philosophy, standards, procedures, and practices of auditing. Topics include generally accepted auditing standards, the role of the independent auditor, professional conduct and ethics, auditor's reporting responsibilities, risk assessment, internal control, evidential matter, and management fraud.",
+    "prerequisites": [
+      [
+        "ACCT 6330"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Auditing",
+      "Assurance Services",
+      "GAAS",
+      "Audit Planning",
+      "Audit Evidence",
+      "Audit Risk Model",
+      "Inherent Risk Assessment",
+      "Internal Control Evaluation",
+      "Fraud Risk Assessment",
+      "Management Fraud",
+      "Employee Fraud",
+      "Revenue Cycle Auditing",
+      "Cash Auditing",
+      "Acquisition and Expenditure Cycle Auditing",
+      "Audit Reporting",
+      "Opinion Letter Preparation",
+      "Audit Analytics",
+      "Professional Ethics",
+      "PCAOB Research",
+      "ASB Research",
+      "FASB Research",
+      "Audit Documentation",
+      "Team Collaboration",
+      "Presentation Skills",
+      "McGraw-Hill Connect"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "ACCT 6386",
+    "title": "Governance Risk Management and Compliance",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "GRC examines, from the perspective of corporate directors, senior officers, professional service providers, and consultants the relationship between Corporate Governance and selected components: risk management, compliance, regulations, and regulatory reporting. In addition, these will be linked to two other aspects of Corporate Governance: ethics and corporate culture. Experts in the field provide insights into how systems of corporate governance are designed, developed, and implemented. GRC benefits graduates interested in pursuing careers as auditors (external and internal), consultants, forensic accountants, risk management experts, compliance officers, and ethics officers.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Corporate Governance",
+      "Risk Management",
+      "Enterprise Risk Management",
+      "Compliance",
+      "Regulatory Reporting",
+      "Internal Control",
+      "Internal Control Frameworks",
+      "Business Ethics",
+      "Corporate Culture",
+      "Board Governance",
+      "Management Oversight",
+      "Internal Audit",
+      "External Audit",
+      "Stakeholder Analysis",
+      "Regulatory Environment Analysis",
+      "Governance Research",
+      "Governance Reporting",
+      "Technology Governance",
+      "AI Governance",
+      "Cyber-Organization Risk",
+      "Private Entity Governance",
+      "Nonprofit Governance",
+      "GRC Analysis",
+      "Presentation Skills",
+      "Research Writing"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6386",
+    "title": "SAP Cloud Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "In the evolving field of Artificial Intelligence, mastering cloud analytics is essential. Covers cloud computing, data management, big data analytics, machine learning, AI integration, security, and compliance. Hands-on experience offered with tools like SAP BTP, Google Cloud Analytics, and Jupyter Notebooks. Exposure to cloud platforms, managing large datasets, deploying machine learning models, integrating AI solutions, and ensuring data security. Ideal for data scientists, AI practitioners, and IT professionals, the course recommends basic knowledge of AI, machine learning, and cloud computing.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "cloud analytics",
+      "cloud computing",
+      "cloud data management",
+      "big data analytics",
+      "machine learning deployment",
+      "AI integration",
+      "cloud-based machine learning",
+      "cloud analytics platforms",
+      "large-scale data processing",
+      "cloud data storage",
+      "cloud data workflows",
+      "SAP BTP analytics tools",
+      "Google Cloud Analytics",
+      "Jupyter Notebook data analysis",
+      "AI-enabled data systems",
+      "cloud security for data",
+      "data governance in cloud environments",
+      "compliance in cloud computing",
+      "AI-powered analytics",
+      "enterprise cloud data solutions"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "BUAN 6368",
+    "title": "Applied Cybersecurity Analytics and Risk Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Students will explore IT Security and Analytics, perform hands-on exercises identifying security gaps with simulated data (application logs, network monitor logs, firewall logs, etc), and create predictions about potential security threats that could exploit the gaps. This course allows students to get an in-depth exposure to cybersecurity concepts and topics including security and risk management (legal, regulatory compliance), asset security (data classification, ownership, data security, and privacy), security engineering (security architecture, design, and security models), telecommunication and network security (perimeter protection, network attacks, IDS, IPS, firewalls), identity and access management (authentication, authorization, identity as a service), security assessment and testing, security operations (business continuity, disaster recovery, incident management, vulnerability and patch management), cryptography, and software development security. They will evaluate simulated data to identify security flaws and predict an organization's security position.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "IT security analytics",
+      "cybersecurity fundamentals",
+      "security risk management",
+      "regulatory and legal compliance in cybersecurity",
+      "asset security and data classification",
+      "data ownership and privacy protection",
+      "security architecture and design",
+      "security models and frameworks",
+      "network and telecommunications security",
+      "perimeter defense systems",
+      "network attack analysis",
+      "intrusion detection systems (IDS)",
+      "intrusion prevention systems (IPS)",
+      "firewall security monitoring",
+      "identity and access management (IAM)",
+      "authentication and authorization systems",
+      "identity as a service (IDaaS)",
+      "security assessment and testing",
+      "vulnerability management",
+      "patch management processes",
+      "security operations management",
+      "incident response and incident management",
+      "business continuity planning",
+      "disaster recovery planning",
+      "applied cryptography",
+      "secure software development",
+      "security log analysis",
+      "threat detection using analytics",
+      "predictive cybersecurity analytics",
+      "security gap analysis",
+      "organizational security posture evaluation"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6301",
+    "title": "Financial Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Covers fundamental corporate finance concepts and their application to managing company finances. Topics include financial planning, capital budgeting, investment evaluation, and financial performance analysis.",
+    "prerequisites": [
+      [
+        "ACCT 6330",
+        "ACCT 6305",
+        "HMGT 6311",
+        "ACCT 6301"
+      ],
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "FIN 6301",
+      "SYSM 6312"
+    ],
+    "skills_taught": [
+      "corporate finance",
+      "financial management",
+      "capital budgeting analysis",
+      "financial performance evaluation",
+      "investment decision making",
+      "financial planning"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6307",
+    "title": "Mathematical Methods for Finance",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Develops quantitative and mathematical techniques used to analyze financial markets and support financial decision-making. Students apply analytical models to evaluate financial instruments and market behavior.",
+    "prerequisites": [
+      [
+        "OPRE 6303"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "quantitative finance",
+      "financial modeling",
+      "mathematical finance methods",
+      "financial market analysis",
+      "quantitative decision making",
+      "statistical financial analysis"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6352",
+    "title": "Financial Modeling for Valuation",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Focuses on constructing financial models used for company valuation, mergers and acquisitions analysis, and leveraged buyout evaluation. Students learn to build valuation models using financial data and computational tools.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "FIN 6352",
+      "ENTP 6355"
+    ],
+    "skills_taught": [
+      "financial modeling",
+      "company valuation",
+      "merger and acquisition analysis",
+      "leveraged buyout modeling",
+      "investment evaluation",
+      "financial forecasting"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6353",
+    "title": "Financial Modeling for Investment Analysis",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Develops financial models used to analyze investments such as stocks, bonds, options, and portfolios. Students learn techniques for evaluating asset performance and supporting portfolio decision-making.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "investment modeling",
+      "portfolio analysis",
+      "asset valuation",
+      "financial forecasting",
+      "investment decision making",
+      "portfolio performance evaluation"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6360",
+    "title": "Derivatives Markets",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Examines derivative securities including futures, options, and swaps. Topics include pricing models, hedging strategies, portfolio insurance, and financial risk management applications in financial markets.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "derivatives markets",
+      "options pricing",
+      "futures contracts analysis",
+      "financial risk management",
+      "hedging strategies",
+      "derivative valuation"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6368",
+    "title": "Financial Data Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Explores financial data sources and analytical methods used in investment analysis and financial problem solving. Students learn to analyze financial datasets using modern data analytics techniques to support financial decisions.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "financial data analytics",
+      "financial data management",
+      "investment analytics",
+      "data-driven finance",
+      "financial problem solving",
+      "quantitative financial analysis"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6382",
+    "title": "Programming of Financial Applications and Analyses",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Introduces programming techniques used in financial applications with emphasis on Python. Students develop programs for financial modeling, financial data analysis, and automation of financial processes.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "python programming",
+      "financial programming",
+      "computational finance",
+      "financial data processing",
+      "automation of financial analysis",
+      "quantitative modeling"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "FIN 6392",
+    "title": "Financial Technology and Blockchain",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Examines emerging financial technologies and their applications in valuation, investing, and digital financial systems. The course explores fintech innovations including blockchain-enabled financial services.",
+    "prerequisites": [
+      [
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "financial technology",
+      "blockchain in finance",
+      "digital finance systems",
+      "fintech innovation analysis",
+      "technology-driven investing",
+      "financial technology strategy"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6302",
+    "title": "Operations Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Provides an overview of operations management and the processes required to deliver products and services effectively. Students examine models and analytical methods that support operational decision making in manufacturing and service environments and learn how firms compete globally through efficient operations strategies.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "OPRE 6302",
+      "SYSM 6334"
+    ],
+    "skills_taught": [
+      "operations management",
+      "process optimization",
+      "operations strategy",
+      "operational decision making",
+      "production systems analysis",
+      "service operations management"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6304",
+    "title": "Analytics for Innovation in Demand and Supply Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Examines operational and pricing challenges in demand and supply management including supply chain configuration, supplier contracts, inventory management, product allocation, and dynamic pricing. The course emphasizes analytical approaches and business cases to understand how these decisions interact across the firm and how data-driven strategies improve operational performance.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6304"
+    ],
+    "skills_taught": [
+      "supply chain analytics",
+      "demand management",
+      "inventory optimization",
+      "pricing analytics",
+      "supply chain coordination",
+      "data-driven operations decisions"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6332",
+    "title": "Spreadsheet Modeling and Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Focuses on building analytical models using spreadsheets for business decision making. Students learn effective spreadsheet design, optimization techniques, simulation modeling, sensitivity analysis, and decision analysis to evaluate trade-offs, constraints, and uncertainty across business functions such as finance, marketing, and operations.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6332",
+      "HMGT 6335"
+    ],
+    "skills_taught": [
+      "spreadsheet modeling",
+      "optimization modeling",
+      "simulation analysis",
+      "sensitivity analysis",
+      "decision modeling",
+      "quantitative business analysis"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6335",
+    "title": "Risk and Decision Analysis",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Provides an overview of analytical methods used in risk assessment, risk management, and decision analysis. The course explores probabilistic risk modeling, reliability analysis, six sigma methods, and advanced decision optimization techniques used in industry and finance to support complex business decisions.",
+    "prerequisites": [
+      [
+        "SYSM 6303",
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "OPRE 6335",
+      "SYSM 6304"
+    ],
+    "skills_taught": [
+      "risk analysis",
+      "decision analysis",
+      "probabilistic modeling",
+      "risk management strategies",
+      "reliability analysis",
+      "decision optimization"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6377",
+    "title": "Demand and Revenue Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Examines analytical approaches used to manage demand and revenue in industries with capacity constraints and perishable products such as airlines, hotels, and retail. Students learn forecasting methods that incorporate pricing and economic factors and explore revenue management strategies including overbooking, dynamic pricing, and demand forecasting.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6377"
+    ],
+    "skills_taught": [
+      "demand forecasting",
+      "revenue management",
+      "pricing analytics",
+      "demand modeling",
+      "revenue optimization",
+      "capacity management"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6378",
+    "title": "Supply Chain Strategy and AI-Enabled Processes",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Explores strategic supply chain design and global operations management with an emphasis on value creation in international markets. Students examine sourcing strategies, make-or-buy decisions, and operational restructuring while studying how AI-enabled information technologies improve coordination and visibility across global supply chains.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6378"
+    ],
+    "skills_taught": [
+      "supply chain strategy",
+      "global operations management",
+      "strategic sourcing",
+      "supply chain optimization",
+      "AI-enabled supply chains",
+      "operations strategy"
+    ],
+    "programs": [
+      "msba"
+    ],
+    "course_track": null,
+    "course_tracks": []
+  }
+]

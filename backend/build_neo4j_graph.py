@@ -1,25 +1,25 @@
-import json
 import os
 import sys
 
 sys.path.append(os.path.dirname(__file__))
 
 from services.neo4j_client import load_graph, close
-
-DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+from services.course_loader import load_all_courses
 
 def main():
-    print("Loading courses.json...\n")
+    print("Loading all courses...\n")
+    courses = load_all_courses()
+    graph_courses = [
+        c for c in courses
+        if (c.get("course_type") or "").strip().lower() not in ("noncredit", "external")
+    ]
 
-    with open(os.path.join(DATA_DIR, "courses.json")) as f:
-        courses = json.load(f)
-
-    print(f"Found {len(courses)} courses\n")
+    print(f"Found {len(courses)} total courses, loading {len(graph_courses)} into graph\n")
     print("Building Neo4j graph...\n")
 
-    load_graph(courses)
+    load_graph(graph_courses)
 
-    print("\n✅ Neo4j graph ready")
+    print("\n[done] Neo4j graph ready")
 
 if __name__ == "__main__":
     main()

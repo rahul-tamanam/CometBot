@@ -1,0 +1,3206 @@
+[
+  {
+    "course_id": "MIS 6382",
+    "title": "Object Oriented Programming in Python",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "Covers software development concepts and the development of object-oriented systems. Topics include problem-solving techniques, algorithm and code comprehension, implementation and debugging of computer programs of moderate complexity. Explores Artificial Intelligence-driven problem-solving methods and learn to implement algorithms that leverage AI and Generative AI. Practical exercises will involve solving small programming problems and writing high-quality programs in Python, incorporating AI models and generative algorithms to enhance functionality and innovation.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Python programming",
+      "object-oriented programming",
+      "algorithm development",
+      "problem solving techniques",
+      "debugging",
+      "program testing",
+      "variables and expressions",
+      "branching and conditionals",
+      "loops",
+      "functions",
+      "strings",
+      "lists",
+      "dictionaries",
+      "tuples",
+      "sets",
+      "regular expressions",
+      "file handling",
+      "exception handling",
+      "data visualization",
+      "AI-driven problem solving",
+      "generative AI",
+      "AI model integration",
+      "software development concepts",
+      "code comprehension"
+    ],
+    "course_track": null,
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6326",
+    "title": "Data Management",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "Introduces database theory and tools used to create databases and manage data. Topics include relational database concepts, entity-relationship data modeling, and Structured Query Language (SQL). Examines the fundamental concepts and techniques for structured data manipulation that can serve as a basis to a larger-scale AI-oriented analytics.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "BUAN 6320",
+      "MIS 6326"
+    ],
+    "skills_taught": [
+      "SQL",
+      "relational database design",
+      "entity-relationship modeling",
+      "data modeling",
+      "database normalization",
+      "query formulation",
+      "advanced SQL queries",
+      "views",
+      "transaction management",
+      "database administration",
+      "relational algebra",
+      "conceptual data modeling",
+      "physical database design"
+    ],
+    "course_track": null,
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6009",
+    "title": "Information Systems Internship",
+    "credits": 0,
+    "course_type": "Elective",
+    "description": "Zero-credit internship course for MSITM students who have secured an actual internship. Variable credits 0-3. Can only be used for the first internship.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "professional experience",
+      "workplace collaboration"
+    ],
+    "course_track": null,
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6V98",
+    "title": "Information Systems Internship",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Credit-bearing internship course for MSITM students. Used for second and subsequent internships, or as the primary internship fulfillment course. Maximum 3 credit hours total.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "information systems application",
+      "professional experience",
+      "workplace collaboration"
+    ],
+    "course_track": null,
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": []
+  },
+  {
+    "course_id": "MIS 6308",
+    "title": "System Analysis and Project Management",
+    "credits": 3,
+    "course_type": "Core",
+    "description": "Provides the student with an in-depth knowledge of object oriented systems analysis and design procedures. Software project management techniques will be introduced. At the end of the course, students will have the chance to analyze business solutions and design computer based information systems using object-oriented methodologies.",
+    "prerequisites": [
+      [
+        "MIS 6326",
+        "BUAN 6320",
+        "MIS 6320"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Object-oriented analysis",
+      "object-oriented design",
+      "systems analysis",
+      "systems design",
+      "Unified Modeling Language (UML)",
+      "use case modeling",
+      "use case diagrams",
+      "activity diagrams",
+      "class diagrams",
+      "sequence diagrams",
+      "state diagrams",
+      "domain modeling",
+      "process modeling",
+      "business process modeling notation (BPMN)",
+      "data flow diagrams",
+      "entity-relationship diagrams",
+      "database design",
+      "user interface design",
+      "systems architecture",
+      "software design",
+      "software testing",
+      "software implementation",
+      "requirements gathering",
+      "project management",
+      "project planning",
+      "project scheduling",
+      "IT architecture",
+      "TOGAF enterprise architecture",
+      "systems development lifecycle (SDLC)",
+      "agile and rapid application development methodologies",
+      "cost estimation",
+      "generative AI tools"
+    ],
+    "course_track": null,
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": []
+  },
+  {
+    "course_id": "OPRE 6301",
+    "title": "Statistics and Data Analysis",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Introduction to statistical and probabilistic methods and theory applicable to situations faced by managers. Topics include: data presentation and summarization, regression analysis, fundamental probability theory and random variables, introductory decision analysis, estimation, confidence intervals, hypothesis testing, and One Way ANOVA.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6301",
+      "OPRE 6359",
+      "BUAN 6359"
+    ],
+    "skills_taught": [
+      "Descriptive statistics",
+      "graphical data summarization",
+      "numerical data summarization",
+      "data collection and sampling",
+      "basic probability theory",
+      "conditional probability",
+      "random variables",
+      "discrete probability distributions (binomial",
+      "Poisson)",
+      "continuous probability distributions (normal",
+      "uniform)",
+      "sampling distributions",
+      "estimation and confidence intervals",
+      "hypothesis testing",
+      "t-tests",
+      "chi-square tests",
+      "F-tests",
+      "one-way ANOVA",
+      "inference about one population",
+      "inference about two populations",
+      "matched pairs analysis",
+      "simple linear regression",
+      "multiple linear regression",
+      "regression model evaluation",
+      "residual analysis",
+      "correlation analysis",
+      "model selection",
+      "data simulation",
+      "statistical data analysis in Microsoft Excel",
+      "Excel Data Analysis add-in",
+      "interpretation of empirical statistical results"
+    ],
+    "course_track": "Statistics",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Statistics",
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "OPRE 6359",
+    "title": "Advanced Statistics for Data Science",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course uses statistical methods to analyze data from observational studies and experimental designs to communicate results to a business audience. The course mandates prior knowledge of fundamental statistical concepts such as measures of central location, standard deviations, histograms, the normal and t-distributions (knowledge of calculus is not required). The course also emphasizes interpretation and inference, as well as computation using a statistical software package such as R or Python",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "OPRE 6301",
+      "OPRE 6359",
+      "BUAN 6359"
+    ],
+    "skills_taught": [
+      "Descriptive statistics",
+      "probability theory",
+      "probability distributions",
+      "sampling distributions",
+      "confidence intervals",
+      "hypothesis testing",
+      "t-tests",
+      "t-distribution inference",
+      "data screening",
+      "data transformation",
+      "log transformation",
+      "one-way ANOVA",
+      "two-way ANOVA",
+      "multiple comparison of means",
+      "simple linear regression",
+      "multiple linear regression",
+      "regression model checking",
+      "regression model refinement",
+      "variable selection strategies",
+      "logistic regression",
+      "chi-square tests",
+      "observational study analysis",
+      "experimental design analysis",
+      "scope of inference",
+      "statistical analysis in R",
+      "statistical analysis in Python",
+      "statistical analysis in Microsoft Excel",
+      "real-world dataset analysis"
+    ],
+    "course_track": "Statistics",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Statistics"
+    ]
+  },
+  {
+    "course_id": "ACCT 6305",
+    "title": "Accounting for Managers",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Fundamental concepts in accounting and financial reporting are presented from the perspective of business managers. May not be used to fulfill degree requirements in MS Accounting.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "ACCT 6301",
+      "ACCT 6202",
+      "ACCT 6305"
+    ],
+    "skills_taught": [
+      "Financial accounting",
+      "managerial accounting",
+      "accounting equation",
+      "accrual method accounting",
+      "accounting for revenue",
+      "accounting for receivables",
+      "accounting for inventory",
+      "inventory cost flow methods",
+      "accounting for long-term operational assets",
+      "accounting for liabilities",
+      "accounting for owners' equity",
+      "accounting for merchandising businesses",
+      "internal controls",
+      "accounting for cash",
+      "financial statement preparation",
+      "balance sheet analysis",
+      "income statement analysis",
+      "statement of cash flows analysis",
+      "financial statement analysis",
+      "financial ratio analysis",
+      "cost behavior analysis",
+      "cost-volume-profit analysis",
+      "cost accumulation and allocation",
+      "operating leverage",
+      "profitability analysis",
+      "responsibility accounting",
+      "performance evaluation",
+      "planning for capital investments",
+      "budgeting and profit planning",
+      "relevant information for special decisions",
+      "generally accepted accounting principles (GAAP)"
+    ],
+    "course_track": "Accounting",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Accounting"
+    ]
+  },
+  {
+    "course_id": "ACCT 6336",
+    "title": "Information Technology Audit and Risk Management",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Management's role in designing and controlling information technology used to process data is studied. Topics include the role of internal and external auditors in systems development, information security, business continuity, information technology, internet, change management, and operations. Focus is placed on the assurance of controls over information technology risks and covers topics directly related to the Certified Information Systems Auditor (CISA) exam.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "IT audit planning",
+      "IT risk management",
+      "information security governance",
+      "IT governance auditing",
+      "COBIT framework",
+      "auditing standards",
+      "systems development controls",
+      "change and patch management controls",
+      "IT project auditing",
+      "operating systems auditing",
+      "network auditing",
+      "database systems auditing",
+      "data center controls",
+      "IT outsourcing controls",
+      "application controls auditing",
+      "transaction processing systems auditing",
+      "financial reporting systems auditing",
+      "computer-assisted audit techniques",
+      "continuous auditing",
+      "data analysis technologies",
+      "enterprise resource planning (ERP) systems auditing",
+      "user-developed applications auditing",
+      "privacy risk auditing",
+      "encryption controls",
+      "identity and access management",
+      "business continuity management",
+      "fraud detection",
+      "fraud protection",
+      "cybersecurity risk assessment",
+      "e-business risk management",
+      "CISA exam preparation",
+      "desktop computer controls",
+      "cloud computing controls",
+      "virtualization controls",
+      "client-server security controls"
+    ],
+    "course_track": "Accounting",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Accounting"
+    ]
+  },
+  {
+    "course_id": "ACCT 6380",
+    "title": "Internal Audit",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "The course covers internal audit from a broad perspective that includes information technology, business processes, and accounting systems. Topics include internal auditing standards, risk assessment, governance, ethics, audit techniques, consulting and emerging internal audit issues. This is the first course leading to Internal Auditing Education Partnership (IAEP) Certificate and prepares students for the Certified Internal Auditor Exam. Students work on internal audits as part of class along with learning the latest internal audit techniques.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Internal auditing standards",
+      "IPPF (International Professional Practices Framework)",
+      "COSO model",
+      "Sarbanes-Oxley compliance",
+      "corporate governance",
+      "risk management",
+      "risk assessment",
+      "internal controls",
+      "business process analysis",
+      "fraud risk assessment",
+      "fraud detection",
+      "illegal acts identification",
+      "technology risk assessment",
+      "cybersecurity auditing",
+      "data analytics for audit",
+      "audit program development",
+      "audit engagement planning",
+      "audit fieldwork execution",
+      "audit evidence evaluation",
+      "audit report writing",
+      "audit report presentation",
+      "advisory services",
+      "emerging audit topics",
+      "managing the internal audit function",
+      "audit working paper systems",
+      "CIA exam preparation",
+      "operational auditing",
+      "financial auditing",
+      "systems auditing"
+    ],
+    "course_track": "Accounting",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Accounting"
+    ]
+  },
+  {
+    "course_id": "ACCT 6386",
+    "title": "Governance, Risk Management and Compliance (GRC)",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "GRC examines, from the perspective of corporate directors, senior officers, professional service providers, and consultants the relationship between Corporate Governance and selected components: risk management, compliance, regulations, and regulatory reporting. In addition, these will be linked to two other aspects of Corporate Governance: ethics and corporate culture. Experts in the field provide insights into how systems of corporate governance are designed, developed, and implemented. GRC benefits graduates interested in pursuing careers as auditors (external and internal), consultants, forensic accountants, risk management experts, compliance officers, and ethics officers.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Corporate governance",
+      "business ethics",
+      "board of directors roles and responsibilities",
+      "management roles and responsibilities",
+      "enterprise risk management (ERM)",
+      "regulatory environment analysis",
+      "compliance frameworks",
+      "internal control frameworks",
+      "internal audit",
+      "external audit",
+      "stakeholder management",
+      "technology governance",
+      "cybersecurity governance",
+      "artificial intelligence governance",
+      "private entity governance",
+      "not-for-profit governance",
+      "global governance perspectives",
+      "risk assessment",
+      "COSO framework",
+      "Sarbanes-Oxley compliance",
+      "regulatory reporting",
+      "forensic accounting concepts",
+      "compliance officer responsibilities",
+      "ethics officer responsibilities",
+      "GRC framework implementation",
+      "critical analysis of governance issues"
+    ],
+    "course_track": "Accounting",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Accounting"
+    ]
+  },
+  {
+    "course_id": "MKT 6301",
+    "title": "Marketing Management",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course provides an overview of marketing management methods, principles, and concepts, including product, pricing, promotion, and distribution decisions. Analytical techniques and tools such as segmentation, targeting, and positioning are introduced as key components of a more rigorous management science approach to marketing. The learning objective is to have students apply these methods, principles, and concepts to develop, evaluate, and implement effective strategic and tactical decisions in marketing.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Marketing management",
+      "market segmentation",
+      "targeting",
+      "positioning",
+      "consumer behavior analysis",
+      "marketing research",
+      "product management",
+      "new product development",
+      "product lifecycle management",
+      "brand management",
+      "pricing strategies",
+      "price elasticity analysis",
+      "break-even analysis",
+      "integrated marketing communications",
+      "advertising",
+      "sales promotion",
+      "public relations",
+      "social media marketing",
+      "digital marketing",
+      "distribution channel management",
+      "retailing",
+      "wholesaling",
+      "logistics",
+      "global marketing",
+      "marketing ethics and social responsibility",
+      "SWOT analysis",
+      "competitive analysis",
+      "marketing plan development",
+      "marketing environment analysis",
+      "macroenvironmental analysis",
+      "customer loyalty management",
+      "AI in marketing",
+      "value proposition development",
+      "market research methods",
+      "media planning",
+      "personal selling",
+      "direct marketing",
+      "healthcare marketing",
+      "go-to-market strategy",
+      "jobs-to-be-done framework",
+      "personal brand development"
+    ],
+    "course_track": "Marketing",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Marketing"
+    ]
+  },
+  {
+    "course_id": "MKT 6337",
+    "title": "Predictive Analytics for Data Science",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course is designed to provide students with in-depth knowledge of the data-driven analytical techniques used in data-driven decision-making, especially in marketing. Students analyze data from real-world datasets to make managerial decisions. These Data-Science methods are commonly employed in online marketing, retail, and financial services. Students will acquire knowledge about the methods and software that are used to understand issues such as who the profitable segments/customers are, how to acquire them, and how to retain them. The tools can also be used to manage data-driven decisions from consumer purchase behavior to firms' policy settings such as pricing and branding.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "BUAN 6359",
+        "OPRE 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Predictive analytics",
+      "descriptive analysis",
+      "hypothesis testing",
+      "linear regression",
+      "multiple regression",
+      "logistic regression",
+      "probit regression",
+      "multinomial logit regression",
+      "ordered logit regression",
+      "panel data analysis",
+      "random effects models",
+      "fixed effects models",
+      "A/B testing",
+      "causal inference",
+      "limited dependent variable models",
+      "Tobit models",
+      "selection models",
+      "conjoint analysis",
+      "factor analysis",
+      "cluster analysis",
+      "customer segmentation",
+      "customer targeting",
+      "customer lifetime value modeling",
+      "customer churn analysis",
+      "data visualization",
+      "data cleaning and preprocessing",
+      "model evaluation and selection",
+      "model checking and refinement",
+      "variable selection strategies",
+      "survival analysis",
+      "hazard models",
+      "simultaneous equation systems",
+      "seemingly unrelated regressions",
+      "forecasting models",
+      "Bass diffusion model",
+      "time series analysis",
+      "marketing mix modeling",
+      "consumer behavior analytics",
+      "data analysis in R",
+      "data analysis in SAS",
+      "data analysis in Python",
+      "large dataset management"
+    ],
+    "course_track": "Marketing",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Marketing"
+    ]
+  },
+  {
+    "course_id": "MKT 6321",
+    "title": "Interactive and Digital Marketing",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Introduction to the theory and practice of interactive and digital marketing through lectures and hands-on exercises. Topics covered include: online-market research, consumer behavior, conversion metrics, and segmentation considerations, eCommerce, search and display advertising, audiences, search engine marketing, email, mobile, video, social networks, usability, and the impact of new technologies such as Artificial Intelligence and the Internet of Things.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Digital marketing strategy",
+      "e-commerce marketing",
+      "online consumer behavior",
+      "search engine optimization (SEO)",
+      "pay-per-click advertising (PPC)",
+      "email marketing",
+      "mobile marketing",
+      "SMS marketing",
+      "push notifications",
+      "social media marketing",
+      "social media platforms management",
+      "online reputation management",
+      "web analytics",
+      "digital marketing metrics",
+      "conversion rate optimization",
+      "customer lifetime value analysis",
+      "return on promotion analysis",
+      "usability and user experience",
+      "IoT marketing",
+      "audience targeting",
+      "marketing automation",
+      "big data in marketing",
+      "digital marketing auditing",
+      "digital marketing plan development",
+      "generative AI in marketing",
+      "programmatic advertising",
+      "content marketing",
+      "e-business strategy",
+      "direct marketing concepts"
+    ],
+    "course_track": "Marketing",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Marketing"
+    ]
+  },
+  {
+    "course_id": "MKT 6382",
+    "title": "Professional Selling I",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Examines the theory and practical application of the principles and art of professional selling. The course places special emphasis on mapping the sales process for new companies and new products. The course includes case studies and learning by doing live case instruction. This course also includes advanced concepts in sales such as major account acquisition, government markets, global markets, request for information, request for proposal, product line sales, adaptive product and service solutions, team selling, long sales cycles, prospecting and networking strategies, implementation and analysis of prospecting strategies, and sales management strategies for the early stage of the product lifecycle.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "course_track": "Marketing",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Marketing"
+    ]
+  },
+  {
+    "course_id": "ENTP 6370",
+    "title": "Innovation and Entrepreneurship",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course provides an introduction to entrepreneurship, with an emphasis on identifying, evaluating and developing new venture opportunities. Topics include opportunity identification and evaluation, startup strategies, business valuation, business plan development, attracting stakeholders, financing the venture, managing the growing business and exit strategies. Case studies and guest lectures by entrepreneurs and venture capital partners provide a real-world perspective. The major deliverable of this course is an early stage feasibility analysis of a technical or nontechnical venture of the student's choosing. Additional prerequisites may be required depending on the specific course topic",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Entrepreneurship fundamentals",
+      "opportunity recognition",
+      "business idea generation",
+      "creativity techniques",
+      "feasibility analysis",
+      "business model development",
+      "business model canvas",
+      "value proposition development",
+      "competitive analysis",
+      "industry analysis",
+      "market analysis",
+      "lean startup methodology",
+      "minimum viable product (MVP) development",
+      "customer development",
+      "pivot strategy",
+      "intellectual property management",
+      "patent and copyright basics",
+      "technology transfer",
+      "licensing fundamentals",
+      "new venture legal issues",
+      "business entity formation",
+      "entrepreneurial leadership",
+      "board of directors management",
+      "team building",
+      "venture financing",
+      "sources of capital",
+      "angel and venture capital funding",
+      "venture capital term sheet evaluation",
+      "business valuation",
+      "exit strategies",
+      "investor pitch development",
+      "business plan development",
+      "market entry strategy",
+      "financial projections",
+      "break-even analysis",
+      "design thinking",
+      "resource acquisition",
+      "risk management",
+      "sales and marketing for startups",
+      "entrepreneurial culture building",
+      "social entrepreneurship",
+      "intrapreneurship"
+    ],
+    "course_track": "Innovation and Entrepreneurship",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Innovation and Entrepreneurship"
+    ]
+  },
+  {
+    "course_id": "ENTP 6375",
+    "title": "Technology and New Product Development",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course addresses the strategic and organizational issues confronted by firms in technology-intensive environments. The course reflects six broad themes: (1) managing firms in technology-intensive industries; (2) forecasting key industry and technology trends; (3) linking technology and business strategies; (4) using technology as a source of competitive advantage; (5) organizing firms to achieve these goals; and (6) implementing new technologies in organizations. Students analyze actual situations in organizations and summarize their findings and recommendations in an in-depth term paper. The course also introduces concepts related to agile engineering. Case studies and class participation are stressed.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Technology strategy",
+      "managing technology-intensive firms",
+      "industry trend forecasting",
+      "technology and business strategy alignment",
+      "competitive advantage through technology",
+      "disruptive innovation",
+      "types and patterns of innovation",
+      "standards battles and design dominance",
+      "market entry timing",
+      "new product development",
+      "product management",
+      "product roadmap development",
+      "minimum viable product (MVP) development",
+      "go-to-market strategy",
+      "platform-based product strategy",
+      "collaboration strategies and strategic alliances",
+      "intellectual property protection",
+      "organizing for innovation",
+      "managing innovation projects",
+      "new product development team management",
+      "technology deployment strategy",
+      "innovation ecosystem analysis",
+      "industry structure analysis",
+      "competitive dynamics analysis",
+      "AI strategy",
+      "digital transformation",
+      "innovation project selection",
+      "product launch strategy",
+      "product prototyping",
+      "no-code development tools",
+      "intrapreneurship",
+      "sources of innovation",
+      "big data in product development",
+      "agile product development"
+    ],
+    "course_track": "Innovation and Entrepreneurship",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Innovation and Entrepreneurship"
+    ]
+  },
+  {
+    "course_id": "ENTP 6388",
+    "title": "Managing Innovation within the Corporation",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Innovators and entrepreneurs within established corporations combine innovation, creativity and leadership to develop and launch new products, new product lines and new business units that grow revenues and profits from within. Seeks to equip the skills and perspectives required to initiate new ventures and create viable businesses despite organizational inertia and other sources of resistance to innovation. Includes elements of strategic analysis and positioning for competitive advantage in dynamic markets, and the structuring, utilization and mobilization of the internal resources of existing firms in the pursuit of growth and new market opportunities.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Corporate entrepreneurship",
+      "intrapreneurship",
+      "corporate innovation strategy",
+      "entrepreneurial organization design",
+      "innovation culture development",
+      "open innovation",
+      "corporate venturing",
+      "startup-corporate collaboration",
+      "corporate strategy and entrepreneurship alignment",
+      "human resource management for innovation",
+      "creative individual development",
+      "structuring organizations for entrepreneurship",
+      "entrepreneurial leadership",
+      "assessing entrepreneurial performance",
+      "controlling entrepreneurial activity",
+      "entrepreneurial ethics",
+      "innovation program design",
+      "innovation funnel management",
+      "innovation ecosystem strategy",
+      "internal venture development",
+      "corporate accelerator models",
+      "competitive advantage in dynamic markets",
+      "resource mobilization and utilization",
+      "sustaining entrepreneurial performance",
+      "corporate innovation assessment",
+      "innovation metrics",
+      "managing resistance to innovation",
+      "grassroots innovation programs"
+    ],
+    "course_track": "Innovation and Entrepreneurship",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Innovation and Entrepreneurship"
+    ]
+  },
+  {
+    "course_id": "OB 6301",
+    "title": "Organizational Behavior",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "The study of human behavior in organizations. Emphasizes theoretical concepts and practical methods for understanding, analyzing, and predicting individual, group, and organizational behavior. Topics include work motivation, group dynamics, decision making, conflict and negotiation, leadership, power, and organizational culture. Ethical and international considerations are also addressed.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Organizational behavior fundamentals",
+      "individual behavior analysis",
+      "personality assessment",
+      "perception and judgment",
+      "attitudes and emotions",
+      "workplace stress management",
+      "motivation theory",
+      "applied motivation strategies",
+      "job design",
+      "decision making",
+      "creativity and design thinking",
+      "team effectiveness",
+      "team leadership",
+      "cross-cultural team management",
+      "diversity and inclusion management",
+      "communication skills",
+      "active listening",
+      "storytelling and narrative communication",
+      "problem framing and sensemaking",
+      "power and influence",
+      "organizational politics",
+      "leadership theory and development",
+      "leadership styles",
+      "organizational culture analysis",
+      "organizational change management",
+      "conflict management",
+      "professional identity development",
+      "professional networking",
+      "group dynamics",
+      "evidence-based management",
+      "self-awareness development",
+      "coaching and feedback",
+      "multicultural communication",
+      "psychological safety",
+      "work engagement",
+      "organizational structure design",
+      "performance management",
+      "ethical leadership"
+    ],
+    "course_track": "Organizational Behavior",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Organizational Behavior"
+    ]
+  },
+  {
+    "course_id": "OB 6332",
+    "title": "Negotiation and Dispute Resolution",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course explores the theories, processes, and practical techniques of negotiation so that students can successfully negotiate and resolve disputes in a variety of situations including interpersonal, group, and international settings. Emphasis is placed on understanding influence and conflict resolution strategies; identifying interests, issues, and positions of the parties involved; analyzing co-negotiators, their negotiation styles, and the negotiation situations; and managing the dynamics associated with most negotiations. Practical skills are developed through the use of simulations and exercises",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Negotiation strategy",
+      "pre-negotiation preparation",
+      "distributive negotiation",
+      "integrative negotiation",
+      "value creation in negotiation",
+      "BATNA analysis",
+      "reservation point analysis",
+      "target setting in negotiation",
+      "negotiation tactics",
+      "influence strategies",
+      "conflict resolution",
+      "dispute resolution",
+      "mediation",
+      "relationship building in negotiation",
+      "trust building",
+      "managing emotions in negotiation",
+      "cross-cultural negotiation",
+      "virtual negotiation",
+      "power dynamics in negotiation",
+      "negotiation ethics",
+      "multi-party negotiation",
+      "coalition building",
+      "third-party intervention",
+      "negotiation self-assessment",
+      "peer feedback in negotiation",
+      "negotiation planning",
+      "personality and motivation analysis",
+      "identifying interests and positions",
+      "creative problem solving in negotiation",
+      "negotiation in complex situations",
+      "salary and job offer negotiation",
+      "negotiation communication skills"
+    ],
+    "course_track": "Organizational Behavior",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Organizational Behavior"
+    ]
+  },
+  {
+    "course_id": "OB 6334",
+    "title": "Foundations of Organizational Development",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Explores the foundations and role of organizational development. Topics include: emergence and development of the field and its role in twenty-first century organizations; major macro-level organizational concepts such as organizational strategy, structure, culture, innovation, and globalization; and the role of organizational development in change management, intervention strategies and group process",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Organizational development fundamentals",
+      "planned change management",
+      "open systems theory",
+      "OD practitioner skills",
+      "entry and contracting in OD",
+      "organizational diagnosis",
+      "team diagnosis",
+      "individual diagnosis",
+      "diagnostic techniques",
+      "human capital analytics",
+      "data feedback and storytelling",
+      "intervention design",
+      "intervention implementation",
+      "intervention evaluation",
+      "organizational design",
+      "reorganization and restructuring",
+      "large-scale organizational transformations",
+      "team interventions",
+      "individual interventions",
+      "employee involvement strategies",
+      "survey-guided development",
+      "work design",
+      "talent management",
+      "performance management",
+      "diversity and inclusion strategies",
+      "employee stress and wellness programs",
+      "continuous improvement",
+      "OD consulting process",
+      "OD in non-profit and healthcare settings",
+      "future of organizational development",
+      "executive coaching fundamentals",
+      "organizational culture analysis"
+    ],
+    "course_track": "Organizational Behavior",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Organizational Behavior"
+    ]
+  },
+  {
+    "course_id": "HMGT 6320",
+    "title": "The American Healthcare System",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Examines the structure, financing and operation of the US healthcare industry. It analyzes how priorities are established, how services are organized and delivered, factors that influence the cost, quality and availability of healthcare, and opposing positions on the future of healthcare reform.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "American healthcare system structure",
+      "healthcare system history and evolution",
+      "healthcare policy analysis",
+      "healthcare reform",
+      "managed care models",
+      "Medicare and Medicaid",
+      "hospital systems",
+      "physician perspectives",
+      "healthcare financing",
+      "healthcare costs analysis",
+      "accountable care organizations",
+      "pay-for-performance models",
+      "healthcare quality management",
+      "integrated healthcare systems",
+      "pharmaceutical industry",
+      "public health",
+      "population health",
+      "social determinants of health",
+      "healthcare IT",
+      "telehealth",
+      "healthcare cybersecurity",
+      "artificial intelligence in healthcare",
+      "healthcare workforce management",
+      "healthcare ethics",
+      "healthcare law and regulation",
+      "consumer-directed healthcare reform",
+      "health insurance systems",
+      "healthcare leadership",
+      "healthcare outcome measurement",
+      "data presentation for healthcare decision-making",
+      "AI evaluation and critical analysis in healthcare research"
+    ],
+    "course_track": "Healthcare",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Healthcare",
+      "Healthcare Systems Track"
+    ]
+  },
+  {
+    "course_id": "BPS 6310",
+    "title": "Strategic Management",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Strategic management consists of the analysis, decisions, and actions that organizations take to create sustainable competitive advantages. The course examines a variety of issues including environmental, competitor, and stakeholder analysis; strategy formulation; and strategy implementation and control. The central role of ethics and corporate governance as well as global issues will be addressed.",
+    "prerequisites": [
+      [
+        "OB 6301"
+      ],
+      [
+        "MKT 6301"
+      ],
+      [
+        "FIN 6301"
+      ],
+      [
+        "ACCT 6305"
+      ],
+      [
+        "ACCT 6301",
+        "ACCT 6202"
+      ]
+    ],
+    "only_one_of_these": [
+      "BPS 6310",
+      "ENTP 6310"
+    ],
+    "skills_taught": [
+      "Strategic management",
+      "competitive advantage analysis",
+      "external environment analysis",
+      "industry analysis",
+      "Porter's five forces",
+      "general environment analysis",
+      "competitor analysis",
+      "internal analysis",
+      "resource and capability analysis",
+      "value chain analysis",
+      "SWOT analysis",
+      "GAP analysis",
+      "strategy formulation",
+      "business-level strategy",
+      "corporate-level strategy",
+      "international strategy",
+      "global strategy",
+      "market entry strategy",
+      "strategic alliances and networks",
+      "managing competitive dynamics",
+      "diversification strategy",
+      "mergers and acquisitions",
+      "organizational design for strategy",
+      "strategic leadership",
+      "corporate governance",
+      "corporate social responsibility",
+      "stakeholder analysis",
+      "strategic control",
+      "strategy implementation",
+      "communication planning for strategy",
+      "financial analysis for strategy",
+      "pro forma financial planning",
+      "healthcare strategic planning",
+      "institution-based view of strategy",
+      "resource-based view",
+      "industry-based view",
+      "entrepreneurial strategy",
+      "platform strategy",
+      "strategic ethics",
+      "strategic case analysis"
+    ],
+    "course_track": "Strategy",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Strategy"
+    ]
+  },
+  {
+    "course_id": "BPS 6332",
+    "title": "Strategic Leadership",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Addresses the challenge of leading organizations in dynamic and challenging environments. Overall goal is to not only question one's assumptions about leadership, but also enhance skills and acquire new content knowledge. Topics include visionary and transformational leadership, post-heroic leadership, empowerment, leveraging and combining resources, designing organizations and ethics.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Strategic leadership",
+      "leadership versus management",
+      "visionary leadership",
+      "transformational leadership",
+      "values-based leadership",
+      "ethical leadership",
+      "post-heroic leadership",
+      "empowerment",
+      "stakeholder-focused leadership",
+      "leadership and career development",
+      "professional networking",
+      "conscious capitalism",
+      "corporate social responsibility",
+      "emotional intelligence",
+      "social intelligence",
+      "leadership capacity development",
+      "leadership brand development",
+      "self-awareness as a leader",
+      "leadership style development",
+      "situational leadership",
+      "adaptive leadership",
+      "collaborative leadership",
+      "resonant leadership",
+      "organizational culture leadership",
+      "leading organizational change",
+      "leading transformational change",
+      "strategic thinking",
+      "decision making under complexity",
+      "environmental scanning",
+      "PESTLE analysis",
+      "complex adaptive systems",
+      "strategic planning and implementation",
+      "organizational structure and strategy alignment",
+      "strategic communication",
+      "followership",
+      "leadership ethics",
+      "leadership in complex environments",
+      "AI and the future of work"
+    ],
+    "course_track": "Strategy",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Strategy"
+    ]
+  },
+  {
+    "course_id": "OPRE 6302",
+    "title": "Operations Management",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Operations Management integrates all of the activities and processes that are necessary to provide products and services. This course overviews methods and models that help managers make better operating decisions over time. How these methods will allow firms to operate both manufacturing and service facilities in order to compete in a global environment will also be discussed",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "BUAN 6359",
+        "OPRE 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Operations management fundamentals",
+      "process analysis",
+      "process flow analysis",
+      "capacity management",
+      "bottleneck analysis",
+      "batch processing",
+      "setup time analysis",
+      "labor cost analysis",
+      "operations and finance integration",
+      "queuing theory",
+      "waiting time analysis",
+      "quality management",
+      "statistical process control",
+      "six sigma",
+      "lean manufacturing",
+      "Toyota Production System (TPS)",
+      "just-in-time manufacturing",
+      "project management",
+      "critical path method",
+      "PERT method",
+      "project expediting",
+      "inventory management",
+      "economic order quantity (EOQ)",
+      "newsvendor model",
+      "order-up-to model",
+      "revenue management",
+      "supply chain management",
+      "bullwhip effect",
+      "linear programming",
+      "operations strategy",
+      "global sourcing and procurement",
+      "sales and operations planning",
+      "capacity planning",
+      "supply chain sustainability",
+      "process performance measurement",
+      "simulation modeling",
+      "operations analytics in Microsoft Excel",
+      "operations analytics in SAS"
+    ],
+    "course_track": "Operations Management",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Operations Management"
+    ]
+  },
+  {
+    "course_id": "OPRE 6304",
+    "title": "Operations Analytics",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Exploration of operational and pricing challenges such as supply chain configuration, supplier contracts, inventory management, product allocation, and pricing over time and how these topics are interconnected with each other at a fundamental level. Incorporation of operations management challenges through business cases and analytics exercises with an emphasis on data-driven decision making and coordination of decision areas across the firm.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Pricing analytics",
+      "data-driven price optimization",
+      "demand estimation",
+      "price differentiation",
+      "customer segmentation",
+      "consumer choice modeling",
+      "customized pricing",
+      "markdown management",
+      "promotion management",
+      "field experiments for pricing",
+      "behavioral economics and pricing",
+      "revenue optimization",
+      "supply analytics",
+      "inventory management",
+      "inventory management under demand uncertainty",
+      "multi-location distribution systems",
+      "supply chain network design",
+      "fulfillment and logistics analytics",
+      "artificial intelligence for operations",
+      "statistical modeling for operations",
+      "data analysis in R",
+      "data analysis and optimization in Microsoft Excel",
+      "operations analytics",
+      "demand and supply management decision making"
+    ],
+    "course_track": "Operations Management",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Operations Management"
+    ]
+  },
+  {
+    "course_id": "OPRE 6332",
+    "title": "Spreadsheet Modeling and Analytics",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course explains the concepts of effective spreadsheet design and model building utilizing the electronic spreadsheet as the principal device. The course helps students to take an analytic view and acquire knowledge about specific decision making techniques for business, such as optimization and simulation, building spreadsheet models to identify choices, formalize trade-offs, specify constraints, perform sensitivity analyses, and analyze the impact of uncertainty. The course also examines the applications in finance, economics, marketing, and operations.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Spreadsheet design and modeling",
+      "Microsoft Excel proficiency",
+      "data analysis in Excel",
+      "Excel functions (logical",
+      "reference",
+      "mathematical",
+      "string",
+      "date/time",
+      "finance",
+      "statistical)",
+      "data validation",
+      "data formatting",
+      "conditional formatting",
+      "range names",
+      "absolute and relative referencing",
+      "pivot tables and slicers",
+      "data visualization",
+      "decision making under uncertainty",
+      "simulation modeling",
+      "Monte Carlo simulation",
+      "sensitivity analysis",
+      "risk profiling",
+      "decision trees",
+      "value of information analysis",
+      "linear programming and optimization",
+      "discrete optimization",
+      "transportation and transshipment modeling",
+      "network optimization",
+      "matching problems",
+      "dynamic pricing models",
+      "inventory modeling",
+      "newsvendor problem",
+      "financial modeling in Excel",
+      "amortization modeling",
+      "forecasting",
+      "Visual Basic for Applications (VBA) programming",
+      "statistical analysis in Excel",
+      "data clustering",
+      "problem formulation for business decisions",
+      "management science applications"
+    ],
+    "course_track": "Operations Management",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Operations Management"
+    ]
+  },
+  {
+    "course_id": "MECO 6303",
+    "title": "Business Economics",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Foundations of the economic analysis of business problems, with special emphasis on the operation of markets and the macroeconomy.",
+    "prerequisites": [
+      [
+        "OPRE 6303"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Microeconomic analysis",
+      "supply and demand analysis",
+      "market equilibrium",
+      "price elasticity",
+      "consumer theory",
+      "producer theory",
+      "monopoly and competitive market analysis",
+      "market structure analysis",
+      "price controls analysis",
+      "tax and subsidy policy analysis",
+      "consumer and producer surplus",
+      "cost analysis",
+      "profit maximization",
+      "macroeconomic analysis",
+      "economic indicators",
+      "GDP analysis",
+      "employment and unemployment analysis",
+      "inflation analysis",
+      "monetary policy",
+      "banking and money creation",
+      "Federal Reserve policy interpretation",
+      "economic growth analysis",
+      "international trade analysis",
+      "exchange rates",
+      "financial markets",
+      "labor markets",
+      "economic regulation",
+      "antitrust policy",
+      "game theory",
+      "industry-level economic analysis",
+      "production function analysis",
+      "economies of scale",
+      "advanced pricing strategy",
+      "economic data indexing",
+      "macroeconomic simulation",
+      "economic forecasting",
+      "Herfindahl-Hirschman Index analysis"
+    ],
+    "course_track": "Economics",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Economics"
+    ]
+  },
+  {
+    "course_id": "FIN 6301",
+    "title": "Financial Management",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Develops the basic concepts of finance with particular attention to their application to the financial management of companies.",
+    "prerequisites": [
+      [
+        "ACCT 6301",
+        "ACCT 6305",
+        "ACCT 6330",
+        "HMGT 6311"
+      ],
+      [
+        "BUAN 6359",
+        "OPRE 6359",
+        "OPRE 6301"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Financial management fundamentals",
+      "time value of money",
+      "compounding and discounting",
+      "perpetuity and annuity analysis",
+      "capital budgeting",
+      "net present value (NPV) analysis",
+      "alternative investment decision rules",
+      "cash flow analysis",
+      "replacement theory",
+      "risk and return analysis",
+      "diversification",
+      "systematic and unsystematic risk",
+      "Capital Asset Pricing Model (CAPM)",
+      "efficient market theory",
+      "bond valuation",
+      "interest rate risk",
+      "stock valuation",
+      "dividend-growth models",
+      "cost of capital estimation",
+      "weighted average cost of capital (WACC)",
+      "capital structure theory",
+      "Modigliani-Miller theory",
+      "financial leverage",
+      "financial distress analysis",
+      "agency costs",
+      "adjusted present value (APV)",
+      "international finance",
+      "foreign exchange markets",
+      "purchasing power parity",
+      "international capital budgeting",
+      "financial statement analysis",
+      "financial ratio analysis",
+      "pro forma financial statement building",
+      "sensitivity analysis",
+      "break-even analysis",
+      "firm valuation",
+      "capital markets",
+      "payout policy"
+    ],
+    "course_track": "Finance",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Finance"
+    ]
+  },
+  {
+    "course_id": "REAL 6321",
+    "title": "Introduction to Real Estate",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Real estate is the single largest component of wealth in the global economy. The framework of this foundation course demonstrates how value is central to virtually all real estate decision-making. The course covers various aspects of real estate that are essential in making sound investment decisions as applied in a variety of real-world situations. Key concepts include legal foundations of real estate markets and their impact on real estate asset values, loan structures for various investment types, sources of debt, equity capital, decisions involved with acquisition, dispositions and the underwriting process.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Real estate market overview",
+      "real estate asset classification",
+      "legal determinants of real estate value",
+      "property ownership interests",
+      "conveying real property",
+      "government controls and real estate markets",
+      "market determinants of value",
+      "real estate market research",
+      "economic base analysis",
+      "real estate appraisal",
+      "sales comparison approach",
+      "cost approach to valuation",
+      "income approach to valuation",
+      "residential mortgage types and contracts",
+      "residential mortgage calculations",
+      "mortgage borrower decisions",
+      "sources of residential mortgage funding",
+      "real estate brokerage",
+      "listing contracts",
+      "contracts for sale and closing",
+      "time value of money in real estate",
+      "risk and value analysis",
+      "commercial mortgage types and decisions",
+      "sources of commercial debt and equity capital",
+      "commercial real estate investment analysis",
+      "investment ratios",
+      "NPV and IRR for real estate investment",
+      "property management",
+      "lease structures and property types",
+      "real estate development and value creation",
+      "Texas real estate licensing requirements"
+    ],
+    "course_track": "Real Estate",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Real Estate"
+    ]
+  },
+  {
+    "course_id": "IMS 6304",
+    "title": "International Business Management",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Focusing on the art and science of international management, the course, using analytical tools and data analysis, surveys the evolving global business environments and evaluates international business operations in various markets of the world. It examines various theories behind international trade and direct investment practices, and fosters evidence-based critical thinking skills. The course also utilizes various case studies to help students learn the necessary scientific, technological, and managerial techniques to manage the challenges and opportunities that businesses face in diverse global markets.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "International business management",
+      "globalization analysis",
+      "formal institutions analysis (politics",
+      "laws",
+      "economics)",
+      "informal institutions analysis (culture",
+      "ethics",
+      "norms)",
+      "resource and capability analysis in global context",
+      "international trade theory",
+      "comparative advantage",
+      "trade barriers and tariffs analysis",
+      "protectionism",
+      "trade agreements and regional economic integration",
+      "foreign direct investment",
+      "global market entry strategies",
+      "global competitive dynamics",
+      "strategic alliances and international acquisitions",
+      "multinational enterprise structure and strategy",
+      "international human resource management",
+      "expatriate management",
+      "foreign exchange markets",
+      "exchange rate determination",
+      "balance of payments analysis",
+      "international debt and investment flows",
+      "global monetary policy",
+      "economic development analysis",
+      "labor and environmental standards in trade",
+      "North-South trade disputes",
+      "transfer pricing",
+      "ethical responsibilities of multinational firms",
+      "investor-state dispute settlement",
+      "cross-cultural management",
+      "global business case analysis",
+      "geopolitical risk analysis"
+    ],
+    "course_track": "International Business",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "International Business"
+    ]
+  },
+  {
+    "course_id": "IMS 6310",
+    "title": "International Marketing Decision Making",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Uses scientific approaches and real-life cases and aims at preparing to assess how marketing management methods and principles including product, pricing, promotion, and place (4Ps) decisions apply to international marketing. Analytical techniques and tools such as segmentation, targeting, and positioning (STP) introduced as key components of a more rigorous scientific approach to international marketing. Objective is to apply these analytical methods and tools to develop, evaluate, and execute effective strategic and practical decisions in international marketing, including those affecting online and offline consumer behavior.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "International marketing management",
+      "segmentation",
+      "targeting",
+      "and positioning (STP)",
+      "international marketing mix (4Ps)",
+      "global product strategy",
+      "international pricing strategy",
+      "international promotion and advertising",
+      "global distribution strategy",
+      "international marketing context analysis",
+      "cultural analysis for marketing",
+      "institutional analysis for marketing",
+      "market segment analysis",
+      "reverse marketing",
+      "Blue Ocean Strategy",
+      "judo strategy",
+      "strategic group analysis",
+      "global brand management",
+      "community-based marketing",
+      "social issues in marketing",
+      "customer acquisition strategy",
+      "technology in marketing",
+      "new market segment development",
+      "global competitive analysis",
+      "international marketing case analysis",
+      "international marketing strategy formulation and recommendation"
+    ],
+    "course_track": "International Business",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "International Business"
+    ]
+  },
+  {
+    "course_id": "IMS 6360",
+    "title": "International Strategy Analysis and Techniques",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "Focusing on the art and science of strategic management, this course analyzes the various techniques leveraged by multinational firms in their global business operations. The course aims to incorporate analytical (quantitative/qualitative) research methodologies that can be applied to strategic management processes. This course provides knowledge on how to use data to support the choice of strategies that allow organizations to enter and compete in diverse international markets. Students will be familiarized with the in-depth methods of assessing opportunities, evaluating risks, and implementing various entry and post-entry strategies. This course demonstrates analytical research methods used to analyze and evaluate the processes of strategic alliances, mergers and acquisitions, and supply chain restructuring.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Global strategy formulation",
+      "globalization of markets and competition analysis",
+      "global positioning strategy",
+      "global value chain analysis",
+      "competitive advantage in global companies",
+      "country attractiveness assessment",
+      "market and resource opportunity analysis",
+      "industry opportunity analysis",
+      "competitive context analysis",
+      "country risk assessment",
+      "business system analysis",
+      "socioeconomic and political distance analysis",
+      "global market entry strategy",
+      "entry mode selection and timing",
+      "global strategic alliances",
+      "joint venture formulation and management",
+      "alliance negotiation and structuring",
+      "global mergers and acquisitions",
+      "M&A due diligence",
+      "M&A integration management",
+      "global operations management",
+      "global digital networks",
+      "outsourcing and offshoring strategy",
+      "international factory location decisions",
+      "global human resource management",
+      "expatriate management",
+      "cross-cultural training",
+      "global leadership capabilities",
+      "international assignment management"
+    ],
+    "course_track": "International Business",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "International Business"
+    ]
+  },
+  {
+    "course_id": "IMS 6365",
+    "title": "Cross-Cultural Management Analysis",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "This course focuses on the comparative analysis of cross-country cultural values. The course familiarizes students with science-based anthropological cultural tools that are used to measure the cultural value changes of individuals and societies. This course helps understand whether the cultural value changes across nations, organizations, and groups are diverging or converging. Students will be engaged in research projects, which require the application of theories and survey-based quantitative analysis. This course provides knowledge on how the cultural background of employees shapes the behavior of organizations, and how to conduct effective negotiation and build synergy in a multicultural business environment",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Cross-cultural management analysis",
+      "national cultural value systems analysis",
+      "Hofstede cultural dimensions framework",
+      "Adler cultural framework",
+      "Schwartz cultural values theory",
+      "Laurent cultural management theory",
+      "cross-cultural communication",
+      "cultural synergy creation",
+      "multicultural team building and management",
+      "global leadership",
+      "cross-cultural motivation strategies",
+      "multicultural decision making",
+      "cross-cultural negotiation",
+      "expatriate management",
+      "international assignment management",
+      "repatriation management",
+      "expatriate spouse support",
+      "global career development",
+      "human resource management across cultures",
+      "East European cultural analysis",
+      "organizational culture analysis",
+      "cultural convergence and divergence analysis",
+      "quantitative survey-based cultural research",
+      "corporate ethics in cross-cultural context",
+      "diversity and inclusion management",
+      "cross-cultural alliance management"
+    ],
+    "course_track": "International Business",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "International Business"
+    ]
+  },
+  {
+    "course_id": "IMS 6V92",
+    "title": "Regional Area Studies: Western Europe",
+    "credits": 3,
+    "course_type": "CoreElective",
+    "description": "History of economic development and overview of current participation of firms in Western Europe and their place in the world economy. May be repeated for credit as topics vary (6 semester credit hours maximum). Additional prerequisites may be required depending on the specific course topic. Instructor consent required",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "course_track": "International Business",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "International Business"
+    ]
+  },
+  {
+    "course_id": "MIS 6338",
+    "title": "Accounting Systems Integration and Configuration",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Using SAP or similar cloud-based enterprise system software, the focus is on system analysis and design methods for configuring business processes to ensure financial and managerial accounting transaction flow automation and control. Data visualization using SAP Cloud Analytics or similar software and other current topics impacting modern accounting systems also included",
+    "prerequisites": [
+      [
+        "ACCT 6202",
+        "ACCT 6305",
+        "ACCT 6331"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Accounting information systems design and configuration",
+      "SAP S/4HANA financial accounting (FI) configuration",
+      "SAP management accounting (CO) configuration",
+      "SAP materials management (MM) configuration",
+      "SAP sales and distribution (SD) configuration",
+      "SAP production planning (PP) configuration",
+      "chart of accounts configuration",
+      "general ledger configuration",
+      "journal entry automation in SAP",
+      "reconciliation accounts and subsidiary ledgers",
+      "automatic account assignment",
+      "SAP purchase-to-pay process configuration",
+      "SAP order-to-cash process configuration",
+      "SAP production planning and execution configuration",
+      "SAP master data management",
+      "SAP Analytics Cloud data visualization",
+      "enterprise system development lifecycle (ASAP methodology)",
+      "design thinking for accounting systems",
+      "configuration vs. customization in ERP",
+      "internal controls in ERP systems",
+      "robotic process automation (RPA) for accounting",
+      "accounting systems analysis and design",
+      "CPA exam accounting information systems content"
+    ],
+    "course_track": "Enterprise Systems Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Enterprise Systems Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6371",
+    "title": "SAP Cloud Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "In the evolving field of Artificial Intelligence, mastering cloud analytics is essential. Covers cloud computing, data management, big data analytics, machine learning, AI integration, security, and compliance. Hands-on experience offered with tools like SAP BTP, Google Cloud Analytics, and Jupyter Notebooks. Exposure to cloud platforms, managing large datasets, deploying machine learning models, integrating AI solutions, and ensuring data security. Ideal for data scientists, AI practitioners, and IT professionals, the course recommends basic knowledge of AI, machine learning, and cloud computing",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "SAP Analytics Cloud (SAC) fundamentals",
+      "enterprise analytics and business intelligence",
+      "SAP cloud infrastructure",
+      "OLTP vs. OLAP systems",
+      "data-driven decision making",
+      "relational database management",
+      "entity-relationship modeling",
+      "data warehouse design",
+      "data marts vs. data warehouses",
+      "SAP Datasphere and Business Data Fabric",
+      "SAP HANA in-memory computing",
+      "SAP HANA data modeling",
+      "dimensional data modeling",
+      "InfoCube multidimensional analytics",
+      "data warehouse operations (roll-up",
+      "roll-down",
+      "slice and dice",
+      "pivot)",
+      "semantic layer modeling",
+      "front-end visualization in SAP Analytics Cloud",
+      "dashboard design and development",
+      "report authoring in SAP tools",
+      "data visualization and storytelling",
+      "data mining",
+      "clustering and association analysis",
+      "time series analysis",
+      "predictive modeling",
+      "forecasting",
+      "data acquisition",
+      "BW modeling",
+      "DML and DDL in in-memory databases",
+      "descriptive and predictive analytics",
+      "census and real-world data analysis"
+    ],
+    "course_track": "Enterprise Systems Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Enterprise Systems Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6378",
+    "title": "Customer Relationship Management with Salesforce",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Studies the theory and practice of Customer Relationship Management (CRM) in the modern enterprise. Explores topics related to strategic customer management, customer analytics, data mining, campaign management, and partner channel management. Develops practical skills utilizing the Salesforce.com CRM application and CRM analytics and provides a deep understanding of strategic, operational, analytical, and collaborative CRM. SAP platform discussed to provide an understanding of Enterprise Systems and CRM.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Customer relationship management (CRM) fundamentals",
+      "Salesforce platform navigation",
+      "Salesforce data protection and security",
+      "Salesforce setup and configuration",
+      "Salesforce Flow Builder and automation",
+      "Salesforce reports and dashboards",
+      "Salesforce Lightning Experience customization",
+      "Salesforce platform events",
+      "Salesforce data management",
+      "Salesforce Experience Cloud",
+      "AI agents in CRM with Agentforce",
+      "Salesforce business administration",
+      "Salesforce security specialist skills",
+      "business consulting with CRM",
+      "Salesforce Trailhead platform proficiency",
+      "Salesforce Administrator certification preparation",
+      "CRM industry case analysis"
+    ],
+    "course_track": "Enterprise Systems Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Enterprise Systems Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6324",
+    "title": "Business Analytics with SAS",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course covers theories and applications of business analytics. The focus is on extracting business intelligence from firms' business data for various applications, including (but not limited to) customer segmentation, customer relationship management (CRM), personalization, online recommendation systems, web mining, and product assortment. The emphasis is placed on the 'know-how' -- knowing how to extract and apply business analytics to improve business decision-making. Students will also acquire hands-on experience with business analytics software in the form of SAS Enterprise Miner.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "BUAN 6324",
+      "BUAN 6356",
+      "MIS 6324",
+      "OPRE 6399"
+    ],
+    "skills_taught": [
+      "Business analytics fundamentals",
+      "data pre-processing",
+      "dimensionality reduction",
+      "principal component analysis (PCA)",
+      "association rule mining",
+      "clustering analysis",
+      "classification methods",
+      "decision trees",
+      "logistic regression",
+      "maximum likelihood estimation (MLE)",
+      "classifier evaluation",
+      "Na\u00efve Bayes",
+      "Bayesian networks",
+      "ensemble techniques",
+      "probability distributions",
+      "count models",
+      "count regressions",
+      "customer analytics",
+      "SEMMA process in SAS Enterprise Miner",
+      "SAS Enterprise Miner data mining",
+      "business analytics in Microsoft Excel",
+      "model selection and evaluation",
+      "unsupervised machine learning methods",
+      "supervised machine learning methods",
+      "real dataset analysis",
+      "data mining for business decision making"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6356",
+    "title": "Business Analytics with R",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course covers theories and applications of business analytics. The focus is on extracting business intelligence from firms' business data for various applications, including (but not limited to) customer segmentation, customer relationship management (CRM), personalization, online recommendation systems, web mining, and product assortment. The emphasis is placed on the 'know-how' -- knowing how to extract and apply business analytics to improve business decision-making. Students will also acquire hands-on experience with business analytics software in the form of R.",
+    "prerequisites": [
+      [
+        "BUAN 6359",
+        "OPRE 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "MIS 6324",
+      "MIS 6356"
+    ],
+    "skills_taught": [
+      "Business analytics fundamentals",
+      "R programming",
+      "RStudio environment",
+      "data exploration and visualization",
+      "descriptive analytics",
+      "association rule mining",
+      "clustering analysis (K-means and hierarchical)",
+      "dimensionality reduction",
+      "principal component analysis (PCA)",
+      "classification methods",
+      "decision trees",
+      "logistic regression",
+      "neural networks",
+      "linear regression",
+      "classifier evaluation",
+      "Na\u00efve Bayes",
+      "Bayesian networks",
+      "ensemble techniques",
+      "recommendation systems and collaborative filtering",
+      "text mining",
+      "hypothesis testing",
+      "p-values and confidence intervals",
+      "A/B testing",
+      "marketing and product analytics",
+      "sales analytics",
+      "customer analytics",
+      "prediction and lift analysis",
+      "customer segmentation",
+      "loyalty analysis",
+      "time series analysis and forecasting",
+      "simulation and risk analysis",
+      "generative AI and agents in analytics",
+      "data mining for business intelligence",
+      "online recommendation systems",
+      "web mining",
+      "real dataset analysis in R",
+      "business analytics project design and presentation"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6334",
+    "title": "Advanced Business Analytics with SAS",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The course covers SAS certificate topics like data manipulation, imputation, variable selection, and various SAS modules (STA, ETS, QC). It also includes advanced business intelligence topics such as business data analytics, model analytics, customer analytics, web intelligence, business performance, and decision-making analytics. SAS is the primary tool used.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ],
+      [
+        "BUAN 6324",
+        "MIS 6324",
+        "BUAN 6356",
+        "MIS 6356",
+        "OPRE 6305"
+      ]
+    ],
+    "only_one_of_these": [
+      "MIS 6334",
+      "OPRE 6334",
+      "BUAN 6357",
+      "MIS 6357"
+    ],
+    "skills_taught": [],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6357",
+    "title": "Advanced Business Analytics with R",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is based on the open-source R software. Topics include data manipulation, imputation, variable selection, as well as advanced analytic methods. Students will also learn various advanced business intelligence topics including business data analytics, modeling, customer analytics, web intelligence analytics, business performance analytics, and decision-making analytics. Tools to be used include R.",
+    "prerequisites": [
+      [
+        "BUAN 6356",
+        "MIS 6356",
+        "OPRE 6305"
+      ],
+      [
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "MIS 6334",
+      "OPRE 6334",
+      "BUAN 6357",
+      "MIS 6357"
+    ],
+    "skills_taught": [],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6341",
+    "title": "Applied Machine Learning",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course covers machine learning models for business data including text mining, natural language processing, non-linear regression models, resampling methods and advanced neural networks and artificial intelligence-based models for data-driven analytics. The course will be taught using either R or Python language.",
+    "prerequisites": [
+      [
+        "BUAN 6356",
+        "BUAN 6383",
+        "MIS 6386",
+        "BUAN 6324",
+        "MIS 6324",
+        "OPRE 6399"
+      ],
+      [
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Machine learning fundamentals",
+      "Python programming for machine learning",
+      "Jupyter Notebook",
+      "supervised learning",
+      "unsupervised learning",
+      "regression analysis",
+      "regularization (Ridge/Lasso)",
+      "model selection and cross-validation",
+      "logistic regression",
+      "random forest",
+      "classification models",
+      "K-nearest neighbors",
+      "clustering and segmentation",
+      "K-means clustering",
+      "hierarchical clustering",
+      "dimensionality reduction",
+      "time series forecasting (ARIMA",
+      "Prophet",
+      "ML-based)",
+      "neural networks",
+      "convolutional neural networks (CNN)",
+      "recurrent neural networks (RNN/LSTM)",
+      "natural language processing (NLP)",
+      "text preprocessing",
+      "TF-IDF",
+      "sentiment classification",
+      "large language models (LLM)",
+      "transformer models and GPT",
+      "deep learning",
+      "model evaluation and optimization",
+      "overfitting and underfitting management",
+      "data exploration and visualization",
+      "real-world business dataset analysis",
+      "data-driven decision making",
+      "machine learning project design and presentation"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6344",
+    "title": "Web Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The course examines the technologies, tools, and techniques to maximize return from web sites. The course includes topics related to web site design issues, web data collection tools and techniques, measurement and analysis of web traffic, visitor tracking, search engine optimization, visitor acquisition, conversion and retention, key performance indicators for web sites, and measurement of online marketing campaigns. The use of web analytics tools such as Google Analytics will be an integral part of the course.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Web analytics fundamentals",
+      "digital media landscape analysis",
+      "customer tracking and visitor tracking",
+      "search engine marketing (SEM)",
+      "Google Ads management",
+      "programmatic advertising",
+      "display advertising",
+      "search engine optimization (SEO)",
+      "LLM-based SEO",
+      "Google Analytics",
+      "web traffic measurement and analysis",
+      "key performance indicators (KPIs) for websites",
+      "visitor acquisition",
+      "conversion and retention optimization",
+      "A/B testing and causal inference",
+      "digital experimentation design",
+      "regression analysis applied to web data",
+      "digital media budget optimization",
+      "web data collection tools and techniques",
+      "benchmarking with data",
+      "qualitative data analysis for web",
+      "online marketing campaign measurement",
+      "digital consumer journey analysis",
+      "Google Ads certification (Search",
+      "Display",
+      "Video)",
+      "data-driven digital strategy",
+      "Excel for web data analysis"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6346",
+    "title": "Big Data",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course explores big data analytics and cloud computing, focusing on practical applications. Students will be exposed to the uses of cloud platforms and distributed computing frameworks like Hadoop, Hive, Spark, and Databricks for processing large datasets. Through hands-on projects, they gain experience in setting up big data environments, designing scalable data pipelines, implementing real-time analytics, and optimizing queries. The course covers distributed analytics programming, applying machine learning and deep learning to big data, and addresses data governance, security, and cost management in cloud solutions. Students will use leading big-data tools to develop end-to-end analytics processes.",
+    "prerequisites": [
+      [
+        "BUAN 6320",
+        "MIS 6320",
+        "MIS 6326"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Big data fundamentals",
+      "Hadoop ecosystem architecture",
+      "HDFS (Hadoop Distributed File System)",
+      "YARN resource management",
+      "MapReduce programming",
+      "Apache Sqoop data import/export",
+      "Apache Hive data querying and modeling",
+      "Apache Impala querying",
+      "Apache Pig data processing",
+      "Apache Flume streaming data collection",
+      "Apache Spark fundamentals",
+      "Spark architecture",
+      "Resilient Distributed Datasets (RDDs)",
+      "Pair RDDs",
+      "Spark SQL and DataFrames",
+      "Spark data processing and aggregations",
+      "Spark streaming",
+      "Spark machine learning (supervised and unsupervised)",
+      "parallel processing in Spark",
+      "Spark RDD persistence",
+      "end-to-end big data application development",
+      "structured and unstructured data ingestion",
+      "big data pipeline development",
+      "Linux command line for big data",
+      "AWS Elastic MapReduce (EMR)",
+      "JSON data handling in Hive",
+      "data partitioning in Hive",
+      "hyperparameter tuning in Spark ML"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6386",
+    "title": "Modeling for Business Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This is a fast-paced course that starts with an introduction covering popular approaches in business analytics (e.g., pre-processing, dimensionality reduction, association rules, clustering, basics of classification), proceeds into advanced methods (e.g., additional classification models, ensemble methods), and concludes with advanced models in customer analytics (e.g., discrete time models, continuous time models, count models, choice models). While the tool of choice will be Python, the focus of the course will be on modeling (i.e., this is not a course intended to teach you Python) - familiarity with Python is assumed.",
+    "prerequisites": [
+      [
+        "BUAN 6359",
+        "OPRE 6359"
+      ]
+    ],
+    "only_one_of_these": [
+      "MIS 6334",
+      "OPRE 6334",
+      "BUAN 6357",
+      "MIS 6357",
+      "BUAN 6383",
+      "MIS 6386"
+    ],
+    "skills_taught": [
+      "Data analytics fundamentals",
+      "data pre-processing",
+      "dimensionality reduction",
+      "principal component analysis (PCA)",
+      "association rule mining",
+      "clustering analysis",
+      "classification fundamentals",
+      "decision trees",
+      "Na\u00efve Bayes",
+      "Bayesian networks",
+      "classifier evaluation",
+      "maximum likelihood estimation (MLE)",
+      "logistic regression",
+      "ensemble methods",
+      "discrete time models for customer analytics",
+      "continuous time models",
+      "count models",
+      "choice models",
+      "zero-inflated models",
+      "finite mixture models",
+      "models for non-contractual customer settings",
+      "customer lifetime value modeling",
+      "Python programming for analytics",
+      "Jupyter Notebook",
+      "advanced customer analytics modeling",
+      "real dataset analysis and insight generation"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6373",
+    "title": "Social Media Business",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Social Media represents most global Internet traffic and mobile apps. Discusses the landscape of social media, processes, and tools and how to leverage these environments. Uses data and analytics to build business strategy and get closer to customers. Major social media platforms are examined with integrated entrepreneurial project and third-party tools",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6385",
+    "title": "Robotic Process Automation",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is intended to provide students with practical literacy on robotic process automation through real-world, relevant data preparation use cases. It will help identify potential uses and the benefits and considerations for robotic process automation. The students will learn the elements of a business process and the basics of developing a BPM application, implementing triggers to automate processes, defining and measuring KPIs. Students will use elements of artificial intelligence (AI) and machine learning capabilities to handle high-volume, repeatable tasks that previously required humans to perform. These tasks can include queries, calculations, and maintenance of records and transactions. Students will be able to use apply analytics to the generated data for a systematic computational analysis of data for the discovery, interpretation, and communication of meaningful patterns in data that will be used towards effective decision making.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Robotic process automation (RPA) fundamentals",
+      "hyperautomation lifecycle",
+      "digital transformation concepts",
+      "process mining",
+      "event log analysis",
+      "business process management (BPM)",
+      "process re-engineering and optimization",
+      "data preparation with Alteryx Designer",
+      "UiPath Studio automation",
+      "UiPath selectors and error handling",
+      "UiPath RE Framework",
+      "intelligent document processing (IDP) with UiPath AI Center",
+      "Microsoft Power Apps canvas app development",
+      "Power Fx formulas and logic",
+      "advanced UI/UX design in Power Apps",
+      "integrated automation solutions (Power Apps",
+      "UiPath",
+      "Alteryx)",
+      "AI agent development with large language models (LLMs)",
+      "generative AI for business automation",
+      "test automation with AccelQ",
+      "automation governance and Center of Excellence (CoE)",
+      "automation scaling and quality assurance",
+      "business process automation for decision making",
+      "key performance indicator (KPI) definition and measurement"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6392",
+    "title": "Causal Analytics and A/B Testing",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course teaches the critical distinction between correlation and causation in data, essential for managers to understand the impact of interventions. It covers designing and analyzing A/B tests to differentiate correlation from causation and using statistical techniques with observational data for reliable causal inferences. Through lectures, cases, and in-class exercises, students will work with simulated and real-world datasets, gaining practical tools for immediate application. Ideal for understanding the effectiveness of marketing strategies and promotions, this hands-on course equips students to implement successful interventions in various contexts.",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "OPRE 6359",
+        "BUAN 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Causal analytics fundamentals",
+      "correlation vs. causation distinction",
+      "randomized controlled trials (A/B testing)",
+      "A/B test design and implementation",
+      "A/B test analysis",
+      "hypothesis formulation and testing",
+      "p-values and confidence intervals",
+      "statistical power analysis",
+      "A/B testing for product design",
+      "A/B testing for website design",
+      "A/B testing for social networks",
+      "A/B testing to address interference problems",
+      "intention-to-treat analysis",
+      "non-compliance analysis",
+      "quasi-experimental methods",
+      "causal analysis with observational data",
+      "matching and propensity score methods",
+      "fixed effects models",
+      "difference-in-differences analysis",
+      "regression analysis for causal inference",
+      "experimental platform design",
+      "business simulation and tournament analysis",
+      "R programming for causal analysis",
+      "outcome metric selection",
+      "causal analytics for retail strategy",
+      "distinguishing predictive analytics from causal analytics"
+    ],
+    "course_track": "Business Intelligence and Analytics Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Business Intelligence and Analytics Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6339",
+    "title": "Analytical Reviews Using Audit Software",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course introduces the theory and tools used to leverage automated auditing software such as ACL and IDEA. The course includes an analytical review of accounting and operational data for internal auditors and hands-on use of audit software and the development of an audit dashboard. The course also explores ways to leverage the enterprise technology and use available technology to monitor controls and detect fraud",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "course_track": "Cyber Security Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Cyber Security Management Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6351",
+    "title": "Identity and Access Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Identity is the new perimeter and has taken on increasing importance and emphasis in securing organizational systems, data, and assets. Identity and access management ensures that only the right people can access an organization's resources. The greatest number of breaches have resulted from inadequate access control and elevated privileges. This course will cover topics on Identity Access Management, Privileged Access Management, Identity Governance and Administration, User and Application Onboarding, Single Sign-On (SSO), Multifactor Authentication (MFA), user and machine identities, and other identity and access management topics. An industry-leading tool such as Saviynt or Okta will be covered.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Identity and access management (IAM) fundamentals",
+      "IAM components and architecture",
+      "single sign-on (SSO)",
+      "multi-factor authentication (MFA)",
+      "privileged access management (PAM)",
+      "identity governance and administration (IGA)",
+      "Active Directory",
+      "non-human identity (NHI) management",
+      "IAM threat analysis",
+      "access management principles and implementation",
+      "CyberArk platform proficiency",
+      "IAM trends analysis",
+      "IAM security controls",
+      "role-based access management",
+      "identity lifecycle management"
+    ],
+    "course_track": "Cyber Security Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Cyber Security Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6368",
+    "title": "Applied Cybersecurity Analytics and Risk Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Students will explore IT Security and Analytics, perform hands-on exercises identifying security gaps with simulated data (application logs, network monitor logs, firewall logs, etc), and create predictions about potential security threats that could exploit the gaps. This course allows students to get an in-depth exposure to cybersecurity concepts and topics including security and risk management (legal, regulatory compliance), asset security (data classification, ownership, data security, and privacy), security engineering (security architecture, design, and security models), telecommunication and network security (perimeter protection, network attacks, IDS, IPS, firewalls), identity and access management (authentication, authorization, identity as a service), security assessment and testing, security operations (business continuity, disaster recovery, incident management, vulnerability and patch management), cryptography, and software development security. They will evaluate simulated data to identify security flaws and predict an organization's security position.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Cybersecurity fundamentals",
+      "IT security risk management",
+      "threat and vulnerability analysis",
+      "risk quantification (qualitative and quantitative)",
+      "risk matrices and heat maps",
+      "risk register development",
+      "NIST Risk Management Framework (RMF)",
+      "ISO 27005",
+      "FAIR framework",
+      "COSO ERM",
+      "asset mapping and classification",
+      "threat intelligence analysis",
+      "MITRE ATT&CK framework",
+      "CVE vulnerability databases",
+      "Bayesian reasoning for risk analysis",
+      "probability and loss distribution modeling",
+      "Monte Carlo simulation for risk quantification",
+      "security event log analysis (application",
+      "network",
+      "firewall logs)",
+      "SIEM data analysis",
+      "cyber risk analytics dashboard development",
+      "Splunk for security analytics",
+      "defense-in-depth strategy",
+      "control prioritization and cost-benefit analysis",
+      "risk appetite and tolerance definition",
+      "regulatory compliance (GDPR",
+      "HIPAA",
+      "SOX",
+      "PCI-DSS)",
+      "cyber risk governance and reporting",
+      "key risk indicators (KRIs) and KPIs",
+      "executive cyber risk communication",
+      "incident management",
+      "vulnerability and patch management",
+      "cryptography fundamentals",
+      "identity and access management",
+      "network security and intrusion detection",
+      "business continuity and disaster recovery",
+      "emerging risks (AI",
+      "IoT",
+      "quantum computing",
+      "supply chain)"
+    ],
+    "course_track": "Cyber Security Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Cyber Security Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6394",
+    "title": "Internal Audit",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The course covers internal audit from a broad perspective that includes information technology, business processes, and accounting systems. Topics include internal auditing standards, risk assessment, governance, ethics, audit techniques, consulting and emerging internal audit issues. This is the first course leading to Internal Auditing Education Partnership (IAEP) Certificate and prepares students for the Certified Internal Auditor Exam. Students work on internal audits as part of class along with learning the latest internal audit techniques.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Internal auditing standards",
+      "IPPF (International Professional Practices Framework)",
+      "COSO model",
+      "Sarbanes-Oxley compliance",
+      "corporate governance",
+      "risk management",
+      "risk assessment",
+      "internal controls",
+      "business process analysis",
+      "fraud risk and detection",
+      "data analytics for audit",
+      "audit program development",
+      "audit fieldwork execution",
+      "audit report writing and presentation",
+      "technology risks and cybersecurity auditing",
+      "advisory services in internal audit",
+      "managing the internal audit function",
+      "audit engagement planning and execution",
+      "audit evidence collection and evaluation",
+      "automated audit working paper systems",
+      "CIA exam preparation",
+      "business process documentation and evaluation",
+      "operational audit techniques",
+      "industry-specific risk evaluation",
+      "internal audit team collaboration",
+      "professional networking in internal audit"
+    ],
+    "course_track": "Cyber Security Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Cyber Security Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6393",
+    "title": "Foundations of Digital Product Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Digital products, from enterprise to consumer apps, offer decision support, productivity, convenience, and entertainment. They need rapid market entry, frequent updates, and the latest tech. Agile methods ensure products meet user needs through quick feedback cycles. Covers digital product development and management, including AI advancements. Includes strategy, marketing, product roadmaps, differentiation, investment, development methods, design thinking, innovation, AI, KPIs, and customer success. Create and pitch a digital product concept, enhancing communication, presentation, and teamwork skills essential for professional success.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Digital product management fundamentals",
+      "product manager roles and responsibilities",
+      "product vision and strategy development",
+      "product roadmap creation",
+      "market strategy and innovation",
+      "disruptive innovation",
+      "value creation and product differentiation",
+      "customer acquisition strategy",
+      "customer journey mapping",
+      "user-centric research and analysis",
+      "competitive landscape analysis",
+      "product/market fit evaluation",
+      "data-driven product decision making",
+      "agile product development methods",
+      "design thinking",
+      "product launch planning",
+      "go-to-market strategy",
+      "AI integration in digital products",
+      "generative AI for product management",
+      "sales and aftermarket strategy",
+      "business and investment KPIs",
+      "product architecture awareness",
+      "cybersecurity and infrastructure considerations",
+      "cloud computing awareness",
+      "product pitch deck creation",
+      "investor pitch presentation",
+      "project and portfolio management",
+      "key performance indicators for digital products",
+      "responsible AI practices",
+      "software development lifecycle for products",
+      "product scaling and engineering fundamentals",
+      "professional communication and presentation skills",
+      "teamwork and collaboration"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track",
+      "Healthcare Systems Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6313",
+    "title": "Managing IT in the Analytics Age",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course explores the role of information technology and systems in today's business environment. The course covers topics including strategic role of information, digital transformation, information for decision making, managing information resources, cloud computing, cybersecurity, business analytics for managerial decision making, and current information systems/technology issues.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "IT strategic management",
+      "competitive advantage through information technology",
+      "IT architecture fundamentals (client-server",
+      "cloud-based",
+      "IoT)",
+      "data modeling and entity-relationship diagrams",
+      "decision tables and trees",
+      "AI and machine learning fundamentals (decision trees",
+      "association rules",
+      "clustering",
+      "LLMs)",
+      "digital transformation strategy",
+      "digital business models and platforms",
+      "cloud computing strategy (SaaS",
+      "PaaS",
+      "IaaS)",
+      "cybersecurity and enterprise risk management",
+      "IT security analytics and cyber insurance",
+      "IT investment evaluation (NPV",
+      "IRR",
+      "options models)",
+      "business analytics and business intelligence",
+      "big data management",
+      "real-time analytics",
+      "fintech and digital financial platforms",
+      "blockchain and distributed ledger systems",
+      "Internet of Things (IoT)",
+      "virtual and augmented reality",
+      "agile organizations and lean startup methods",
+      "agentic AI and AI governance",
+      "data governance and stewardship",
+      "enterprise platforms and ERP/CRM strategy",
+      "IT outsourcing strategy",
+      "digital platform strategy and ecosystem management",
+      "innovation and disruptive innovation",
+      "Tableau data visualization",
+      "generative AI in business applications",
+      "ethics in digital technology",
+      "regulatory compliance and cybersecurity governance",
+      "IT project management and IT investment business case development",
+      "data-driven managerial decision making"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6349",
+    "title": "Digital Consulting Project",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Covers consulting methodology and application to a digital project provided by a local firm. Topics include service delivery frameworks like ITIL, agile methods, working effectively in small groups, project success metrics, and customer-facing communication skills.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Digital consulting methodology",
+      "consulting frameworks (McKinsey 7-S",
+      "JTBD",
+      "4S methods",
+      "BATOG)",
+      "project management fundamentals",
+      "PMBOK framework",
+      "agile and scrum methodologies",
+      "ITIL/ITSM service delivery frameworks",
+      "design thinking",
+      "requirements gathering and negotiation",
+      "business process analysis and re-engineering",
+      "system development lifecycle (SDLC)",
+      "digital transformation consulting",
+      "technology evaluation and selection",
+      "stakeholder engagement and management",
+      "client relationship management",
+      "project charter and project plan development",
+      "solution design and documentation",
+      "data and analytics application",
+      "cybersecurity awareness in digital projects",
+      "AI and generative AI tools in consulting",
+      "responsible AI usage",
+      "low-code and no-code platform evaluation",
+      "business case development and financial modeling",
+      "change management",
+      "consulting presentation and storytelling",
+      "client-facing communication skills",
+      "KPI definition for digital projects",
+      "team collaboration and group dynamics",
+      "consulting career development",
+      "project status reporting and meeting management",
+      "peer review and feedback",
+      "emerging technology assessment"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6354",
+    "title": "Practical User-centric Web Development",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "In this hands-on course, students apply user-centric principles to design and implement a web-based solution for real-world clients. The course integrates diverse disciplines, such as psychology, computer science, graphic design, and information systems, to address client requirements effectively. Emphasis is placed on web interface design and user experience (UX) methodologies, including persona development, affinity diagramming, storyboarding, prototyping, and usability testing. Students have the opportunity to leverage their existing knowledge of technologies like Python, JavaScript, PHP, HTML, client-side scripting, server-side programming, database connectivity, third-party API integration, web hosting, and administration. The choice and use of these technologies will be dictated by both the specific requirements of the clients and the student's competency levels",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6360",
+    "title": "Agile Project Management",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Provides an in depth examination of project management principles and agile software development practices. The five process groups and ten knowledge areas of the Project Management Body of Knowledge (PMBOK) are examined in the context of agile systems development life cycles.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Project management fundamentals",
+      "PMBOK framework (five process groups and ten knowledge areas)",
+      "waterfall project management methodology",
+      "agile project management principles",
+      "Scrum development process",
+      "user story creation",
+      "product backlog grooming",
+      "sprint and release planning",
+      "planning poker estimation",
+      "Scaled Agile Framework (SAFe)",
+      "business case development",
+      "project initiation and process management",
+      "project charter development",
+      "work breakdown structure",
+      "project scheduling",
+      "systems development methodologies",
+      "Microsoft Project software",
+      "JIRA software",
+      "agile simulation (SimAgile)",
+      "leadership theory fundamentals",
+      "software project management",
+      "project methodology selection and evaluation",
+      "digital project management",
+      "team collaboration and peer evaluation"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6375",
+    "title": "Technology and New Product Development",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course addresses the strategic and organizational issues confronted by firms in technology-intensive environments. The course reflects six broad themes: (1) managing firms in technology-intensive industries; (2) forecasting key industry and technology trends; (3) linking technology and business strategies; (4) using technology as a source of competitive advantage; (5) organizing firms to achieve these goals; and (6) implementing new technologies in organizations. Students analyze actual situations in organizations and summarize their findings and recommendations in an in-depth term paper. The course also introduces concepts related to agile engineering. Case studies and class participation are stressed.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Technology strategy development",
+      "managing technology-intensive firms",
+      "industry trend forecasting",
+      "disruptive innovation analysis",
+      "types and patterns of innovation",
+      "standards battles and design dominance",
+      "market entry timing strategy",
+      "new product development (NPD)",
+      "product management frameworks",
+      "product roadmap creation",
+      "go-to-market strategy",
+      "platform strategy and ecosystem management",
+      "collaboration strategies and strategic alliances",
+      "intellectual property protection",
+      "organizing for innovation",
+      "innovation ecosystem analysis",
+      "competitive dynamics analysis",
+      "AI strategy in product development",
+      "digital transformation strategy",
+      "minimum viable product (MVP) development",
+      "no-code product prototyping (Base44)",
+      "industry structure and competitive analysis",
+      "product launch strategy",
+      "market segmentation and value proposition design",
+      "open innovation",
+      "venture financing and investment decisions",
+      "technology adoption lifecycle analysis",
+      "innovation project selection",
+      "managing NPD teams and processes",
+      "product-market alignment",
+      "agile software development in NPD",
+      "case-based strategic analysis and presentation",
+      "consulting-style strategic recommendation development"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track",
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6377",
+    "title": "Corporate Innovation and Entrepreneurship",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Innovators and entrepreneurs within established corporations combine innovation, creativity and leadership to develop and launch new products, new product lines and new business units that grow revenues and profits from within. Seeks to equip the skills and perspectives required to initiate new ventures and create viable businesses despite organizational inertia and other sources of resistance to innovation. Includes elements of strategic analysis and positioning for competitive advantage in dynamic markets, and the structuring, utilization and mobilization of the internal resources of existing firms in the pursuit of growth and new market opportunities. (3-0) Y",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Corporate entrepreneurship fundamentals",
+      "intrapreneurship",
+      "corporate innovation strategy",
+      "entrepreneurial organization design",
+      "innovation culture development",
+      "open innovation",
+      "corporate venturing",
+      "startup-corporate collaboration",
+      "innovation program design",
+      "innovation funnel management",
+      "innovation ecosystem strategy",
+      "internal venture development",
+      "corporate accelerator models",
+      "competitive advantage in dynamic markets",
+      "resource mobilization",
+      "intrapreneurship ethics",
+      "corporate innovation performance assessment",
+      "innovation program scaling",
+      "entrepreneurial leadership",
+      "managing organizational resistance to innovation",
+      "innovation incentive design",
+      "human resource management for innovation",
+      "strategic analysis for corporate entrepreneurship",
+      "case-based strategic analysis and presentation"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6388",
+    "title": "The Corporate Entrepreneurial Experience",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course is designed to provide student teams with practical experience in the investigation, evaluation, and recommendation of technology and/or market entry strategies for a significant new business opportunity. Projects will be defined by the faculty and will generally focus on emerging market opportunities defined by new technologies of interest to a sponsoring corporate partner. Teams will be comprised of management and engineering graduate students, mentored by faculty and representatives of the partnering company. Evaluation will be based on papers, presentations, and other deliverables defined on a case-by-case basis.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Business plan development",
+      "market opportunity assessment",
+      "unmet need identification and solution fit analysis",
+      "industry analysis",
+      "market size estimation",
+      "competitive dynamics analysis",
+      "technology and product development planning",
+      "operational planning",
+      "market entry strategy development",
+      "business model development",
+      "marketing plan development",
+      "financial planning and projections",
+      "IoT ecosystem analysis",
+      "5G and cellular connectivity strategy",
+      "AI and generative AI business applications",
+      "value proposition development",
+      "competitive advantage identification",
+      "partnership and alliance strategy",
+      "industry vertical analysis (industrial",
+      "automotive",
+      "healthcare)",
+      "corporate innovation and entrepreneurship in established companies",
+      "executive-level business presentation and communication",
+      "real-world industry collaboration",
+      "lean startup methodology",
+      "business model canvas",
+      "strategic opportunity analysis",
+      "innovation ecosystem strategy"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6396",
+    "title": "User Experience Design",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Understanding how to design effective user experiences is essential for the success of a software system. This class covers topics associated with the design and analysis of user interfaces for software systems and explores human-computer interaction. Topics include physical, cognitive, social, and emotional aspects of computing, user interface models, and usability evaluation. The design of user interfaces and user experiences for mobile, desktop, voice, and augmented reality systems will be examined in depth.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "User experience (UX) design fundamentals",
+      "human-computer interaction",
+      "understanding users and user behavior",
+      "customer experience (CX) design and journey mapping",
+      "user research methods",
+      "contextual inquiry and observation",
+      "persona development",
+      "scenario and claims analysis",
+      "impact analysis",
+      "interaction design",
+      "information architecture",
+      "interface design",
+      "navigation design",
+      "visual design principles",
+      "sketching and storyboarding",
+      "wireframing",
+      "prototyping",
+      "design trends analysis",
+      "usability testing and evaluation",
+      "design problem solving",
+      "collaborative design",
+      "mobile and desktop interface design",
+      "voice and augmented reality interface design",
+      "research findings communication",
+      "design presentation skills",
+      "generative AI tools in UX design"
+    ],
+    "course_track": "Digital Product Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Digital Product Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6302",
+    "title": "Managing Digital Strategy",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course explores the strategic management issues associated with the transformation of all businesses into digital businesses. It focuses on developing an understanding of how to develop a business models to implement strategies that are based on digital systems across different industries. This includes understanding how to develop business plans, how to align the business architecture with the digital systems architecture, and appropriately managing the digital systems to maximize business value. The course will deal with assessing and developing business strategies by harnessing contemporary phenomena in the digital world, such as the Internet of Things, Mobility strategies, and include applications of emerging techniques based on machine learning, artificial intelligence and semantic analysis to craft appropriate business strategies for firms.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "ACCT 6349",
+      "MIS 6302"
+    ],
+    "skills_taught": [
+      "Digital strategy development",
+      "digital business model design",
+      "platform economics and strategy",
+      "digital platform architecture",
+      "platform ecosystem management",
+      "orchestrator and complementor roles",
+      "apps and APIs in digital infrastructure",
+      "data management in digital platforms",
+      "Internet of Things (IoT) strategy",
+      "trust mechanisms in multi-stakeholder platforms",
+      "blockchain technology fundamentals",
+      "blockchain technical architecture",
+      "distributed ledger technology (DLT)",
+      "consensus mechanisms",
+      "smart contracts",
+      "artificial intelligence strategy",
+      "generative AI business applications",
+      "AI use case development",
+      "digital competitive advantage analysis",
+      "hyper-communication strategy",
+      "digital business plan development",
+      "digital market analysis",
+      "digital transformation strategy",
+      "business model innovation for digital enterprises",
+      "customer value proposition in digital markets",
+      "platform business idea development",
+      "digital business case writing and presentation",
+      "group research and collaborative project development",
+      "peer evaluation and team dynamics"
+    ],
+    "course_track": "IT Consulting and Services Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6374",
+    "title": "Internet of Things",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The Internet of Things (IoT) is the key to digital transformation. By 2025, more than 25 billion devices in homes, factories, oil wells, hospitals, cities, and cars will be connected to the Internet. Companies are looking for students who are skilled in developing IoT solutions that connect devices, collect, store, and analyze device data. This course provides students with knowledge of IoT components and management of IoT ecosystems. First, students will gain an understanding of digital transformation and Industry 4.0. Next, students will learn about the components of IoT (Sensors, Communication Technology, Networks, Security, Cloud, and Data Analytics). Students will also be exposed to how companies implement solutions on an IoT platform (such as AWS, Azure, or Google). Finally, students will learn about the management of IoT ecosystems in the context of a few use cases (e.g., predictive maintenance, smart transportation, healthcare, or other).",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [],
+    "course_track": "IT Consulting and Services Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "IT Consulting and Services Management Track",
+      "Healthcare Systems Track",
+      "Cloud Computing Track"
+    ]
+  },
+  {
+    "course_id": "BPS 6360",
+    "title": "Management and Organizational Consulting: Theory and Practice",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Management consulting now accounts for more than $120 billion in global annual revenues. In addition to these full-time consultants, more and more employees are also in roles of a consultative nature, as the knowledge-intensive nature of work increases. This course will begin with a review of the theoretical foundations of the client-consultant relationship, drawing from counseling psychology and other disciplines, then broaden to cover theories of Organizational Behavior, Organizational Learning and Strategy. Through various workshops and hands-on exercises, participants will apply these theories in a number of scenarios relevant for consulting. Special attention will be given to prepare students to become confident practitioners, by bridging the theory-practice gap in the practice of management and organizational consulting",
+    "prerequisites": [
+      [
+        "OB 6301"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Management and organizational consulting methodology",
+      "client opportunity identification and prospecting",
+      "consulting engagement scoping and project clarification",
+      "proposal and statement of work development",
+      "problem framing and sensemaking",
+      "hypothesis development and testing",
+      "data collection and synthesis",
+      "drawing conclusions from complex data",
+      "consulting communication and presentation skills",
+      "recommendation development and defense",
+      "professional relationship building with clients",
+      "consultative problem solving in organizational contexts",
+      "organizational behavior and theory application",
+      "business strategy application in consulting",
+      "social psychology in professional contexts",
+      "project management for consulting engagements",
+      "interim progress reporting",
+      "storyboarding and structured communication",
+      "peer coaching and feedback",
+      "client evaluation and stakeholder management",
+      "team charter development",
+      "professionalism and professional practice development"
+    ],
+    "course_track": "IT Consulting and Services Management Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "IT Consulting and Services Management Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6305",
+    "title": "Healthcare Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "The healthcare industry is yet to find ways to make the best use of existing data to improve care, reduce costs, and provide more accessible care. This course introduces the use of business intelligence and decision sciences in the healthcare industry. Students will develop a conceptual understanding of data mining techniques and decision analysis and hands-on experience with several analytics software which may include coding in R, Rattle, and WEKA (as needed and depending on availability)",
+    "prerequisites": [
+      [
+        "OPRE 6301",
+        "SYSM 6303",
+        "BUAN 6359",
+        "OPRE 6359"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Healthcare analytics fundamentals",
+      "business intelligence for healthcare",
+      "healthcare data overview and applications",
+      "healthcare delivery system analysis",
+      "healthcare data challenges",
+      "exploratory data analysis (EDA)",
+      "data retrieval and preparation in R",
+      "R programming and RStudio",
+      "simple and multiple regression analysis",
+      "classification trees",
+      "logistic regression",
+      "k-nearest neighbors (KNN)",
+      "hierarchical and k-means clustering",
+      "model evaluation techniques",
+      "data visualization for healthcare",
+      "dashboard design for healthcare",
+      "data storytelling",
+      "INFORMS analytics framework",
+      "analytics project design and management",
+      "healthcare management decision support",
+      "healthcare analytics strategy",
+      "certified analytics professional (CAP) concepts",
+      "data manipulation and preparation for healthcare",
+      "healthcare cost and quality analytics",
+      "real-world healthcare analytics project development and presentation"
+    ],
+    "course_track": "Healthcare Systems Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Healthcare Systems Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6317",
+    "title": "Healthcare Informatics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "Examines the unique challenges of clinical and patient care delivery in the healthcare industry, including the role of data management, emerging data standards and information technology in improving the quality and cost associated with healthcare. The focus of the course will be on healthcare IT including issues related to governance, data integration, and selection and management of healthcare IT.",
+    "prerequisites": [],
+    "only_one_of_these": [
+      "HMGT 6323",
+      "MIS 6317"
+    ],
+    "skills_taught": [
+      "Healthcare informatics fundamentals",
+      "healthcare information technology history and landscape",
+      "healthcare data architecture and information systems",
+      "electronic medical records (EMR/EHR) design and management",
+      "health IT standards and interoperability",
+      "healthcare data integration architecture",
+      "relational data modeling",
+      "SQL introduction",
+      "dimensional data modeling for healthcare",
+      "healthcare analytics and big data",
+      "artificial intelligence in healthcare",
+      "AI workflow redesign",
+      "healthcare IT governance and project management",
+      "health IT strategic planning and IT alignment",
+      "health IT systems acquisition lifecycle",
+      "total cost of ownership analysis",
+      "reimbursement reform and population health informatics",
+      "accountable care organizations (ACOs)",
+      "quality improvement initiatives",
+      "healthcare IT legislation and policy (meaningful use)",
+      "healthcare privacy and legal considerations",
+      "telehealth technologies",
+      "cloud computing in healthcare",
+      "emerging health IT trends",
+      "healthcare case study analysis",
+      "health IT investment evaluation",
+      "data transformation and information processing in healthcare"
+    ],
+    "course_track": "Healthcare Systems Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Healthcare Systems Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6381",
+    "title": "Electronic Health Records Applications",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "An interactive, experiential course in which students will utilize hands-on, practice-oriented opportunities to learn the core components of clinical information systems used by major healthcare systems in the United States. The course will include a lab-based component in which students will follow guided exercises and assignments using a leading EMR software as well as case analyses.",
+    "prerequisites": [
+      [
+        "HMGT 6323"
+      ]
+    ],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Electronic health record (EHR) and electronic medical record (EMR) fundamentals",
+      "EPIC EMR system navigation",
+      "EPIC ambulatory module (provider and nurse workflows)",
+      "EPIC inpatient module (provider and nurse workflows)",
+      "EPIC patient registration and scheduling (Prelude/Cadence)",
+      "EPIC MyChart patient portal",
+      "EPIC specialty and ancillary modules",
+      "EPIC revenue cycle management (Resolute)",
+      "EPIC clinical decision support and reporting",
+      "healthcare workflow analysis and diagramming",
+      "patient flow diagram design",
+      "clinical documentation requirements",
+      "ambulatory and inpatient revenue cycle",
+      "data and system integration in healthcare",
+      "healthcare interface and information flow",
+      "ERP integration in healthcare",
+      "healthcare IT implementation planning",
+      "EHR update and upgrade management",
+      "telemedicine systems",
+      "regulatory implications of EHRs",
+      "accountable care organization (ACO) implications",
+      "healthcare IT lifecycle management",
+      "knowledge management in healthcare",
+      "clinical information system operations"
+    ],
+    "course_track": "Healthcare Systems Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Healthcare Systems Track"
+    ]
+  },
+  {
+    "course_id": "MIS 6347",
+    "title": "AWS Cloud Analytics",
+    "credits": 3,
+    "course_type": "Elective",
+    "description": "This course integrates data engineering, machine learning, and AI services to build enterprise analytics platforms. Students will create data pipelines for ingesting, storing, processing, and visualizing batch and streaming data. The course covers selecting and applying machine learning models, including foundation models and LLMs, to solve business problems. Through hands-on labs, students will model, build, train, and deploy custom ML models and AI algorithms. Aligned with AWS Data Engineering and Machine Learning certifications, this course prepares students to lead data-driven AI initiatives.",
+    "prerequisites": [],
+    "only_one_of_these": [],
+    "skills_taught": [
+      "Cloud analytics fundamentals",
+      "AWS S3 data lake design and management",
+      "AWS Athena data querying",
+      "AWS Glue catalog and federated queries",
+      "ETL processing with AWS Glue",
+      "Amazon Redshift data warehouse",
+      "data storage and analysis in Redshift",
+      "AWS Elastic MapReduce (EMR) log processing",
+      "AWS QuickSight data visualization",
+      "Amazon Kinesis Analytics and streaming data",
+      "data visualization with Kinesis Data Firehose and OpenSearch",
+      "AWS data collection services",
+      "ETL pipeline orchestration with AWS Step Functions",
+      "Amazon SageMaker machine learning pipeline implementation",
+      "generative AI on AWS",
+      "cloud-based analytics notebook proficiency",
+      "data engineering pipeline design",
+      "query federation across multiple data sources",
+      "analytical communication and digital storytelling",
+      "AWS Data Engineering certification preparation"
+    ],
+    "course_track": "Cloud Computing Track",
+    "programs": [
+      "msitm"
+    ],
+    "course_tracks": [
+      "Cloud Computing Track"
+    ]
+  }
+]

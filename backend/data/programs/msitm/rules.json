@@ -1,0 +1,50 @@
+{
+  "program_id": "msitm",
+  "program_name": "MS in Information Technology and Management",
+  "total_credits": 36,
+  "core_credits": 9,
+  "core_elective_credits": 9,
+  "elective_credits": 18,
+  "credits_per_course": 3,
+  "core_elective_tracks_required": 3,
+  "core_elective_rule": "Student must complete exactly 3 CoreElective courses, each from a different domain track",
+  "only_one_of_these_groups": [
+    [
+      "BUAN 6320",
+      "MIS 6326",
+      "SYSM 6338",
+      "ACCT 6320",
+      "ACCT 6321",
+      "MIS 6320",
+      "OPRE 6393"
+    ],
+    [
+      "OPRE 6301",
+      "OPRE 6359",
+      "BUAN 6359"
+    ],
+    [
+      "ACCT 6301",
+      "ACCT 6202",
+      "ACCT 6305"
+    ]
+  ],
+  "required_non_credit": [],
+  "required_internship": {
+    "description": "All students must fulfill the internship requirement to graduate. This counts as part of your elective credits.",
+    "first_internship_course": "MIS 6009",
+    "first_internship_note": "Use MIS 6009 if you have secured an actual internship. It can be taken for 0, 1, 2, or 3 credits. Credits earned (if any) count as elective credits toward your 36-credit total. Can only be used for your first internship.",
+    "fulfillment_courses": ["MIS 6V98", "MIS 6349", "MIS 6354"],
+    "fulfillment_note": "Use MIS 6V98, MIS 6349, or MIS 6354 if you do not have an internship or for any internship after your first. These count as elective credits.",
+    "ineligibility_trigger": ["MIS 6V98", "MIS 6349", "MIS 6354"],
+    "ineligibility_note": "Once you complete MIS 6V98, MIS 6349, or MIS 6354, you are permanently ineligible to enroll in MIS 6009.",
+    "additional_internship_course": "MIS 6V98",
+    "additional_internship_note": "Any internship after the first must use MIS 6V98 (maximum 3 credit hours total across all enrollments)."
+  },
+  "gpa_requirement": 3.0,
+  "admission_semesters": [
+    "Fall",
+    "Spring",
+    "Summer"
+  ]
+}

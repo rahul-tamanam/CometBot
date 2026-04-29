@@ -3,13 +3,40 @@
   "program_name": "MS in Business Analytics and Artificial Intelligence",
   "total_credits": 36,
   "core_credits": 18,
+  "core_elective_credits": 0,
   "elective_credits": 18,
   "credits_per_course": 3,
+  "core_elective_tracks_required": 0,
+  "core_elective_rule": "",
   "only_one_of_these_groups": [
-    ["BUAN 6324", "BUAN 6356", "BUAN 6383"]
+    [
+      "BUAN 6324",
+      "BUAN 6356",
+      "BUAN 6383"
+    ],
+    [
+      "BUAN 6390",
+      "BUAN 6V98"
+    ]
   ],
-  "required_non_credit": ["MAS 6102"],
+  "required_non_credit": [
+    "MAS 6102"
+  ],
+  "required_internship": {
+    "description": "All students must fulfill the internship requirement to graduate. This counts as part of your elective credits.",
+    "first_internship_course": "BUAN 6009",
+    "first_internship_note": "Use BUAN 6009 if you have secured an actual internship. It can be taken for 0, 1, 2, or 3 credits. Credits earned (if any) count as elective credits toward your 36-credit total. Can only be used for your first internship.",
+    "fulfillment_courses": ["BUAN 6390", "BUAN 6V98"],
+    "fulfillment_note": "Use BUAN 6390 or BUAN 6V98 if you do not have an internship or for any internship after your first. These count as elective credits.",
+    "ineligibility_trigger": ["BUAN 6390", "BUAN 6V98"],
+    "ineligibility_note": "Once you complete BUAN 6390 or BUAN 6V98, you are permanently ineligible to enroll in BUAN 6009.",
+    "additional_internship_course": "BUAN 6V98",
+    "additional_internship_note": "Any internship after the first must use BUAN 6V98 (maximum 3 credit hours total across all enrollments)."
+  },
   "gpa_requirement": 3.0,
-  "admission_semesters": ["Fall", "Spring", "Summer"]
+  "admission_semesters": [
+    "Fall",
+    "Spring",
+    "Summer"
+  ]
 }
-

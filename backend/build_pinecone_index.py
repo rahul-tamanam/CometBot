@@ -5,16 +5,21 @@ import sys
 sys.path.append(os.path.dirname(__file__))
 
 from services.pinecone_client import upsert_courses, upsert_skills
+from services.course_loader import load_all_courses
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 def main():
-    print("Loading data files...\n")
+    print("Loading all courses (deduplicated across programs)...\n")
+    all_courses = load_all_courses()
+    indexable_courses = [
+        c for c in all_courses
+        if (c.get("course_type") or "").strip().lower() not in ("noncredit", "external")
+    ]
+    print(f"Found {len(all_courses)} total courses, indexing {len(indexable_courses)} (excluding non-credit)...\n")
+    print("Uploading courses to Pinecone...\n")
+    upsert_courses(indexable_courses)
 
-    with open(os.path.join(DATA_DIR, "courses.json")) as f:
-        courses = json.load(f)
-
-    # Find skills file — handles both naming conventions
     for name in ["skills_clean.json", "skills.json"]:
         path = os.path.join(DATA_DIR, name)
         if os.path.exists(path):
@@ -22,13 +27,9 @@ def main():
                 skills = json.load(f)
             break
 
-    print(f"Found {len(courses)} courses and {len(skills)} job roles\n")
-    print("Uploading to Pinecone (this may take a minute)...\n")
-
-    upsert_courses(courses)
+    print(f"\nFound {len(skills)} job roles\n")
     upsert_skills(skills)
-
-    print("\n✅ Pinecone index ready")
+    print("\n[done] Pinecone index ready")
 
 if __name__ == "__main__":
     main()

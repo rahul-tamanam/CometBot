@@ -1,0 +1,95 @@
+[
+    {
+        "cert_title": "Graduate Certificate in Applied Machine Learning",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Applied Machine Learning comprises courses that teach statistics geared towards data science needs, and important concepts in business analytics, machine learning and natural language processing necessary for business applications. Students pursuing this certificate will be exposed to: Statistical methods to analyze data from observational studies and experimental designs, and to communicate relevant findings to a business audience; Approaches that extract actionable intelligence from firms' business data for various applications, including (but not limited to) customer segmentation, customer relationship management (CRM), personalization, online recommendation systems, web mining, and product assortment; Machine learning approaches focused on applications to business data, like approaches for text mining, non-linear regression models, resampling methods, neural networks, etc..; Natural language processing and related approaches that help gain actionable insights in real-world applications (for example, through the analysis and interpretation of language in the contexts of social media and business text/unstructured data);",
+        "course_id": [
+            ["BUAN 6341"],
+            ["BUAN 6356", "BUAN 6383"],
+            ["BUAN 6359"],
+            ["BUAN 6342", "BUAN 6382"]
+        ],
+        "skills_taught": [
+            "machine learning",
+            "predictive modeling",
+            "statistical analysis",
+            "hypothesis testing",
+            "decision modeling",
+            "optimization techniques",
+            "natural language processing",
+            "deep learning",
+            "unstructured data analysis",
+            "R programming"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Applied Data Engineering for Managers",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Applied Data Engineering for Managers comprises courses that teach statistics geared towards data engineering needs, important concepts in big data, and data analytics platforms for business applications. The certificate will help students learn concepts related to the application of data engineering concepts like data provisioning and pipelining in business contexts. Students pursuing this certificate will be exposed to: Structured Query Language (SQL) and NoSQL databases and focus on understanding the differences, and to learn how to effectively query SQL and NoSQL databases; Big data systems and operations, which will enable them to perform distributed analytics programming to report findings on their datasets; Conceptual understanding of platforms for business analytics and key business drivers that lead to business initiatives; Dealing with massive volumes and velocity of data to be more efficient in improving data quality and speed of access using languages like Scala.",
+        "course_id": [
+            ["BUAN 6320"],
+            ["BUAN 6335"],
+            ["BUAN 6346"],
+            ["BUAN 6347"]
+        ],
+        "skills_taught": [
+            "SQL querying",
+            "database management",
+            "data architecture",
+            "data pipeline design",
+            "data governance",
+            "big data processing",
+            "distributed computing",
+            "distributed analytics",
+            "data engineering",
+            "large-scale data processing"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Analytics for Managers",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Analytics for Managers comprises courses that teach statistics geared towards data modeling and engineering needs, important concepts in data analytics platforms for business applications and graphical charting of insights for decision making. The certificate will help students learn concepts related to the application of data analytics concepts like data modeling and data visualization in business contexts. Students pursuing this certificate will be exposed to: Statistical methods to analyze data from observational studies and experimental designs, and to communicate relevant findings to a business audience; Conceptual understanding of platforms for business analytics and key business drivers that lead to business initiatives; Technologies, techniques and algorithms for the creation of effective data visualization in the context of data science using techniques related to data wrangling, insight modeling, cognitive science, and graphical communication.",
+        "course_id": [
+            ["BUAN 6356", "BUAN 6383"],
+            ["BUAN 6359"],
+            ["BUAN 6335"],
+            ["MIS 6380"]
+        ],
+        "skills_taught": [
+            "data analysis",
+            "statistical analysis",
+            "statistical modeling",
+            "hypothesis testing",
+            "predictive modeling",
+            "decision modeling",
+            "data visualization",
+            "dashboard design",
+            "data storytelling",
+            "data governance",
+            "data pipeline design"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Business Decision Analytics",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Business Decision Analytics comprises courses that teach statistics geared towards data modeling and engineering needs, important concepts in predictive and prescriptive analytics, along with econometrics and time series analysis. The certificate will help students learn concepts related to the application of business decision making concepts around predicting and prescribing business outcomes in enterprise settings. Students pursuing this certificate will be exposed to: Statistical methods to analyze data from observational studies and experimental designs, and to communicate relevant findings to a business audience; Analytical models and tools to identify opportunities as well as problems within the business operations to gain a competitive edge in today's global economy; Methods to analyze time series, cross-sectional and panel data.",
+        "course_id": [
+            ["BUAN 6359"],
+            ["BUAN 6312"],
+            ["BUAN 6337"],
+            ["BUAN 6398"]
+        ],
+        "skills_taught": [
+            "statistical modeling",
+            "hypothesis testing",
+            "econometric modeling",
+            "time series forecasting",
+            "regression analysis",
+            "predictive modeling",
+            "machine learning",
+            "optimization techniques",
+            "decision optimization",
+            "simulation modeling"
+        ]
+    }
+]
