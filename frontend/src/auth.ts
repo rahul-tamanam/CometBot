@@ -12,6 +12,18 @@ export function isAuthenticated() {
 }
 
 export function signIn(userId: string, password: string) {
+  const skipPassword =
+    import.meta.env.DEV || import.meta.env.VITE_SKIP_PASSWORD_AUTH === 'true'
+
+  if (skipPassword) {
+    try {
+      sessionStorage.setItem(AUTH_STORAGE_KEY, 'true')
+    } catch {
+      // ignore storage failures in demo mode
+    }
+    return true
+  }
+
   const valid = userId === DEMO_USER_ID && password === DEMO_PASSWORD
   if (!valid) return false
 

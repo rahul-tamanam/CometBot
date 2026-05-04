@@ -385,12 +385,16 @@ export function CometDashboard() {
       {/* Global header (matches reference) */}
       <header
         className="flex h-14 items-center justify-between px-4"
-        style={{ borderBottom: '1px solid var(--border)', backgroundColor: 'var(--surface)' }}
+        style={{
+          borderBottom: '1px solid var(--comet-header-border)',
+          background: 'var(--comet-header-bg)',
+        }}
       >
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 hover:bg-slate-50 lg:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl lg:hidden"
+            style={{ color: 'var(--comet-header-fg)' }}
             onClick={() => setMobileLeftOpen(true)}
             title="Open navigation"
           >
@@ -420,25 +424,28 @@ export function CometDashboard() {
               <div className="flex items-baseline gap-2">
                 <button
                   type="button"
-                  className="bg-gradient-to-r from-[#ff4d4d] via-[#ff7a1a] to-[#ff9a33] bg-[length:200%_200%] bg-clip-text text-2xl font-extrabold tracking-tight text-transparent"
-                  style={{ animation: 'comet-shimmer 2s ease-in-out infinite alternate' }}
+                  className="text-2xl font-extrabold tracking-tight"
+                  style={{
+                    animation: 'comet-shimmer 2s ease-in-out infinite alternate',
+                    color: 'var(--comet-header-fg)',
+                  }}
                   onClick={() => window.location.reload()}
                   title="Refresh"
                 >
                   CometBot
                 </button>
               </div>
-              <div className="text-[11px] font-semibold" style={{ color: 'var(--text-muted)' }}>
+              <div className="text-[11px] font-semibold" style={{ color: 'var(--comet-header-muted)' }}>
                 Program: {profile.program_name || 'MS in Business Analytics and Artificial Intelligence'}
               </div>
             </div>
           </div>
         </div>
 
-        <nav className="flex items-center gap-4 text-sm font-extrabold tracking-tight text-[color:var(--text-muted)]">
+        <nav className="flex items-center gap-4 text-sm font-extrabold tracking-tight">
           <a
             className="hidden rounded-lg px-2 py-1 md:inline-flex"
-            style={{ color: 'var(--text-muted)' }}
+            style={{ color: 'var(--comet-header-muted)' }}
             href="https://www.utdallas.edu/academics/calendar/"
             target="_blank"
             rel="noreferrer"
@@ -447,7 +454,7 @@ export function CometDashboard() {
           </a>
           <a
             className="hidden rounded-lg px-2 py-1 md:inline-flex"
-            style={{ color: 'var(--text-muted)' }}
+            style={{ color: 'var(--comet-header-muted)' }}
             href="https://map.utdallas.edu/"
             target="_blank"
             rel="noreferrer"
@@ -456,20 +463,63 @@ export function CometDashboard() {
           </a>
           <button
             type="button"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-xl"
+            role="switch"
+            aria-checked={theme === 'dark'}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            className="relative inline-flex h-9 w-14 shrink-0 cursor-pointer rounded-full border p-[3px] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color-mix(in_oklab,var(--comet-header-fg)_70%,transparent_30%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--comet-header-focus-ring-offset)]"
             style={{
-              backgroundColor: 'transparent',
-              color: 'var(--text-muted)',
-              border: '1px solid var(--border)',
+              background: 'var(--comet-header-switch-track)',
+              borderColor: 'var(--comet-header-border)',
+              boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.14)',
             }}
             onClick={() => applyTheme(theme === 'dark' ? 'light' : 'dark')}
-            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
           >
-            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            <Sun
+              size={13}
+              strokeWidth={2}
+              className="pointer-events-none absolute left-[7px] top-1/2 -translate-y-1/2"
+              style={{
+                color: 'var(--comet-header-muted)',
+                opacity: theme === 'light' ? 0.35 : 0.55,
+              }}
+              aria-hidden
+            />
+            <Moon
+              size={13}
+              strokeWidth={2}
+              className="pointer-events-none absolute right-[7px] top-1/2 -translate-y-1/2"
+              style={{
+                color: 'var(--comet-header-muted)',
+                opacity: theme === 'dark' ? 0.35 : 0.55,
+              }}
+              aria-hidden
+            />
+            <span
+              className="pointer-events-none absolute top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full shadow-md transition-[left] duration-200 ease-out"
+              style={{
+                left: theme === 'dark' ? 'calc(100% - 1.75rem - 3px)' : '3px',
+                backgroundColor: 'var(--comet-header-fg)',
+                color: '#114634',
+                boxShadow:
+                  '0 1px 3px rgba(0, 0, 0, 0.25), 0 0 0 1px color-mix(in oklab, #114634 18%, transparent)',
+              }}
+            >
+              {theme === 'dark' ? (
+                <Moon size={14} strokeWidth={2.25} aria-hidden />
+              ) : (
+                <Sun size={14} strokeWidth={2.25} aria-hidden />
+              )}
+            </span>
           </button>
           <button
             type="button"
-            className="inline-flex h-9 items-center justify-center rounded-xl px-3 text-xs font-semibold text-slate-600 hover:bg-slate-50 xl:hidden"
+            className="inline-flex h-9 items-center justify-center rounded-xl px-3 text-xs font-semibold xl:hidden"
+            style={{
+              color: 'var(--comet-header-fg)',
+              border: '1px solid var(--comet-header-border)',
+              backgroundColor: 'var(--comet-header-elevated)',
+            }}
             onClick={() => setMobileRightOpen(true)}
           >
             Resources

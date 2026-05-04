@@ -17,6 +17,27 @@
     --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     /* Lighter scrim so /bg.png stays visible behind chat (88% white was washing it out) */
     --chat-bg-scrim: color-mix(in oklab, var(--surface) 38%, transparent 62%);
+    /* Pantone 3435 C (#114634): solid base + light luminosity only (no hue drift into teal/mint) */
+    --comet-header-base: #114634;
+    --comet-header-bg: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.11) 0%,
+        rgba(255, 255, 255, 0.03) 42%,
+        rgba(0, 0, 0, 0.07) 100%
+      ),
+      var(--comet-header-base);
+    --comet-header-border: rgba(255, 255, 255, 0.22);
+    --comet-header-switch-base: color-mix(in oklab, var(--comet-header-base) 82%, #082820 18%);
+    --comet-header-switch-track: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.14) 0%,
+        rgba(0, 0, 0, 0.1) 100%
+      ),
+      var(--comet-header-switch-base);
+    --comet-header-elevated: rgba(255, 255, 255, 0.14);
+    --comet-header-focus-ring-offset: var(--comet-header-base);
+    --comet-header-fg: #f3fff8;
+    --comet-header-muted: color-mix(in oklab, #f3fff8 82%, #114634 18%);
     color-scheme: light;
   }
 
@@ -38,6 +59,26 @@
     --error: #ef4444;
     --shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
     --chat-bg-scrim: color-mix(in oklab, var(--panel) 88%, transparent 12%);
+    --comet-header-base: #114634;
+    --comet-header-bg: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.07) 0%,
+        rgba(255, 255, 255, 0.02) 44%,
+        rgba(0, 0, 0, 0.14) 100%
+      ),
+      var(--comet-header-base);
+    --comet-header-border: rgba(255, 255, 255, 0.14);
+    --comet-header-switch-base: color-mix(in oklab, var(--comet-header-base) 74%, #061814 26%);
+    --comet-header-switch-track: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(0, 0, 0, 0.14) 100%
+      ),
+      var(--comet-header-switch-base);
+    --comet-header-elevated: rgba(255, 255, 255, 0.09);
+    --comet-header-focus-ring-offset: var(--comet-header-base);
+    --comet-header-fg: #eafff4;
+    --comet-header-muted: color-mix(in oklab, #eafff4 78%, #114634 22%);
     color-scheme: dark;
   }
 
