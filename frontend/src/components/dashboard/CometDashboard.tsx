@@ -19,6 +19,7 @@ import { ProfilePage } from '@/components/profile/ProfilePage'
 import ProgressBar from '@/components/degree/ProgressBar'
 import CourseCardComponent from '@/components/degree/CourseCardComponent'
 import SemesterTimeline from '@/components/degree/SemesterTimeline'
+import SkillsGapAnalyzer from '@/components/SkillsGapAnalyzer'
 
 function uid() {
   return Math.random().toString(16).slice(2) + Date.now().toString(16)
@@ -150,6 +151,7 @@ export function CometDashboard() {
   // threads, or open the profile view. The panel is not rendered inline;
   // instead the user opens it on demand via the input-bar button.
   const isDegreePlanner = mode === 'academic' || mode === 'course'
+  const isSkillsGapMode = mode === 'course'
   const [degreeResponse, setDegreeResponse] = useState<DegreePlannerResponse | null>(null)
   const [progressOpen, setProgressOpen] = useState(false)
   const [showRemaining, setShowRemaining] = useState(false)
@@ -211,6 +213,7 @@ export function CometDashboard() {
     if (completedCourses.length === 0) return 'No courses in profile · Treating you as a new student'
     return `Advising based on your profile · ${completedCourses.length} courses completed`
   }, [completedCourses.length, mode])
+  const panelContentKey = `${mode}-${activeView}-${isSkillsGapMode ? 'skills-gap' : activeThread.messages.length === 0 ? 'landing' : 'chat'}`
 
   const applyTheme = (t: 'light' | 'dark') => {
     setTheme(t)
@@ -545,73 +548,103 @@ export function CometDashboard() {
                 }}
               />
               <div className="relative flex min-h-0 min-w-0 flex-1 flex-col px-4 overflow-hidden">
-                {activeThread.messages.length === 0 ? (
-                  <div className="flex flex-1 items-center justify-center py-10">
-                    <div className="w-full max-w-3xl text-center">
-                      <div className="mx-auto mb-2 max-w-2xl text-2xl tracking-tight" style={{ color: 'var(--text)' }}>
-                        <span className="font-extrabold">Plan your degree. Shape your career.</span>
-
-                      </div>
-                      <div className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
-                        CometBot is an AI-powered tool that helps you track requirements, explore courses, and align your skills with real career paths
-                      </div>
-                      <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
-                        {suggestedPrompts.map((p) => (
-                          <PromptCard key={p} text={`“${p}”`} onClick={() => handleFaqClick(p)} />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="min-h-0 min-w-0 flex-1 overflow-y-auto py-6">
-                    <div className="space-y-4 px-1">
-                      {profileBannerText && (
-                        <div
-                          className="rounded-2xl px-3 py-2 text-xs font-semibold backdrop-blur"
-                          style={{
-                            backgroundColor: 'color-mix(in oklab, var(--surface) 70%, transparent 30%)',
-                            border: '1px solid var(--border)',
-                            color: 'var(--text-muted)',
-                          }}
-                        >
-                          {profileBannerText}
-                        </div>
-                      )}
-                      {activeThread.messages.map((m, idx) => (
-                        <ChatBubble
-                          key={idx}
-                          message={m}
-                          accentClass={accentClass}
-                          highlightCatalog={{
-                            courseIds: courseIdsForHighlight,
-                            courseTitles: courseTitlesForHighlight,
-                            certTitles: certTitlesForHighlight,
+                <style>{`
+                  @keyframes panelSwitchIn {
+                    from { opacity: 0; transform: translateY(6px); }
+                    to { opacity: 1; transform: translateY(0); }
+                  }
+                `}</style>
+                <div
+                  key={panelContentKey}
+                  style={{
+                    minHeight: 0,
+                    minWidth: 0,
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    animation: 'panelSwitchIn 220ms ease',
+                  }}
+                >
+                  {isSkillsGapMode ? (
+                    <div className="min-h-0 min-w-0 flex-1 overflow-hidden py-4">
+                      <div className="h-full overflow-hidden rounded-2xl">
+                        <SkillsGapAnalyzer
+                          profile={{
+                            completedCourses: completedCourses || [],
+                            courseHistory: profileCourseHistory || [],
+                            programId: profile.program_id || 'msba',
                           }}
                         />
-                      ))}
-                      {loading && (
-                        <div className="animate-chat-pop flex justify-start">
-                          <div
-                            className="rounded-2xl px-4 py-3 text-sm shadow-sm"
-                            style={{ backgroundColor: 'var(--surface2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
-                          >
-                            Thinking…
-                          </div>
-                        </div>
-                      )}
-
-                      <div ref={messagesEndRef} />
+                      </div>
                     </div>
-                  </div>
-                )}
+                  ) : activeThread.messages.length === 0 ? (
+                    <div className="flex flex-1 items-center justify-center py-10">
+                      <div className="w-full max-w-3xl text-center">
+                        <div className="mx-auto mb-2 max-w-2xl text-2xl tracking-tight" style={{ color: 'var(--text)' }}>
+                          <span className="font-extrabold">Plan your degree. Shape your career.</span>
 
-                {activeView === 'chat' && (
+                        </div>
+                        <div className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                          CometBot is an AI-powered tool that helps you track requirements, explore courses, and align your skills with real career paths
+                        </div>
+                        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
+                          {suggestedPrompts.map((p) => (
+                            <PromptCard key={p} text={`“${p}”`} onClick={() => handleFaqClick(p)} />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="min-h-0 min-w-0 flex-1 overflow-y-auto py-6">
+                      <div className="space-y-4 px-1">
+                        {profileBannerText && (
+                          <div
+                            className="rounded-2xl px-3 py-2 text-xs font-semibold backdrop-blur"
+                            style={{
+                              backgroundColor: 'color-mix(in oklab, var(--surface) 70%, transparent 30%)',
+                              border: '1px solid var(--border)',
+                              color: 'var(--text-muted)',
+                            }}
+                          >
+                            {profileBannerText}
+                          </div>
+                        )}
+                        {activeThread.messages.map((m, idx) => (
+                          <ChatBubble
+                            key={idx}
+                            message={m}
+                            accentClass={accentClass}
+                            highlightCatalog={{
+                              courseIds: courseIdsForHighlight,
+                              courseTitles: courseTitlesForHighlight,
+                              certTitles: certTitlesForHighlight,
+                            }}
+                          />
+                        ))}
+                        {loading && (
+                          <div className="animate-chat-pop flex justify-start">
+                            <div
+                              className="rounded-2xl px-4 py-3 text-sm shadow-sm"
+                              style={{ backgroundColor: 'var(--surface2)', color: 'var(--text-muted)', border: '1px solid var(--border)' }}
+                            >
+                              Thinking…
+                            </div>
+                          </div>
+                        )}
+
+                        <div ref={messagesEndRef} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {activeView === 'chat' && !isSkillsGapMode && (
                   <InputBar
                     value={input}
                     onChange={setInput}
                     onSend={() => send()}
                     disabled={loading}
-                    placeholder="Start researching..."
+                    placeholder="Ask anything.."
                     leadingButton={
                       isDegreePlanner ? (
                         <button
@@ -748,8 +781,19 @@ export function CometDashboard() {
       {/* Profile modal (ChatGPT-style floating panel) */}
       {profileOpen && (
         <div className="fixed inset-0 z-[60]">
+          <style>{`
+            @keyframes profileFadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes profilePopIn {
+              from { opacity: 0; transform: translateY(8px) scale(0.985); }
+              to { opacity: 1; transform: translateY(0) scale(1); }
+            }
+          `}</style>
           <div
             className="absolute inset-0 bg-black/40"
+            style={{ animation: 'profileFadeIn 180ms ease' }}
             onClick={() => {
               setProfileOpen(false)
               setActiveView('chat')
@@ -758,7 +802,11 @@ export function CometDashboard() {
           <div className="absolute inset-0 flex items-center justify-center p-4">
             <div
               className="relative w-full max-w-4xl overflow-hidden rounded-3xl shadow-2xl"
-              style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
+              style={{
+                backgroundColor: 'var(--surface)',
+                border: '1px solid var(--border)',
+                animation: 'profilePopIn 220ms ease',
+              }}
             >
               <div
                 className="flex items-center justify-between px-4 py-3"

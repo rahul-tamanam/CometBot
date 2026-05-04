@@ -1,309 +1,487 @@
-from fastapi import APIRouter, UploadFile, File, Form
+"""
+Skills Gap Analyzer router.
+
+Pipeline:
+  1. Parse resume -> raw text (resume_parser)
+  2. Load required skills (skills.json exact match OR jd_parser)
+  3. Groq rates each required skill against the resume text (extract_and_rate_skills)
+  4. Evidence quotes are validated against resume text
+  5. gap_engine computes weighted score
+  6. Pinecone maps missing/partial skills to catalog courses (unchanged)
+  7. Completed courses filtered out (unchanged)
+  8. Groq narrates pre-computed result (never picks courses)
+"""
+
+import json as _json
+import os
+import re
+
+from fastapi import APIRouter, File, Form, UploadFile
 from pydantic import BaseModel
-from backend.services.llm_client import chat
-from backend.services.pinecone_client import query_courses_for_skills, query_job_role
-from backend.services.validator import validate_course_list
-from backend.services.resume_parser import parse_resume
-from backend.services.jd_parser import extract_skills_from_jd
+
 from backend.services.course_loader import load_courses_for_program
+from backend.services.gap_engine import compute_gap
+from backend.services.jd_parser import extract_skills_from_jd
+from backend.services.llm_client import chat
+from backend.services.pinecone_client import query_courses_for_skills
+from backend.services.resume_parser import parse_resume
+from backend.services.validator import validate_course_list
 
 router = APIRouter()
 
-SYSTEM_PROMPT = """
-You are a skills gap analyzer for MSBA students at UT Dallas.
+_SKILL_JUDGE_SYSTEM = """
+You are a strict resume skill evaluator. You will be given:
+1. A resume (raw text)
+2. A list of required skills for a target role
 
-You will be given a pre-computed skills gap analysis including the
-student's matched skills, missing skills, and a FIXED list of course
-recommendations retrieved from the MSBA course catalog.
+Your job is to evaluate whether each required skill is demonstrated in the resume.
 
-Your job is to:
-1. Acknowledge what the student already has — be specific and encouraging
-2. Clearly explain the most critical missing technical skills to prioritize
-3. List missing soft skills briefly
-4. At the END subtly suggest the courses from the COURSE RECOMMENDATIONS
-   section — use the exact course IDs and titles as provided
+RATING RULES:
+- "matched"  - Clear, direct evidence in the resume.
+- "partial"  - Indirect or weak evidence.
+- "missing"  - No evidence at all.
 
-CRITICAL RULES:
-- You MUST only reference courses that appear in the
-  'COURSE RECOMMENDATIONS' section of the analysis
-- NEVER invent, guess, or generate course IDs from your own knowledge
-- NEVER suggest courses that are not in the provided list
-- If no courses are listed for a skill, say no specific course is
-  available for that skill rather than inventing one
-- Course IDs always follow the pattern: PREFIX + space + 4-digit number
-  e.g. BUAN 6341, MIS 6380, OPRE 6302
-- Any course ID that does not follow this pattern is invalid
+EVIDENCE RULES:
+- For matched and partial: copy a SHORT exact phrase (under 15 words) from the resume.
+- For missing: set evidence to empty string "".
+- Do NOT paraphrase. Do NOT invent text.
 
-Write plain text only: no Markdown (no # headings, **bold**, *italics*, --- rules, or code fences).
-Use short lines and "- " bullets when listing items.
-"""
+Return ONE JSON array only. No markdown.
+Each element:
+{"skill":"<exact input skill>","rating":"matched|partial|missing","evidence":"<quote or empty>"}
+""".strip()
 
-# ── Request models ────────────────────────────────────────────────────────────
 
-class CourseGapRequest(BaseModel):
-    completed_courses:    list[str] = []
-    target_job:           str       = ""
-    job_description:      str       = ""
-    conversation_history: list[dict] = []
-    message:              str       = "Please perform a skills gap analysis."
-    program_id:          str        = "msba"
+def _load_role_from_skills_json(role_name: str) -> dict | None:
+    skills_path = os.path.join(os.path.dirname(__file__), "..", "data", "skills.json")
+    try:
+        with open(skills_path, encoding="utf-8") as f:
+            roles = _json.load(f)
+    except Exception:
+        return None
 
-# ── Gap computation ───────────────────────────────────────────────────────────
+    role_lower = role_name.strip().lower()
+    for role in roles:
+        if (role.get("job_title") or "").strip().lower() == role_lower:
+            return {
+                "job_title": role.get("job_title", role_name.strip()),
+                "technical_skills": role.get("technical_skills", []) or [],
+                "soft_skills": role.get("soft_skills", []) or [],
+            }
+    return None
 
-def compute_gap(student_skills: list[str], job_role: dict) -> dict:
-    student_set   = {s.lower().strip() for s in student_skills}
-    tech_required = job_role.get("technical_skills", [])
-    soft_required = job_role.get("soft_skills", [])
 
-    matched           = []
-    missing_technical = []
-    missing_soft      = []
+def extract_and_rate_skills(resume_text: str, required_skills: list[str]) -> list[dict]:
+    if not required_skills:
+        return []
 
-    for skill in tech_required:
-        if skill.lower().strip() in student_set:
-            matched.append({"skill": skill, "type": "technical"})
-        else:
-            missing_technical.append(skill)
+    resume_truncated = resume_text[:6000]
+    skill_list_text = "\n".join(f"- {s}" for s in required_skills)
+    user_message = (
+        f"RESUME:\n{resume_truncated}\n\n"
+        f"REQUIRED SKILLS TO EVALUATE:\n{skill_list_text}\n\n"
+        "Rate each skill based on the resume above. Return JSON array only."
+    )
 
-    for skill in soft_required:
-        if skill.lower().strip() in student_set:
-            matched.append({"skill": skill, "type": "soft"})
-        else:
-            missing_soft.append(skill)
+    try:
+        result = chat(
+            system_prompt=_SKILL_JUDGE_SYSTEM,
+            messages=[{"role": "user", "content": user_message}],
+            temperature=0.1,
+            validate=False,
+        )
+        raw = (result.get("text") or "").strip()
+        raw = re.sub(r"```json\s*|```", "", raw).strip()
+        match = re.search(r"\[[\s\S]+\]", raw)
+        if not match:
+            raise ValueError("No JSON array found in response")
 
-    return {
-        "matched":           matched,
-        "missing_technical": missing_technical,
-        "missing_soft":      missing_soft
+        parsed = _json.loads(match.group(0))
+        if not isinstance(parsed, list):
+            raise ValueError("Response is not a JSON array")
+
+        valid_ratings = {"matched", "partial", "missing"}
+        resume_lower = resume_truncated.lower()
+        rated: list[dict] = []
+        seen_names: set[str] = set()
+
+        for item in parsed:
+            if not isinstance(item, dict):
+                continue
+            skill = str(item.get("skill") or "").strip()
+            rating = str(item.get("rating") or "missing").lower().strip()
+            evidence = str(item.get("evidence") or "").strip()
+            if not skill:
+                continue
+            if rating not in valid_ratings:
+                rating = "missing"
+
+            if rating in ("matched", "partial") and evidence:
+                evidence_key = evidence.lower().strip()[:60]
+                evidence_words = [w for w in evidence_key.split() if len(w) > 3]
+                words_found = sum(1 for w in evidence_words if w in resume_lower)
+                if evidence_words and words_found < len(evidence_words) * 0.5:
+                    rating = "partial" if rating == "matched" else "missing"
+                    evidence = ""
+
+            rated.append({"skill": skill, "rating": rating, "evidence": evidence})
+            seen_names.add(skill.lower().strip())
+
+        for req in required_skills:
+            if req.lower().strip() not in seen_names:
+                rated.append({"skill": req, "rating": "missing", "evidence": ""})
+        return rated
+
+    except Exception as exc:
+        print(f"[skills_gap] Groq skill rating failed: {exc}. Falling back to all-missing.")
+        return [{"skill": s, "rating": "missing", "evidence": ""} for s in required_skills]
+
+
+def _ratings_to_resume_skills(ratings: list[dict]) -> list[str]:
+    # Keep score conservative: only clear "matched" counts as present.
+    seen: set[str] = set()
+    out: list[str] = []
+    for rating in ratings:
+        if rating.get("rating") != "matched":
+            continue
+        skill = str(rating.get("skill") or "").strip()
+        if skill and skill.lower() not in seen:
+            seen.add(skill.lower())
+            out.append(skill)
+    return out
+
+
+def _get_course_recommendations(
+    missing_technical: list[str],
+    partial_technical: list[str],
+    completed_ids: set[str],
+    program_id: str,
+) -> tuple[dict, list[dict]]:
+    all_course_map = {
+        c["course_id"]: c
+        for c in load_courses_for_program(program_id)
+        if c.get("course_id")
     }
 
+    recommendations_raw = query_courses_for_skills(
+        missing_technical + partial_technical,
+        n_per_skill=2,
+        program_id=program_id,
+    )
 
-def build_gap_summary(
-    gap:             dict,
-    recommendations: dict,
-    job_title:       str,
-    student_skills:  list[str],
-    score:           float = None
-) -> str:
-    matched_text = "\n".join(
-        f"  - {m['skill']} ({m['type']})"
-        for m in gap["matched"]
-    ) or "  None"
+    by_skill: dict[str, list[dict]] = {}
+    seen_course_ids: set[str] = set(completed_ids)
+    flat_list: list[dict] = []
+    high_priority_skills = set(missing_technical[:3])
 
-    missing_tech_text = "\n".join(
-        f"  - {s}" for s in gap["missing_technical"]
-    ) or "  None"
+    for skill, courses in recommendations_raw.items():
+        filtered: list[dict] = []
+        for course in courses:
+            cid = course["course_id"].upper()
+            if cid in seen_course_ids:
+                continue
+            seen_course_ids.add(cid)
 
-    missing_soft_text = "\n".join(
-        f"  - {s}" for s in gap["missing_soft"]
-    ) or "  None"
-
-    # Build course recommendations with FULL details
-    rec_lines = []
-    for skill, courses in recommendations.items():
-        if courses:
-            course_list = " | ".join(
-                f"{c['course_id']} — {c['title']}"
-                for c in courses
+            catalog_entry = all_course_map.get(cid, {})
+            priority = (
+                "high" if skill in high_priority_skills
+                else "medium" if skill in missing_technical
+                else "medium"
             )
-            rec_lines.append(f"  - For '{skill}': {course_list}")
+            enriched = {
+                "course_id": course["course_id"],
+                "title": course.get("title", ""),
+                "course_type": catalog_entry.get("course_type", "Elective"),
+                "skill_addressed": skill,
+                "priority": priority,
+            }
+            filtered.append(enriched)
+            flat_list.append(enriched)
 
-    rec_text = "\n".join(rec_lines) if rec_lines else "  None available"
+        if filtered:
+            by_skill[skill] = filtered
 
-    score_text = f" (match confidence: {score})" if score else ""
+    return by_skill, flat_list
+
+
+_NARRATIVE_SYSTEM = """
+You are a skills gap advisor for graduate students at UT Dallas.
+You will be given a fully pre-computed gap analysis. Narrate it clearly.
+Plain text only, no markdown.
+Do not invent course IDs. Use only listed course IDs.
+Never recommend completed courses.
+Do not include numeric counts for matched, partial, or missing skills.
+When discussing missing soft skills, phrase it like:
+"Don't forget to improve on soft skills required for this job: ..."
+Keep total response under 550 words.
+""".strip()
+
+
+def _build_narrative_context(
+    job_title: str,
+    ratings: list[dict],
+    gap,
+    completed_ids: set[str],
+    flat_courses: list[dict],
+) -> str:
+    matched = [r for r in ratings if r["rating"] == "matched"]
+    partial = [r for r in ratings if r["rating"] == "partial"]
+    missing = [r for r in ratings if r["rating"] == "missing"]
+
+    tech_set = {s.lower().strip() for s in gap.required_technical}
+    matched_tech = [r["skill"] for r in matched if r["skill"].lower().strip() in tech_set]
+    matched_soft = [r["skill"] for r in matched if r["skill"].lower().strip() not in tech_set]
+    partial_tech = [r["skill"] for r in partial if r["skill"].lower().strip() in tech_set]
+    missing_tech = [r["skill"] for r in missing if r["skill"].lower().strip() in tech_set]
+    missing_soft = [r["skill"] for r in missing if r["skill"].lower().strip() not in tech_set]
+
+    courses_text = "\n".join(
+        f"  {c['course_id']} — {c['title']} (builds: {c['skill_addressed']}, priority: {c['priority']})"
+        for c in flat_courses
+    ) or "  None available."
+
+    completed_text = (
+        "\n".join(f"  - {cid}" for cid in sorted(completed_ids))
+        if completed_ids else "  None"
+    )
+
+    evidence_lines = []
+    for rating in matched[:5]:
+        if rating.get("evidence"):
+            evidence_lines.append(f'  {rating["skill"]}: "{rating["evidence"]}"')
+    evidence_block = "\n".join(evidence_lines) or "  (no quotes available)"
 
     return f"""
-SKILLS GAP ANALYSIS
-===================
-Target Role: {job_title}{score_text}
+GAP ANALYSIS — PRE-COMPUTED. NARRATE ONLY.
+Target Role: {job_title}
+Match Score: {gap.match_percent}%
 
-STUDENT SKILLS ({len(student_skills)}):
-  {', '.join(student_skills) if student_skills else 'None identified'}
+MATCHED TECHNICAL SKILLS: {', '.join(matched_tech) or 'None'}
+MATCHED SOFT SKILLS: {', '.join(matched_soft) or 'None'}
 
-MATCHED SKILLS ({len(gap['matched'])}):
-{matched_text}
+EVIDENCE FROM RESUME (top matched skills):
+{evidence_block}
 
-MISSING TECHNICAL SKILLS ({len(gap['missing_technical'])}):
-{missing_tech_text}
+PARTIAL SKILLS — on resume but need more depth:
+{', '.join(partial_tech) or 'None'}
 
-MISSING SOFT SKILLS ({len(gap['missing_soft'])}):
-{missing_soft_text}
+MISSING TECHNICAL SKILLS — high priority first:
+{chr(10).join(f'  - {s}' for s in missing_tech) or '  None'}
 
-COURSE RECOMMENDATIONS — USE ONLY THESE, NO OTHERS:
-{rec_text}
+MISSING SOFT SKILLS:
+{', '.join(missing_soft) or 'None'}
 
-IMPORTANT: The course list above is the COMPLETE and ONLY list of
-available courses. Do not suggest, invent, or reference any course
-that is not explicitly listed above with its course ID and title.
-    """.strip()
+COMPLETED COURSES (NEVER RECOMMEND THESE):
+{completed_text}
 
-# ── Endpoint 1: Courses + job role or job description ────────────────────────
+COURSE RECOMMENDATIONS (USE ONLY THESE EXACT IDs, NO OTHERS):
+{courses_text}
+""".strip()
 
-@router.post("/analyze")
-def analyze_from_courses(request: CourseGapRequest):
-    # Step 1 — validate courses and extract student skills
-    validation    = validate_course_list(request.completed_courses)
-    valid_courses = validation["valid"]
 
-    all_courses = load_courses_for_program(request.program_id or "msba")
+def _build_structured_analysis(job_title: str, ratings: list[dict], gap, flat_courses: list[dict]) -> dict:
+    tech_set = {s.lower().strip() for s in gap.required_technical}
+    matched_skills = []
+    for rating in ratings:
+        if rating["rating"] != "matched":
+            continue
+        skill = rating["skill"]
+        matched_skills.append({
+            "skill": skill,
+            "type": "technical" if skill.lower().strip() in tech_set else "soft",
+            "evidence": rating.get("evidence", ""),
+        })
 
-    course_map     = {c["course_id"]: c for c in all_courses}
-    student_skills = []
-    for course in valid_courses:
-        skills = course_map.get(
-            course["course_id"], {}
-        ).get("skills_taught") or []
-        student_skills.extend(skills)
-    student_skills = list(set(student_skills))
+    partial_skills = []
+    for rating in ratings:
+        if rating["rating"] != "partial":
+            continue
+        skill = rating["skill"]
+        partial_skills.append({
+            "name": skill,
+            "category": "technical" if skill.lower().strip() in tech_set else "soft",
+            "evidence": rating.get("evidence", ""),
+        })
 
-    # Step 2 — get job requirements
-    # Priority: job description > job role name
-    confidence_warning = None
+    missing_soft = [
+        rating["skill"]
+        for rating in ratings
+        if rating["rating"] == "missing" and rating["skill"].lower().strip() not in tech_set
+    ]
 
-    if request.job_description.strip():
-        # Extract skills from raw JD using LLM
-        jd_data  = extract_skills_from_jd(request.job_description)
-        job_role = {
-            "job_title":        jd_data.get("job_title", "Target Role"),
-            "technical_skills": jd_data.get("technical_skills", []),
-            "soft_skills":      jd_data.get("soft_skills", [])
-        }
-
-    elif request.target_job.strip():
-        # Match against Pinecone skills index
-        job_role = query_job_role(request.target_job)
-        if not job_role:
-            return {
-                "error": f"No matching role found for: {request.target_job}"
-            }
-        if job_role["score"] < 0.75:
-            confidence_warning = (
-                f"Your target role '{request.target_job}' was matched to "
-                f"'{job_role['job_title']}' with low confidence "
-                f"({job_role['score']}). Consider pasting a job description "
-                f"instead for more accurate results."
-            )
-    else:
-        return {"error": "Please provide either a target job title or a job description."}
-
-    # Step 3 — compute gap
-    gap             = compute_gap(student_skills, job_role)
-    recommendations = query_courses_for_skills(
-        gap["missing_technical"],
-        n_per_skill=2,
-        program_id=request.program_id or "msba"
-    )
-
-    # Step 4 — build summary and get LLM response
-    summary = build_gap_summary(
-        gap, recommendations,
-        job_role["job_title"],
-        student_skills,
-        score=job_role.get("score")
-    )
-
-    messages = request.conversation_history + [{
-        "role":    "user",
-        "content": f"{request.message}\n\n{summary}"
-    }]
-
-    result = chat(system_prompt=SYSTEM_PROMPT, messages=messages)
+    missing_skills = []
+    for skill in gap.missing_technical:
+        missing_skills.append({"name": skill, "category": "technical", "weight": 1.0})
+    for skill in missing_soft:
+        missing_skills.append({"name": skill, "category": "soft", "weight": 0.5})
 
     return {
-        "response":           result["text"],
-        "corrections":        result["corrections"],
-        "removed":            result["removed"],
-        "job_role":           job_role,
-        "confidence_warning": confidence_warning,
-        "gap":                gap,
-        "recommendations":    recommendations,
-        "student_skills":     student_skills,
-        "invalid_courses":    validation["invalid"]
+        "job_title": job_title,
+        "match_score": gap.match_score,
+        "match_percent": gap.match_percent,
+        "total_required": gap.total_required,
+        "total_matched": gap.total_matched,
+        "matched_skills": matched_skills,
+        "missing_technical": gap.missing_technical,
+        "missing_soft": missing_soft,
+        "recommended_courses": flat_courses,
+        "student_skills_count": len(gap.resume_skills),
+        # extra fields for the new judge-based flow
+        "total_partial": len(partial_skills),
+        "total_missing": len(missing_skills),
+        "partial_skills": partial_skills,
+        "missing_skills": missing_skills,
     }
 
-# ── Endpoint 2: Resume + job role or job description ─────────────────────────
 
 @router.post("/analyze-resume")
 async def analyze_from_resume(
-    file:            UploadFile = File(...),
-    target_job:      str        = Form(default=""),
-    job_description: str        = Form(default="")
+    file: UploadFile = File(...),
+    target_job: str = Form(default=""),
+    job_description: str = Form(default=""),
+    completed_courses: str = Form(default="[]"),
+    program_id: str = Form(default="msba"),
 ):
-    # Step 1 — parse resume
-    file_bytes    = await file.read()
-    resume_data   = parse_resume(file_bytes)
+    try:
+        completed_list = _json.loads(completed_courses)
+    except Exception:
+        completed_list = []
+    completed_ids = {c.strip().upper() for c in completed_list if isinstance(c, str) and c.strip()}
 
-    if "error" in resume_data:
-        return {"error": resume_data["error"]}
+    file_bytes = await file.read()
+    mime_type = file.content_type or "application/pdf"
+    parse_result = parse_resume(file_bytes, mime_type)
+    if parse_result.get("error") or not parse_result.get("raw_text", "").strip():
+        error_msg = parse_result.get("error") or "Could not extract text from resume."
+        return {"error": error_msg, "structured_analysis": None, "response": error_msg}
 
-    student_skills = resume_data["skills"]
+    resume_text = parse_result["raw_text"]
 
-    # Step 2 — get job requirements
-    confidence_warning = None
-
-    if job_description.strip():
-        jd_data  = extract_skills_from_jd(job_description)
-        job_role = {
-            "job_title":        jd_data.get("job_title", "Target Role"),
-            "technical_skills": jd_data.get("technical_skills", []),
-            "soft_skills":      jd_data.get("soft_skills", [])
-        }
-
-    elif target_job.strip():
-        job_role = query_job_role(target_job)
-        if not job_role:
-            return {"error": f"No matching role found for: {target_job}"}
-        if job_role["score"] < 0.75:
-            confidence_warning = (
-                f"Your target role '{target_job}' was matched to "
-                f"'{job_role['job_title']}' with low confidence "
-                f"({job_role['score']}). Consider pasting a job description "
-                f"for more accurate results."
-            )
+    if target_job.strip():
+        role_data = _load_role_from_skills_json(target_job.strip())
+        if not role_data:
+            role_data = extract_skills_from_jd(target_job.strip())
+            role_data["job_title"] = target_job.strip()
+    elif job_description.strip():
+        role_data = extract_skills_from_jd(job_description.strip())
     else:
-        return {
-            "error": "Please provide either a target job title or job description."
-        }
+        msg = "Please provide either a target job title or a job description."
+        return {"error": msg, "structured_analysis": None, "response": msg}
 
-    # Step 3 — compute gap
-    gap             = compute_gap(student_skills, job_role)
-    recommendations = query_courses_for_skills(
-        gap["missing_technical"], n_per_skill=2
+    job_title = role_data.get("job_title", "Target Role")
+    all_required_skills = (role_data.get("technical_skills") or []) + (role_data.get("soft_skills") or [])
+    if not all_required_skills:
+        msg = "Could not identify required skills for this role. Try pasting the full job description instead."
+        return {"error": msg, "structured_analysis": None, "response": msg}
+
+    ratings = extract_and_rate_skills(resume_text, all_required_skills)
+    resume_skills_for_scoring = _ratings_to_resume_skills(ratings)
+
+    gap = compute_gap(
+        resume_skills=resume_skills_for_scoring,
+        required_technical=role_data.get("technical_skills") or [],
+        # Score should reflect technical fit only; soft skills are shown as guidance.
+        required_soft=[],
     )
 
-    # Step 4 — build summary and get LLM response
-    resume_context = f"""
-Student Profile from Resume:
-- Skills identified: {', '.join(student_skills) if student_skills else 'None'}
-- Past job titles: {', '.join(resume_data.get('job_titles', [])) or 'None'}
-- Education: {', '.join(resume_data.get('education', [])) or 'None'}
-- Experience: {resume_data.get('experience_years', 'Unknown')} years
-    """.strip()
+    missing_tech = [r["skill"] for r in ratings if r["rating"] == "missing" and r["skill"] in (role_data.get("technical_skills") or [])]
+    partial_tech = [r["skill"] for r in ratings if r["rating"] == "partial" and r["skill"] in (role_data.get("technical_skills") or [])]
 
-    summary = build_gap_summary(
-        gap, recommendations,
-        job_role["job_title"],
-        student_skills,
-        score=job_role.get("score")
+    _, flat_courses = _get_course_recommendations(
+        missing_technical=missing_tech,
+        partial_technical=partial_tech,
+        completed_ids=completed_ids,
+        program_id=program_id or "msba",
     )
 
-    full_context = f"{resume_context}\n\n{summary}"
-
-    result = chat(
-        system_prompt=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": full_context}]
+    narrative_context = _build_narrative_context(
+        job_title=job_title,
+        ratings=ratings,
+        gap=gap,
+        completed_ids=completed_ids,
+        flat_courses=flat_courses,
     )
 
+    llm_result = chat(
+        system_prompt=_NARRATIVE_SYSTEM,
+        messages=[{"role": "user", "content": narrative_context}],
+    )
+
+    structured = _build_structured_analysis(job_title, ratings, gap, flat_courses)
     return {
-        "response":           result["text"],
-        "corrections":        result["corrections"],
-        "removed":            result["removed"],
-        "job_role":           job_role,
-        "confidence_warning": confidence_warning,
-        "gap":                gap,
-        "recommendations":    recommendations,
-        "student_skills":     student_skills,
-        "resume_data":        resume_data,
-        # Optional: LLM JSON parse failed but heuristic skills were used — not prepended to chat text.
-        "resume_parse_note":  resume_data.get("parse_warning"),
+        "response": llm_result["text"],
+        "corrections": llm_result.get("corrections", []),
+        "removed": llm_result.get("removed", []),
+        "structured_analysis": structured,
+        "resume_text_length": len(resume_text),
+        "confidence_warning": None,
+    }
+
+
+class FollowUpRequest(BaseModel):
+    message: str
+    conversation_history: list[dict] = []
+    structured_analysis: dict | None = None
+    completed_courses: list[str] = []
+    course_history: list[dict] = []
+    program_id: str = "msba"
+
+
+_FOLLOWUP_SYSTEM = """
+You are a skills gap advisor for graduate students at UT Dallas.
+
+You have already performed a gap analysis for this student. The prior results
+are provided below. Answer their follow-up questions about:
+- Which missing skills to prioritize and why
+- How to build a specific skill efficiently
+- Which recommended course to take first
+- How this role compares to similar roles
+- Next steps given their current skill level
+
+If asked about degree planning (credits, scheduling, graduation requirements):
+  Redirect: "For degree planning, please switch to the Degree Planner."
+
+If asked about career paths unrelated to the gap analysis:
+  Redirect: "For broader career guidance, the Career Mentor is better suited for that."
+""".strip()
+
+
+@router.post("/analyze")
+def analyze_followup(request: FollowUpRequest):
+    from_history: list[str] = []
+    if isinstance(request.course_history, list):
+        for item in request.course_history:
+            if isinstance(item, dict) and isinstance(item.get("course"), str):
+                from_history.append(item["course"])
+
+    validation = validate_course_list(list(request.completed_courses or []) + from_history)
+    _ = {c["course_id"].upper() for c in validation["valid"]}
+
+    system = _FOLLOWUP_SYSTEM
+    if request.structured_analysis:
+        sa = request.structured_analysis
+        matched_names = ", ".join(s.get("name", s.get("skill", "")) for s in sa.get("matched_skills", []))
+        missing_names = ", ".join(s.get("name", "") for s in sa.get("missing_skills", []))
+        partial_names = ", ".join(s.get("name", "") for s in sa.get("partial_skills", []))
+        rec_names = ", ".join(
+            f"{r.get('course_id')} ({r.get('skill_addressed')})"
+            for r in sa.get("recommended_courses", [])
+        )
+        system += f"""
+
+PRIOR ANALYSIS — reference this when answering:
+Role: {sa.get('job_title', 'Unknown')}
+Match: {sa.get('match_percent', 0)}%
+Matched skills: {matched_names or 'None'}
+Partial skills (on resume but need depth): {partial_names or 'None'}
+Missing skills: {missing_names or 'None'}
+Recommended courses: {rec_names or 'None'}
+"""
+
+    messages = list(request.conversation_history) + [{"role": "user", "content": request.message}]
+    result = chat(system_prompt=system, messages=messages)
+    return {
+        "response": result["text"],
+        "corrections": result.get("corrections", []),
+        "removed": result.get("removed", []),
     }

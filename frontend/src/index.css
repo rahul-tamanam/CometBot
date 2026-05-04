@@ -87,4 +87,101 @@
   .animate-chat-pop {
     animation: chat-pop 220ms ease-out both;
   }
+
+  .boxes {
+    position: relative;
+    width: 72px;
+    height: 72px;
+  }
+
+  .box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    transform-style: preserve-3d;
+  }
+
+  .box-1 {
+    animation: box1 1.6s infinite;
+  }
+
+  .box-2 {
+    animation: box2 1.6s infinite;
+  }
+
+  .box-3 {
+    animation: box3 1.6s infinite;
+  }
+
+  .box-4 {
+    animation: box4 1.6s infinite;
+  }
+
+  .face {
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+  }
+
+  .face-front {
+    background: #ff7a1a;
+  }
+
+  .face-right {
+    background: #ff9a33;
+  }
+
+  .face-top {
+    background: #ffb866;
+  }
+
+  .face-back {
+    background: #ff4d4d;
+  }
+
+  @keyframes box1 {
+    0%,
+    50% {
+      transform: translate(100%, 0);
+    }
+    100% {
+      transform: translate(200%, 0);
+    }
+  }
+
+  @keyframes box2 {
+    0% {
+      transform: translate(0, 100%);
+    }
+    50% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(100%, 0);
+    }
+  }
+
+  @keyframes box3 {
+    0%,
+    50% {
+      transform: translate(100%, 100%);
+    }
+    100% {
+      transform: translate(0, 100%);
+    }
+  }
+
+  @keyframes box4 {
+    0% {
+      transform: translate(200%, 0);
+    }
+    50% {
+      transform: translate(200%, 100%);
+    }
+    100% {
+      transform: translate(100%, 100%);
+    }
+  }
 }

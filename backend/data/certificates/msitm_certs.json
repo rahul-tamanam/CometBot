@@ -1,1 +1,214 @@
-[]
+[
+    {
+        "cert_title": "Graduate Certificate in Healthcare Information Technology",
+        "total_credits": 9,
+        "overview": "The Graduate Certificate in Health Information Technology emphasizes practical concepts in healthcare IT and hands on experience gained using electronic medical records (EMR) software. The focus will be on identification and understanding the key information required for managing and working with healthcare information systems. It also demonstrates the use of analytics and software tools related to healthcare information to develop sound healthcare decisions, particularly the core functionalities of the EMR software platform, including how to support clinical information workflows in a paperless environment, and the interconnectivity with other clinical and business systems.",
+        "course_id": [
+            [
+                "MIS 6317"
+            ],
+            [
+                "MIS 6305"
+            ],
+            [
+                "MIS 6381"
+            ]
+        ],
+        "skills_taught": [
+            "Healthcare Information Systems Management",
+            "Electronic Medical Health Records Systems",
+            "Clinical Information Workflow Analysis",
+            "Healthcare Data Management",
+            "Healthcare Data Integration",
+            "Healthcare IT Governance",
+            "Healthcare Analytics and Business Intelligence",
+            "Decision Analysis for Healthcare",
+            "Healthcare Data Mining",
+            "Healthcare Software Tools: R, Rattle, WEKA, EMR Platforms"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Intelligent Enterprise Systems",
+        "total_credits": 9,
+        "overview": "The Graduate Certificate in Intelligent Enterprise Systems emphasizes theoretical concepts in enterprise resource planning and hands on experience using SAP S/4HANA premise and cloud software. It provides broad exposure to various SAP functional modules such as sales and distribution, supply chain management, procurement, human capital management, accounting, and data warehousing. It also provides theory and hands on exposure to configuring and implementing an S/4HANA System from scratch. Furthermore, the certificate program provides students with an opportunity to get an in-depth knowledge of one of these modules.",
+        "course_id": [
+            [
+                "MIS 6319"
+            ],
+            [
+                "MIS 6332"
+            ],
+            [
+                "MIS 6309",
+                "MIS 6338",
+                "MIS 6369",
+                "MIS 6371"
+            ]
+        ],
+        "skills_taught": [
+            "SAP S/4HANA Enterprise Systems",
+            "Enterprise Resource Planning",
+            "SAP Fiori and SAP GUI",
+            "Enterprise Business Process Integration",
+            "SAP Configuration and Implementation",
+            "Sales, Procurement, Finance, Production, and Material Management Modules",
+            "Enterprise-Wide Analytics and Reporting",
+            "Business Data Warehousing and ETL",
+            "Cloud-Based Enterprise Solutions",
+            "SAP Cloud Analytics, AI Integration, and Supply Chain Planning"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Business Analytics and Data Mining",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Business Analytics and Data Mining provides students with an understanding of how to analyze large complex data sets in order to solve business problems. It emphasizes theoretical concepts and clinical knowledge associated with the design, delivery and use of business analytics, business intelligence, and data mining techniques in organizations.",
+        "course_id": [
+            [
+                "OPRE 6301",
+                "OPRE 6359"
+            ],
+            [
+                "MIS 6309",
+                "MIS 6346"
+            ],
+            [
+                "MIS 6324",
+                "MIS 6356",
+                "MIS 6386"
+            ],
+            [
+                "MIS 6334",
+                "MIS 6357",
+                "MIS 6341",
+                "MIS 6344",
+                "MIS 6371",
+                "MIS 6373",
+                "MIS 6380",
+                "MIS 6385",
+                "MIS 6386",
+                "MIS 6392",
+                "BUAN 6335",
+                "BUAN 6340"
+            ]
+        ],
+        "skills_taught": [
+            "Statistical Analysis and Hypothesis Testing",
+            "Regression Analysis and Predictive Modeling",
+            "Business Intelligence and Decision Analytics",
+            "Data Mining and Pattern Discovery",
+            "Data Warehousing, ETL, and OLAP",
+            "Big Data Analytics and Cloud Computing",
+            "Machine Learning for Business Applications",
+            "Customer Analytics, CRM, and Recommendation Systems",
+            "Data Visualization and Strategic Communication",
+            "Analytics Tools: R, Python, SAS, Tableau, Google Analytics, Hadoop, Hive, Spark, Databricks"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Product Management",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Product Management is designed to provide students with the essential skills and knowledge to excel in the dynamic field of product management. This program focuses on developing a product-oriented mindset, mastering agile methodologies, and enhancing user experience design capabilities.",
+        "course_id": [
+            [
+                "MIS 6393"
+            ],
+            [
+                "MIS 6360"
+            ],
+            [
+                "MIS 6396",
+                "MIS 6354"
+            ],
+            [
+                "MIS 6313",
+                "MIS 6354",
+                "MIS 6375",
+                "MIS 6377",
+                "MIS 6380",
+                "MIS 6388",
+                "MIS 6396"
+            ]
+        ],
+        "skills_taught": [
+            "Digital Product Management",
+            "Product Strategy and Roadmap Planning",
+            "Agile Project Management",
+            "User Experience Design",
+            "User-Centered Web Development",
+            "Technology Product Development",
+            "Corporate Innovation and Entrepreneurship",
+            "Product Discovery and Customer Needs Analysis",
+            "Stakeholder Management and Cross-Functional Collaboration",
+            "Data Visualization for Product Decision-Making"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Cybersecurity Systems",
+        "total_credits": 12,
+        "overview": "The volume and sophistication of cybersecurity threats point to a critical demand for research and education in the general area of cybersecurity, which is highly interdisciplinary by nature. Elements from computer science and information technology management form the basis for systems-related technologies to secure typical vulnerabilities. In addressing this growing critical demand, the Certificate in Cybersecurity Systems (CCSS) offered at UT Dallas provides a joint program between the Erik Jonsson School of Engineering and Computer Science and Naveen Jindal School of Management. The CCSS requires 12 semester credit hours, and may be combined with other courses and/or certificates toward an MS degree in Computer Science, Information Technology and Management, or Business Analytics, provided that the student has gained admission into that particular program. To earn the certificate, students in the program must complete four courses with an overall GPA of 3.0 and no course grade should be below a C.",
+        "course_id": [
+            [
+                "MIS 6330"
+            ],
+            [
+                "MIS 6324"
+            ],
+            [
+                "MIS 6333"
+            ],
+            [
+                "MIS 6337"
+            ]
+        ],
+        "skills_taught": [
+            "Cybersecurity Fundamentals",
+            "Information Security and Systems Protection",
+            "Network Security",
+            "Data and Application Security",
+            "Digital Forensics and Incident Management",
+            "IT Audit and Risk Management",
+            "Identity and Access Management",
+            "Cloud Security and Cloud Architecture",
+            "Cybersecurity Analytics and Threat Preparedness",
+            "Governance, Risk Management, Compliance, and Fraud Examination"
+        ]
+    },
+    {
+        "cert_title": "Graduate Certificate in Cybersecurity Risk Management",
+        "total_credits": 12,
+        "overview": "The Graduate Certificate in Cybersecurity Risk Management equips professionals to identify, assess, and mitigate cyber threats in business settings. The curriculum includes IT audit, risk management, internal audit, analytical reviews, governance, compliance, and fraud examination. Elective courses on legal aspects and ethics of cybersecurity prepare students for the regulatory landscape. This program enables students to implement effective cybersecurity measures, safeguard assets, and ensure compliance with industry standards.",
+        "course_id": [
+            [
+                "MIS 6351"
+            ],
+            [
+                "MIS 6384"
+            ],
+            [
+                "BUAN 6368"
+            ],
+            [
+                "MIS 6330",
+                "MIS 6337",
+                "ACCT 6334",
+                "ACCT 6380",
+                "ACCT 6384",
+                "ACCT 6386",
+                "ACCT 6383",
+                "PPPE 6315"
+            ]
+        ],
+        "skills_taught": [
+            "Cybersecurity Risk Assessment and Mitigation",
+            "Identity and Access Management",
+            "Cyber Threat Preparedness",
+            "Applied Cybersecurity Analytics",
+            "IT Audit and Risk Management",
+            "Governance, Risk Management, and Compliance",
+            "Internal Audit and Cybersecurity Controls",
+            "Fraud Examination and Detection",
+            "Analytical Reviews Using Audit Software",
+            "Cybersecurity Law, Ethics, and Regulatory Compliance"
+        ]
+    }
+]

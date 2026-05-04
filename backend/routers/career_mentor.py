@@ -216,6 +216,11 @@ def career_mentor_chat(request: ChatRequest):
     # Step 1 — embed query once (avoid duplicate embedding work)
     program_id = (request.program_id or "msba").strip().lower()
     program_certs = _load_certs_for_program(program_id)
+    allowed_cert_titles = {
+        (c.get("cert_title") or "").strip().lower()
+        for c in program_certs
+        if (c.get("cert_title") or "").strip()
+    }
     program_courses = load_courses_for_program(program_id)
     course_title_by_id = {
         _normalize_course_id(c.get("course_id", "")): (c.get("title", "") or "").strip()
@@ -241,6 +246,12 @@ def career_mentor_chat(request: ChatRequest):
         try:
             cert_embedding = get_embedding(sanitize(cert_query_text))
             matched_certs = query_certificates_by_embedding(cert_embedding, top_k=6)
+            # Keep certificate retrieval logic unchanged, but enforce current program scope.
+            if allowed_cert_titles:
+                matched_certs = [
+                    cert for cert in matched_certs
+                    if (cert.get("cert_title") or "").strip().lower() in allowed_cert_titles
+                ]
         except Exception:
             matched_certs = []
     if not matched_certs:
