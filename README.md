@@ -1,134 +1,147 @@
 # JSOMAdvisor (CometBot)
 
-JSOMAdvisor is a full-stack advising app for the JSOM MSBA program, with three assistant workflows:
+JSOMAdvisor is a full-stack advising app for JSOM graduate programs (MSBA, MSITM), with three assistant workflows:
 
-- Degree Planner
-- Career Mentor
-- Skills Gap Analyzer
+- **Degree Planner** (Comet) — catalog-based progress, remaining courses, LLM narrative
+- **Career Mentor** — role fit, certificate paths
+- **Skills Gap Analyzer** — JD / resume–driven skill gaps
 
-## Current Architecture
+## Architecture
 
-- Frontend: React + Vite + TypeScript + Tailwind
-- Backend: FastAPI + Python
-- Data/infra:
-  - Neo4j for prerequisite/eligibility graph logic
-  - Pinecone for semantic retrieval
-  - LLM chat service for natural-language responses
+- **Frontend:** React + Vite + TypeScript + Tailwind (multi-page: main site + app shell under `/app/`)
+- **Backend:** FastAPI (Python)
+- **Data / infra:**
+  - **Neo4j** — prerequisite and eligibility graph
+  - **Pinecone** — semantic retrieval (courses, skills, certificates)
+  - **Groq** — OpenAI-compatible chat completions for LLM responses
 
-## Current Runtime Behavior
+## Runtime behavior
 
-- Deterministic logic is used for:
-  - Degree requirement math and remaining-course calculations
-  - Only-one-of course group constraints
-  - Certificate eligibility and remaining requirement groups
-  - UI entity highlighting (dictionary-based course/certificate highlighting)
-- Probabilistic logic is used for:
-  - LLM narrative phrasing
-  - Semantic retrieval ranking from Pinecone
+- **Deterministic:** degree math, only-one-of groups, certificate groups, course validation, structured API payloads
+- **Probabilistic:** LLM phrasing, Pinecone ranking
 
-## Key Data Files
+## Key data files
 
-- `backend/data/courses.json`: course catalog and metadata
-- `backend/data/skills.json` (or `skills_clean.json`): job role skills corpus
-- `backend/data/certificates/msba_certs.json`: MSBA certificate definitions
-- `backend/data/programs/msba/rules.json`: program-level credit and group rules used by Degree Planner
+| Path | Role |
+|------|------|
+| `backend/data/courses/msba_courses.json` | MSBA catalog (per program) |
+| `backend/data/courses/msitm_courses.json` | MSITM catalog |
+| `backend/data/courses/shared_courses.json` | Cross-program courses (e.g. MAS 6102); merged by `course_loader` |
+| `backend/data/skills.json` | Job / skills corpus for indexing |
+| `backend/data/certificates/msba_certs.json` (etc.) | Certificate definitions |
+| `backend/data/programs/<program>/rules.json` | Credits, non-credit reqs, internship rules |
 
-## Project Structure
+There is no single `backend/data/courses.json`; the loader merges program JSON + shared courses.
+
+## Project structure
 
 ```text
 JSOMAdvisor/
-├── frontend/                      # React UI
-├── backend/                       # FastAPI app
-│   ├── routers/                   # degree_planner, career_mentor, skills_gap
-│   ├── services/                  # neo4j, pinecone, llm, validators
-│   └── data/                      # courses, skills, certificates, program rules
-├── .env
+├── frontend/                 # Vite app (`npm run dev` → http://localhost:5173)
+├── backend/                  # FastAPI (`main.py`, routers, services, data)
+├── .env                      # local secrets (gitignored) — copy from .env.example
+├── .env.example              # template for backend + pointers for frontend
+├── frontend/.env.example     # Vite env template (transcript API URL)
 └── README.md
 ```
 
-## Setup
+## Quick setup
 
-### Backend (Port 8000)
+### 1. Backend (port 8000)
+
+From the **project root** (the directory that contains `backend/`):
 
 ```powershell
 python -m venv venv
-venv\Scripts\activate
+.\venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn backend.main:app --reload --port 8000
 ```
 
-Backend URL: `http://127.0.0.1:8000`
+Create `.env` from `.env.example` and fill in Neo4j, Pinecone, and `GROQ_API_KEY`.
 
-### Frontend (Port 5173)
+```powershell
+uvicorn backend.main:app --reload --port 8000 --env-file .env
+```
+
+- API: `http://127.0.0.1:8000`
+- Docs: `http://127.0.0.1:8000/docs`
+
+`backend/main.py` calls `load_dotenv()`; using `--env-file .env` with uvicorn keeps env explicit for demos.
+
+### 2. Frontend (port 5173)
 
 ```powershell
 cd frontend
 npm install
+```
+
+Copy `frontend/.env.example` to `frontend/.env` and set `VITE_TRANSCRIPTPARSER_API` to your running API, e.g. `http://127.0.0.1:8000/api/parse-transcript`, if you use transcript upload on onboarding.
+
+```powershell
 npm run dev
 ```
 
-Frontend URL: `http://localhost:5173`
+- App with React Router: use **`http://localhost:5173/app/onboarding`** or **`http://localhost:5173/app`** as routed (basename `/app`).
+- Production build: `npm run build` → output under `frontend/dist/`.
 
-## Environment Variables
+### 3. Environment variables
 
-Create `.env` in project root:
+| Variable | Where | Purpose |
+|----------|--------|---------|
+| `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD` | Root `.env` | Graph DB |
+| `PINECONE_API_KEY`, `PINECONE_INDEX` | Root `.env` | Vector index |
+| `GROQ_API_KEY` | Root `.env` | LLM (required for chat features) |
+| `GROQ_MODEL`, `LLM_MAX_TOKENS`, `LLM_FORCE_SYSTEM_IN_USER` | Root `.env` | Optional LLM tuning |
+| `CORS_ALLOW_ORIGINS` | Root `.env` | Optional comma-separated origins |
+| `VITE_TRANSCRIPTPARSER_API` | `frontend/.env` | POST URL for PDF transcript parsing |
+| `VITE_SKIP_PASSWORD_AUTH` | `frontend/.env` | Optional dev flag (see `frontend/src/auth.ts`) |
 
-```env
-NEO4J_URI=neo4j+s://<your-instance>.databases.neo4j.io
-NEO4J_USERNAME=<username>
-NEO4J_PASSWORD=<password>
+Details and placeholders: **`.env.example`** and **`frontend/.env.example`**.
 
-PINECONE_API_KEY=<api-key>
-PINECONE_INDEX=<index-name>
+## API endpoints (summary)
 
-OPENAI_API_KEY=<api-key>
-```
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/api/health` | Health check |
+| GET | `/api/courses?program_id=msba` | Program course catalog (profile / lookups) |
+| GET | `/api/programs` | Program list |
+| GET | `/api/certificates?program_id=msba` | Certificate metadata |
+| POST | `/api/parse-transcript` | PDF transcript parse (onboarding) |
+| POST | `/api/degree-planner/chat` | Planner chat + structured progress |
+| POST | `/api/degree-planner/plan` | Deterministic semester plan |
+| POST | `/api/career-mentor/chat` | Career guidance |
+| POST | `/api/skills-gap/analyze` | Skills gap from form data |
+| POST | `/api/skills-gap/analyze-resume` | Skills gap from resume upload |
 
-## API Endpoints (Current)
+## Pinecone index (optional one-time / refresh)
 
-- `GET /api/health` - service health
-- `GET /api/courses` - course IDs/titles/types/credits (frontend uses this for dictionary highlighting and lookup)
-- `GET /api/certificates` - certificate titles/requirements (frontend uses this for dictionary highlighting)
-- `POST /api/degree-planner/chat` - planner chat response + structured progress payload
-- `POST /api/degree-planner/plan` - deterministic semester plan endpoint
-- `POST /api/career-mentor/chat` - career guidance + matched certificates + eligibility details
-- `POST /api/skills-gap/analyze` - skills gap analysis from entered data
-- `POST /api/skills-gap/analyze-resume` - skills gap analysis from resume upload
-
-## Semantic Indexing
-
-The Pinecone index build script upserts:
-
-- Courses (namespace: `courses`)
-- Job roles/skills (namespace: `skills`)
-- Certificates (namespace: `certificates`)
-
-Run:
+The build script upserts courses, skills, and certificates into namespaces (e.g. `courses`, `skills`, `certificates`).
 
 ```powershell
-venv\Scripts\python backend/build_pinecone_index.py
+.\venv\Scripts\python backend\build_pinecone_index.py
 ```
 
-## Career Mentor (Current Certificate Flow)
+## Demo checklist
 
-1. Retrieve job role + relevant courses semantically from Pinecone.
-2. Retrieve certificate recommendations semantically from Pinecone `certificates` namespace.
-3. Fallback to legacy rule-based cert matcher if semantic retrieval is unavailable.
-4. Merge student profile history (`completed_courses` + `course_history`) and compute:
-   - completed courses per certificate
-   - remaining requirement groups
-   - eligibility now / remaining path
-5. Return natural-language fit buckets (no raw numeric score shown to user).
+1. **`.env`** at repo root with Neo4j, Pinecone, and **`GROQ_API_KEY`**.
+2. **`frontend/.env`** with **`VITE_TRANSCRIPTPARSER_API`** if demoing transcript upload.
+3. Start **backend** on 8000, then **frontend** on 5173.
+4. Open the app at **`/app/`** routes (e.g. `/app/onboarding`).
+5. If degree chat errors on Neo4j, confirm Aura credentials and that the graph matches expected course nodes.
 
-## Common Issues
+## Common issues
 
-- Neo4j DNS/auth errors:
-  - verify `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`
-- Pinecone retrieval/index issues:
-  - verify `PINECONE_API_KEY`, `PINECONE_INDEX`
-  - re-run `backend/build_pinecone_index.py`
-- Endpoint mismatch after code edits:
-  - restart backend and confirm route exists in `http://127.0.0.1:8000/openapi.json`
+- **Neo4j / auth:** verify `NEO4J_*` and network access.
+- **Pinecone:** verify `PINECONE_*`; re-run `build_pinecone_index.py` if the index is empty.
+- **LLM errors:** confirm **`GROQ_API_KEY`** and `pip install -r requirements.txt` (includes `groq`).
+- **CORS / private network:** backend enables `allow_private_network` for browser preflight to localhost APIs.
+- **404 on `/app/...`:** use the Vite dev server and the `/app/` basename; see `frontend/vite.config.ts` SPA fallback.
+
+## Career Mentor (certificate flow)
+
+1. Retrieve role/courses via Pinecone; certificate recommendations from the `certificates` namespace.
+2. Fallback rules if semantic retrieval fails.
+3. Merge `completed_courses` + `course_history` for eligibility and remaining groups.
 
 ## License
 
