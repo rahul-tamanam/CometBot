@@ -79,6 +79,8 @@
       "Database management systems",
       "Data modeling",
       "Cloud platforms (AWS, GCP, Azure)",
+      "Kafka streaming",
+      "dbt (data build tool)",
       "Apache Spark / Hadoop",
       "Data pipeline orchestration (Airflow)",
       "ETL processes",
@@ -97,12 +99,15 @@
     "technical_skills": [
       "Python",
       "R",
+      "SQL",
       "Machine learning algorithms",
       "Deep learning",
       "NLP and text mining",
       "Data preprocessing",
       "Model evaluation",
       "MLflow / model lifecycle management",
+      "Apache Spark / Hadoop",
+      "Data pipeline orchestration (Airflow)",
       "Cloud ML platforms (SageMaker, Vertex AI)",
       "ETL processes",
       "Data integration",
@@ -434,6 +439,56 @@
       "Change management",
       "Problem-solving",
       "Analytical thinking"
+    ]
+  },
+  {
+    "job_title": "ML Engineer",
+    "technical_skills": [
+      "Python",
+      "SQL and scripting languages",
+      "Machine learning algorithms",
+      "Deep learning",
+      "Natural Language Processing",
+      "Feature engineering",
+      "Model evaluation",
+      "MLflow / model lifecycle management",
+      "MLOps / CI/CD for ML",
+      "Apache Spark / Hadoop",
+      "Data pipeline orchestration (Airflow)",
+      "Kafka streaming",
+      "ETL processes",
+      "Cloud platforms (AWS, GCP, Azure)",
+      "Docker",
+      "Kubernetes"
+    ],
+    "soft_skills": [
+      "Analytical thinking",
+      "Problem-solving",
+      "Research mindset",
+      "Communication of insights",
+      "Collaboration"
+    ]
+  },
+  {
+    "job_title": "Software Engineer",
+    "technical_skills": [
+      "Python / Scala programming",
+      "SQL and scripting languages",
+      "Data modeling",
+      "Cloud platforms (AWS, GCP, Azure)",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "API development (REST)",
+      "Testing and code quality",
+      "System design and scalability"
+    ],
+    "soft_skills": [
+      "Problem-solving",
+      "Communication",
+      "Collaboration",
+      "Attention to detail",
+      "Documentation"
     ]
   }
 ]

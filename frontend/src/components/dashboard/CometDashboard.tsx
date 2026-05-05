@@ -908,14 +908,29 @@ export function CometDashboard() {
           course catalog split by Core / Elective. */}
       {progressOpen && degreeResponse && (
         <div className="fixed inset-0 z-[60]">
+          <style>{`
+            @keyframes progressFadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes progressPopIn {
+              from { opacity: 0; transform: translateY(10px) scale(0.985); }
+              to { opacity: 1; transform: translateY(0) scale(1); }
+            }
+          `}</style>
           <div
             className="absolute inset-0 bg-black/40"
+            style={{ animation: 'progressFadeIn 160ms ease' }}
             onClick={() => setProgressOpen(false)}
           />
           <div className="absolute inset-0 flex items-center justify-center p-4">
             <div
               className="relative w-full max-w-3xl overflow-hidden rounded-3xl shadow-2xl flex flex-col"
-              style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}
+              style={{
+                backgroundColor: 'var(--surface)',
+                border: '1px solid var(--border)',
+                animation: 'progressPopIn 220ms ease',
+              }}
             >
               <div
                 className="flex items-center justify-between px-4 py-3"

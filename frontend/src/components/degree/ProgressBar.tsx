@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from 'react'
 import type { ProgressData } from '@/api'
 
 interface Props {
@@ -5,7 +6,44 @@ interface Props {
 }
 
 export default function ProgressBar({ progress }: Props) {
-  const pct = Math.min(100, progress.percent_complete)
+  const targetPct = Math.min(100, progress.percent_complete)
+  const targetCorePct = useMemo(
+    () => Math.min(100, (progress.core_completed_credits / 18) * 100),
+    [progress.core_completed_credits],
+  )
+  const targetElectivePct = useMemo(
+    () => Math.min(100, (progress.elective_completed_credits / 18) * 100),
+    [progress.elective_completed_credits],
+  )
+
+  const [pct, setPct] = useState(0)
+  const [corePct, setCorePct] = useState(0)
+  const [electivePct, setElectivePct] = useState(0)
+
+  useEffect(() => {
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+
+    if (reduceMotion) {
+      setPct(targetPct)
+      setCorePct(targetCorePct)
+      setElectivePct(targetElectivePct)
+      return
+    }
+
+    // Force a paint at 0% first, then animate to target.
+    setPct(0)
+    setCorePct(0)
+    setElectivePct(0)
+
+    const raf = window.requestAnimationFrame(() => {
+      setPct(targetPct)
+      setCorePct(targetCorePct)
+      setElectivePct(targetElectivePct)
+    })
+    return () => window.cancelAnimationFrame(raf)
+  }, [targetPct, targetCorePct, targetElectivePct])
   const degreeCreditsComplete =
     progress.total_remaining_credits <= 0 || pct >= 100
 
@@ -41,7 +79,7 @@ export default function ProgressBar({ progress }: Props) {
         style={{ background: 'color-mix(in oklab, var(--border) 70%, transparent 30%)' }}
       >
         <div
-          className="h-2 rounded-full transition-all duration-500"
+          className="h-2 rounded-full transition-[width] duration-1200 ease-out"
           style={{ width: `${pct}%`, background: '#c0392b' }}
         />
       </div>
@@ -61,9 +99,9 @@ export default function ProgressBar({ progress }: Props) {
             style={{ background: 'color-mix(in oklab, var(--border) 70%, transparent 30%)' }}
           >
             <div
-              className="h-1.5 rounded-full transition-all duration-500"
+              className="h-1.5 rounded-full transition-[width] duration-1200 ease-out"
               style={{
-                width: `${Math.min(100, (progress.core_completed_credits / 18) * 100)}%`,
+                width: `${corePct}%`,
                 background: '#4f6ef7',
               }}
             />
@@ -86,9 +124,9 @@ export default function ProgressBar({ progress }: Props) {
             style={{ background: 'color-mix(in oklab, var(--border) 70%, transparent 30%)' }}
           >
             <div
-              className="h-1.5 rounded-full transition-all duration-500"
+              className="h-1.5 rounded-full transition-[width] duration-1200 ease-out"
               style={{
-                width: `${Math.min(100, (progress.elective_completed_credits / 18) * 100)}%`,
+                width: `${electivePct}%`,
                 background: '#4caf82',
               }}
             />

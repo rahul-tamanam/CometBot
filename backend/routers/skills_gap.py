@@ -15,6 +15,8 @@ Pipeline:
 import json as _json
 import os
 import re
+from collections import Counter
+from typing import Optional
 
 from fastapi import APIRouter, File, Form, UploadFile
 from pydantic import BaseModel
@@ -25,6 +27,7 @@ from backend.services.jd_parser import extract_skills_from_jd
 from backend.services.llm_client import chat
 from backend.services.pinecone_client import query_courses_for_skills
 from backend.services.resume_parser import parse_resume
+from backend.services.skill_normalizer import normalize_skill_list
 from backend.services.validator import validate_course_list
 
 router = APIRouter()
@@ -45,6 +48,13 @@ EVIDENCE RULES:
 - For matched and partial: copy a SHORT exact phrase (under 15 words) from the resume.
 - For missing: set evidence to empty string "".
 - Do NOT paraphrase. Do NOT invent text.
+
+TECHNICAL VS SOFT GUARDRAILS:
+- The required skills list may contain both technical and soft skills.
+- Technical tools, libraries, frameworks, algorithms, and platforms MUST always be evaluated as technical evidence only.
+- Never use technical evidence (e.g., XGBoost, Kafka, Spark, Snowflake, AWS) to justify a soft-skill rating.
+- If a skill is a soft skill, evidence must directly reflect that soft skill (e.g., communication, collaboration, leadership).
+- If a skill is a technical skill and you only see adjacent/indirect technical evidence, rate it as "partial" (not as evidence for any soft skill).
 
 Return ONE JSON array only. No markdown.
 Each element:
@@ -172,7 +182,19 @@ def _get_course_recommendations(
     by_skill: dict[str, list[dict]] = {}
     seen_course_ids: set[str] = set(completed_ids)
     flat_list: list[dict] = []
-    high_priority_skills = set(missing_technical[:3])
+    missing_skill_set = {s for s in missing_technical}
+    coverage_counter: Counter[str] = Counter()
+
+    for skill, courses in recommendations_raw.items():
+        if skill not in missing_skill_set:
+            continue
+        unique_for_skill = {
+            (course.get("course_id") or "").upper()
+            for course in courses
+            if course.get("course_id")
+        }
+        for cid in unique_for_skill:
+            coverage_counter[cid] += 1
 
     for skill, courses in recommendations_raw.items():
         filtered: list[dict] = []
@@ -183,17 +205,15 @@ def _get_course_recommendations(
             seen_course_ids.add(cid)
 
             catalog_entry = all_course_map.get(cid, {})
-            priority = (
-                "high" if skill in high_priority_skills
-                else "medium" if skill in missing_technical
-                else "medium"
-            )
+            coverage_count = coverage_counter.get(cid, 0)
+            priority = "high" if coverage_count >= 2 else "medium"
             enriched = {
                 "course_id": course["course_id"],
                 "title": course.get("title", ""),
                 "course_type": catalog_entry.get("course_type", "Elective"),
                 "skill_addressed": skill,
                 "priority": priority,
+                "coverage_count": coverage_count,
             }
             filtered.append(enriched)
             flat_list.append(enriched)
@@ -201,7 +221,40 @@ def _get_course_recommendations(
         if filtered:
             by_skill[skill] = filtered
 
+    flat_list.sort(
+        key=lambda c: (
+            -int(c.get("coverage_count", 0)),
+            str(c.get("course_id", "")),
+        )
+    )
+
+    for course in flat_list:
+        course.pop("coverage_count", None)
+    for skill_courses in by_skill.values():
+        for course in skill_courses:
+            course.pop("coverage_count", None)
+
     return by_skill, flat_list
+
+
+def skills_from_completed_courses(completed_course_ids: list[str], course_catalog: list[dict]) -> list[str]:
+    skills: list[str] = []
+    catalog_by_id = {
+        str(c.get("course_id", "")).strip().upper(): c
+        for c in course_catalog
+        if c.get("course_id")
+    }
+    for cid in completed_course_ids:
+        key = str(cid or "").strip().upper()
+        if not key:
+            continue
+        course = catalog_by_id.get(key)
+        if not course:
+            continue
+        course_skills = course.get("skills_taught") or []
+        if isinstance(course_skills, list):
+            skills.extend(str(skill).strip() for skill in course_skills if str(skill).strip())
+    return normalize_skill_list(list(dict.fromkeys(skills)))
 
 
 _NARRATIVE_SYSTEM = """
@@ -231,7 +284,16 @@ def _build_narrative_context(
     tech_set = {s.lower().strip() for s in gap.required_technical}
     matched_tech = [r["skill"] for r in matched if r["skill"].lower().strip() in tech_set]
     matched_soft = [r["skill"] for r in matched if r["skill"].lower().strip() not in tech_set]
-    partial_tech = [r["skill"] for r in partial if r["skill"].lower().strip() in tech_set]
+    partial_tech = []
+    for rating in partial:
+        skill = rating["skill"]
+        if skill.lower().strip() not in tech_set:
+            continue
+        evidence = str(rating.get("evidence") or "").replace("\n", " ").strip()
+        if evidence:
+            partial_tech.append(f"{skill} (adjacent experience: {evidence[:80]})")
+        else:
+            partial_tech.append(f"{skill} (adjacent experience: n/a)")
     missing_tech = [r["skill"] for r in missing if r["skill"].lower().strip() in tech_set]
     missing_soft = [r["skill"] for r in missing if r["skill"].lower().strip() not in tech_set]
 
@@ -331,12 +393,13 @@ def _build_structured_analysis(job_title: str, ratings: list[dict], gap, flat_co
         "total_missing": len(missing_skills),
         "partial_skills": partial_skills,
         "missing_skills": missing_skills,
+        "soft_skills_scored": False,
     }
 
 
 @router.post("/analyze-resume")
 async def analyze_from_resume(
-    file: UploadFile = File(...),
+    file: Optional[UploadFile] = File(default=None),
     target_job: str = Form(default=""),
     job_description: str = Form(default=""),
     completed_courses: str = Form(default="[]"),
@@ -348,14 +411,19 @@ async def analyze_from_resume(
         completed_list = []
     completed_ids = {c.strip().upper() for c in completed_list if isinstance(c, str) and c.strip()}
 
-    file_bytes = await file.read()
-    mime_type = file.content_type or "application/pdf"
-    parse_result = parse_resume(file_bytes, mime_type)
-    if parse_result.get("error") or not parse_result.get("raw_text", "").strip():
-        error_msg = parse_result.get("error") or "Could not extract text from resume."
-        return {"error": error_msg, "structured_analysis": None, "response": error_msg}
-
-    resume_text = parse_result["raw_text"]
+    resume_text = ""
+    has_resume_file = file is not None
+    if has_resume_file:
+        file_bytes = await file.read()
+        mime_type = file.content_type or "application/pdf"
+        parse_result = parse_resume(file_bytes, mime_type)
+        if parse_result.get("error") or not parse_result.get("raw_text", "").strip():
+            error_msg = parse_result.get("error") or "Could not extract text from resume."
+            return {"error": error_msg, "structured_analysis": None, "response": error_msg}
+        resume_text = parse_result["raw_text"]
+    elif not completed_ids:
+        msg = "Please upload a resume or provide completed courses."
+        return {"error": msg, "structured_analysis": None, "response": msg}
 
     if target_job.strip():
         role_data = _load_role_from_skills_json(target_job.strip())
@@ -374,18 +442,35 @@ async def analyze_from_resume(
         msg = "Could not identify required skills for this role. Try pasting the full job description instead."
         return {"error": msg, "structured_analysis": None, "response": msg}
 
-    ratings = extract_and_rate_skills(resume_text, all_required_skills)
-    resume_skills_for_scoring = _ratings_to_resume_skills(ratings)
+    if has_resume_file:
+        ratings = extract_and_rate_skills(resume_text, all_required_skills)
+        resume_skills_for_scoring = _ratings_to_resume_skills(ratings)
+    else:
+        course_catalog = load_courses_for_program(program_id or "msba")
+        completed_course_skills = skills_from_completed_courses(sorted(completed_ids), course_catalog)
+        completed_skill_set = {s.lower().strip() for s in completed_course_skills}
+        ratings = []
+        for req in all_required_skills:
+            if req.lower().strip() in completed_skill_set:
+                ratings.append({"skill": req, "rating": "matched", "evidence": "Completed coursework"})
+            else:
+                ratings.append({"skill": req, "rating": "missing", "evidence": ""})
+        resume_skills_for_scoring = completed_course_skills
+
+    partial_tech = [
+        r["skill"] for r in ratings
+        if r["rating"] == "partial" and r["skill"] in (role_data.get("technical_skills") or [])
+    ]
 
     gap = compute_gap(
         resume_skills=resume_skills_for_scoring,
         required_technical=role_data.get("technical_skills") or [],
         # Score should reflect technical fit only; soft skills are shown as guidance.
         required_soft=[],
+        partial_technical=partial_tech,
     )
 
     missing_tech = [r["skill"] for r in ratings if r["rating"] == "missing" and r["skill"] in (role_data.get("technical_skills") or [])]
-    partial_tech = [r["skill"] for r in ratings if r["rating"] == "partial" and r["skill"] in (role_data.get("technical_skills") or [])]
 
     _, flat_courses = _get_course_recommendations(
         missing_technical=missing_tech,

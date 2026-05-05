@@ -31,6 +31,7 @@ interface StructuredAnalysis {
   total_required: number;
   total_matched: number;
   matched_skills: Array<{ skill: string; type: string }>;
+  partial_skills?: Array<{ name: string; category: string; evidence?: string }>;
   missing_technical: string[];
   missing_soft: string[];
   recommended_courses: Array<{
@@ -40,6 +41,7 @@ interface StructuredAnalysis {
     course_type?: string;
   }>;
   student_skills_count: number;
+  soft_skills_scored?: boolean;
   resume_name?: string;
 }
 
@@ -57,6 +59,8 @@ const JOB_ROLES = [
   'Data Analyst',
   'Data Engineer',
   'Data Scientist',
+  'ML Engineer',
+  'Software Engineer',
   'Database Administrator',
   'Database Developer',
   'Financial Analyst',
@@ -164,7 +168,13 @@ function MatchGauge({ percent }: { percent: number }) {
   );
 }
 
-function SkillPill({ label, type }: { label: string; type: 'matched' | 'missing' }) {
+function SkillPill({
+  label,
+  type,
+}: {
+  label: string;
+  type: 'matched' | 'missing' | 'partial';
+}) {
   const isDarkMode =
     typeof document !== 'undefined' &&
     document.documentElement.classList.contains('dark');
@@ -176,9 +186,20 @@ function SkillPill({ label, type }: { label: string; type: 'matched' | 'missing'
         borderRadius: 20,
         fontSize: 12,
         fontWeight: 500,
-        background: type === 'matched' ? 'rgba(76,175,130,0.15)' : 'rgba(232, 25, 10, 0.15)',
+        background:
+          type === 'matched'
+            ? 'rgba(76,175,130,0.15)'
+            : type === 'partial'
+              ? 'rgba(245,158,11,0.15)'
+              : 'rgba(232, 25, 10, 0.15)',
         color: isDarkMode ? '#E5E7EB' : '#0F172A',
-        border: `1px solid ${type === 'matched' ? 'rgba(76,175,130,0.3)' : 'rgba(232, 28, 10, 0.3)'}`,
+        border: `1px solid ${
+          type === 'matched'
+            ? 'rgba(76,175,130,0.3)'
+            : type === 'partial'
+              ? 'rgba(245,158,11,0.35)'
+              : 'rgba(232, 28, 10, 0.3)'
+        }`,
         margin: '3px 3px 3px 0',
         whiteSpace: 'nowrap',
       }}
@@ -197,14 +218,22 @@ function DashboardPanel({
 }) {
   const matchedTech = analysis.matched_skills.filter((s) => s.type === 'technical');
   const matchedSoft = analysis.matched_skills.filter((s) => s.type === 'soft');
+  const partialTech =
+    (analysis.partial_skills || []).filter((s) => s.category === 'technical') || [];
+  const partialSoft =
+    (analysis.partial_skills || []).filter((s) => s.category === 'soft') || [];
   const [openSections, setOpenSections] = useState({
     matchedTech: false,
     matchedSoft: false,
+    partialTech: true,
+    partialSoft: false,
     missingTech: true,
     missingSoft: true,
   });
 
-  const toggleSection = (key: 'matchedTech' | 'matchedSoft' | 'missingTech' | 'missingSoft') => {
+  const toggleSection = (
+    key: 'matchedTech' | 'matchedSoft' | 'partialTech' | 'partialSoft' | 'missingTech' | 'missingSoft',
+  ) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
@@ -402,6 +431,104 @@ function DashboardPanel({
                   </div>
                 )}
 
+                {partialTech.length > 0 && (
+                  <div style={rowStyle}>
+                    <button
+                      type="button"
+                      onClick={() => toggleSection('partialTech')}
+                      style={{
+                        width: '100%',
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#d97706',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        letterSpacing: 1,
+                        textTransform: 'uppercase',
+                        padding: '11px 14px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        textAlign: 'left',
+                      }}
+                    >
+                      <span>≈ Partial Technical Skills</span>
+                      <span style={{ color: 'var(--text-muted)' }}>{openSections.partialTech ? '▾' : '▸'}</span>
+                    </button>
+                    <div
+                      style={{
+                        display: 'grid',
+                        gridTemplateRows: openSections.partialTech ? '1fr' : '0fr',
+                        transition: 'grid-template-rows 220ms ease',
+                      }}
+                    >
+                      <div
+                        style={{
+                          overflow: 'hidden',
+                          opacity: openSections.partialTech ? 1 : 0,
+                          transition: 'opacity 180ms ease',
+                        }}
+                      >
+                        <div style={{ padding: '0 14px 12px', display: 'flex', flexWrap: 'wrap' }}>
+                          {partialTech.map((s) => (
+                            <SkillPill key={s.name} label={s.name} type="partial" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {partialSoft.length > 0 && (
+                  <div style={rowStyle}>
+                    <button
+                      type="button"
+                      onClick={() => toggleSection('partialSoft')}
+                      style={{
+                        width: '100%',
+                        border: 'none',
+                        background: 'transparent',
+                        color: '#d97706',
+                        fontSize: 13,
+                        fontWeight: 700,
+                        letterSpacing: 1,
+                        textTransform: 'uppercase',
+                        padding: '11px 14px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        textAlign: 'left',
+                      }}
+                    >
+                      <span>≈ Partial Soft Skills</span>
+                      <span style={{ color: 'var(--text-muted)' }}>{openSections.partialSoft ? '▾' : '▸'}</span>
+                    </button>
+                    <div
+                      style={{
+                        display: 'grid',
+                        gridTemplateRows: openSections.partialSoft ? '1fr' : '0fr',
+                        transition: 'grid-template-rows 220ms ease',
+                      }}
+                    >
+                      <div
+                        style={{
+                          overflow: 'hidden',
+                          opacity: openSections.partialSoft ? 1 : 0,
+                          transition: 'opacity 180ms ease',
+                        }}
+                      >
+                        <div style={{ padding: '0 14px 12px', display: 'flex', flexWrap: 'wrap' }}>
+                          {partialSoft.map((s) => (
+                            <SkillPill key={s.name} label={s.name} type="partial" />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {analysis.missing_technical.length > 0 && (
                   <div style={rowStyle}>
                     <button
@@ -475,7 +602,7 @@ function DashboardPanel({
                     >
                       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
 
-                      <span>✶ Soft Skills Required For This Role</span>
+                      <span>✶ Nice to have — not included in match score</span>
                       </span>
                       <span style={{ color: 'var(--text-muted)' }}>{openSections.missingSoft ? '▾' : '▸'}</span>
                     </button>
@@ -562,6 +689,7 @@ export default function SkillsGapAnalyzer({ profile }: Props) {
   const [showJdModal, setShowJdModal] = useState(false);
   const [dragOver, setDragOver] = useState(false);
   const [uploadHover, setUploadHover] = useState(false);
+  const [noResumeHover, setNoResumeHover] = useState(false);
   const [confidenceWarning, setConfidenceWarning] = useState('');
   const [conversationHistory, setConversationHistory] = useState<Array<{ role: string; content: string }>>([]);
   const isDarkMode =
@@ -618,7 +746,6 @@ export default function SkillsGapAnalyzer({ profile }: Props) {
   }, [resumeFile]);
 
   const runAnalysis = useCallback(async () => {
-    if (!resumeFile) return;
     if (jdMode === 'paste' && !jdText.trim()) return;
     if (jdMode === 'select' && !selectedRole) return;
 
@@ -627,7 +754,9 @@ export default function SkillsGapAnalyzer({ profile }: Props) {
 
     try {
       const formData = new FormData();
-      formData.append('file', resumeFile);
+      if (resumeFile) {
+        formData.append('file', resumeFile);
+      }
       formData.append('completed_courses', JSON.stringify(profile.completedCourses || []));
       formData.append('program_id', profile.programId || 'msba');
 
@@ -795,6 +924,42 @@ export default function SkillsGapAnalyzer({ profile }: Props) {
           <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>or click to browse - PDF only</div>
         </div>
 
+        <button
+          type="button"
+          onMouseEnter={() => setNoResumeHover(true)}
+          onMouseLeave={() => setNoResumeHover(false)}
+          onClick={() => {
+            setPhase('jd_input');
+            setJdText('');
+            setSelectedRole('');
+            setMessages([]);
+            setAnalysis(null);
+            setConversationHistory([]);
+            setConfidenceWarning('');
+            setDragOver(false);
+            setUploadHover(false);
+          }}
+          style={{
+            width: '100%',
+            maxWidth: 320,
+            borderRadius: 10,
+            border: `1px solid ${
+              noResumeHover
+                ? 'color-mix(in oklab, var(--accent) 35%, var(--border) 65%)'
+                : 'var(--border)'
+            }`,
+            padding: '10px 0',
+            cursor: 'pointer',
+            background: noResumeHover ? uploadHoverBg : 'var(--surface2)',
+            color: 'var(--text)',
+            fontSize: 13,
+            fontWeight: 600,
+            transition: 'all 0.2s ease',
+          }}
+        >
+          I don&apos;t have a resume
+        </button>
+
         <input ref={fileInputRef} type="file" accept=".pdf" style={{ display: 'none' }} onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFileSelect(f); }} />
 
         <p style={{ color: 'var(--text-muted)', fontSize: 12, textAlign: 'center', maxWidth: 420, lineHeight: 1.6, margin: 0 }}>
@@ -812,8 +977,12 @@ export default function SkillsGapAnalyzer({ profile }: Props) {
         <div style={{ background: 'rgba(76,175,130,0.1)', border: '1px solid rgba(76,175,130,0.25)', borderRadius: 12, padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 10, maxWidth: 480, width: '100%' }}>
           <span style={{ fontSize: 20 }}>✓</span>
           <div>
-            <div style={{ color: '#4caf82', fontSize: 13, fontWeight: 600 }}>Resume uploaded</div>
-            <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>{resumeName}</div>
+            <div style={{ color: '#4caf82', fontSize: 13, fontWeight: 600 }}>
+              {resumeFile ? 'Resume uploaded' : 'No resume provided'}
+            </div>
+            <div style={{ color: 'var(--text-muted)', fontSize: 12 }}>
+              {resumeFile ? resumeName : 'Using your completed courses instead'}
+            </div>
           </div>
           <button
             onClick={() => { setResumeFile(null); setResumeName(''); setPhase('idle'); }}
