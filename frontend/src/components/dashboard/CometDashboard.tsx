@@ -386,6 +386,7 @@ export function CometDashboard() {
       <header
         className="flex h-14 items-center justify-between px-4"
         style={{
+          borderTop: '6px solid var(--accent)',
           borderBottom: '1px solid var(--comet-header-border)',
           background: 'var(--comet-header-bg)',
         }}
