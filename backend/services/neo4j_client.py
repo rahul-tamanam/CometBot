@@ -296,7 +296,7 @@ def get_degree_progress(completed_course_ids: list[str]) -> dict:
         "total_remaining":    36 - total_completed,
         "core_remaining":     max(0, 18 - core_credits),
         "elective_remaining": max(0, 18 - elective_credits),
-        "percent_complete":   round((total_completed / 36) * 100, 1)
+        "percent_complete":   min(100.0, round((total_completed / 36) * 100, 1)),
     }
 
 

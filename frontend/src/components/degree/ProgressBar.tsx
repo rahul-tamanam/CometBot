@@ -6,6 +6,8 @@ interface Props {
 
 export default function ProgressBar({ progress }: Props) {
   const pct = Math.min(100, progress.percent_complete)
+  const degreeCreditsComplete =
+    progress.total_remaining_credits <= 0 || pct >= 100
 
   return (
     <div
@@ -22,7 +24,14 @@ export default function ProgressBar({ progress }: Props) {
           Degree Progress
         </span>
         <span className="text-sm font-semibold" style={{ color: '#c0392b' }}>
-          {pct.toFixed(0)}% complete
+          {degreeCreditsComplete ? (
+            <>
+              <span aria-hidden>🎓 </span>
+              Complete
+            </>
+          ) : (
+            `${pct.toFixed(0)}% complete`
+          )}
         </span>
       </div>
 

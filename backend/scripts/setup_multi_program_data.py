@@ -124,7 +124,7 @@ def main():
             ["OPRE 6301", "OPRE 6359", "BUAN 6359"],
             ["ACCT 6301", "ACCT 6202", "ACCT 6305"],
         ],
-        "required_non_credit": [],
+        "required_non_credit": ["MAS 6102"],
         "gpa_requirement": 3.0,
         "admission_semesters": ["Fall", "Spring", "Summer"],
     }

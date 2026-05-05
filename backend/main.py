@@ -11,12 +11,26 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Allow React frontend to call the API
+# Browsers treat localhost vs 127.0.0.1 as different origins; preflight fails with 400 if missing.
+_default_cors = (
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:4173",
+    "http://127.0.0.1:4173",
+)
+_cors_env = os.getenv("CORS_ALLOW_ORIGINS", "").strip()
+_cors_origins = (
+    [o.strip() for o in _cors_env.split(",") if o.strip()] if _cors_env else list(_default_cors)
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite default port
+    allow_origins=_cors_origins,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
+    # Chrome "Private Network Access": e.g. Origin http://localhost:5173 → API http://127.0.0.1:8000
+    # sends Access-Control-Request-Private-Network; without this, OPTIONS returns 400 and chat never runs.
+    allow_private_network=True,
 )
 
 @app.get("/api/health")
@@ -40,8 +54,8 @@ def get_all_courses(program_id: str = "msba"):
             "course_track": c.get("course_track"),
         }
         for c in courses
-        if (c.get("course_type") or "").strip().lower()
-        not in ("noncredit", "external")
+        # Include NonCredit (e.g. MAS 6102 PD) so course history can record them; degree math ignores them in planners.
+        if (c.get("course_type") or "").strip().lower() != "external"
     ]
 
 
@@ -74,7 +88,7 @@ def get_certificates(program_id: str = "msba"):
     with open(certs_path, encoding="utf-8") as f:
         return json.load(f)
 
-from backend.routers import degree_planner, career_mentor, skills_gap
+from backend.routers import degree_planner, career_mentor, skills_gap, transcript_parser
 
 app.include_router(
     degree_planner.router,
@@ -90,4 +104,9 @@ app.include_router(
     skills_gap.router,
     prefix="/api/skills-gap",
     tags=["Skills Gap"]
+)
+app.include_router(
+    transcript_parser.router,
+    prefix="/api",
+    tags=["Transcript Parser"],
 )

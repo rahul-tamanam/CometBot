@@ -29,7 +29,9 @@
       "ACCT 6305"
     ]
   ],
-  "required_non_credit": [],
+  "required_non_credit": [
+    "MAS 6102"
+  ],
   "required_internship": {
     "description": "All students must fulfill the internship requirement to graduate. This counts as part of your elective credits.",
     "first_internship_course": "MIS 6009",

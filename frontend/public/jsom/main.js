@@ -286,7 +286,8 @@
 
   if (cometLogin instanceof HTMLAnchorElement && cometLauncher) {
     const custom = typeof cometLauncher.dataset.appHref === 'string' ? cometLauncher.dataset.appHref.trim() : ''
-    if (custom) cometLogin.href = custom
+    const appHref = custom || '/app/onboarding'
+    cometLogin.href = appHref
   }
 
   if (cometLauncher instanceof HTMLElement && headerBottom instanceof HTMLElement) {

@@ -1,18 +1,32 @@
 import os
+from typing import Any
 
-from openai import OpenAI
+from groq import Groq
+
 from backend.services.validator import (
     validate_and_fix_response,
     soften_length_truncation,
     validate_and_fix_titles,
 )
 
-from groq import Groq
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 DEFAULT_MAX_TOKENS = int(os.getenv("LLM_MAX_TOKENS", "1024"))
 INJECT_SYSTEM_INTO_USER = False
 FORCE_SYSTEM_IN_USER = os.getenv("LLM_FORCE_SYSTEM_IN_USER", "0") == "1"
+
+_groq_client: Groq | None = None
+
+
+def _get_groq() -> Groq:
+    global _groq_client
+    if _groq_client is None:
+        key = os.getenv("GROQ_API_KEY")
+        if not key:
+            raise RuntimeError(
+                "GROQ_API_KEY is not set. Add it to your .env for Groq chat completions."
+            )
+        _groq_client = Groq(api_key=key)
+    return _groq_client
 
 
 def _normalize_messages(messages: list[dict]) -> list[dict]:
@@ -42,32 +56,14 @@ def _normalize_messages(messages: list[dict]) -> list[dict]:
             merged.append(m)
 
     # If conversation starts with assistant, insert a user turn.
-    # This prevents LM Studio template errors like:
-    # "After the optional system message, conversation roles must alternate user and assistant..."
     if merged and merged[0]["role"] == "assistant":
         merged.insert(0, {"role": "user", "content": "Start."})
 
     return merged
 
-def chat(
-    system_prompt: str,
-    messages: list[dict],
-    temperature: float = 0.3,
-    max_tokens: int = DEFAULT_MAX_TOKENS,
-    validate: bool = True
-) -> dict:
-    """
-    Calls LM Studio (OpenAI-compatible) chat completions.
 
-    By default we send a proper `system` message (works well with Phi).
-    If you are using a backend/model that does NOT support `system`,
-    set `LLM_FORCE_SYSTEM_IN_USER=1` to fall back to system injection.
-    """
-
-    normalized = _normalize_messages(messages)
-
+def _build_formatted_messages(system_prompt: str, normalized: list[dict]) -> list[dict]:
     if INJECT_SYSTEM_INTO_USER or FORCE_SYSTEM_IN_USER:
-        # Prepend system prompt into the first user message (legacy fallback)
         formatted: list[dict] = []
         system_injected = False
         for msg in normalized:
@@ -81,33 +77,53 @@ def chat(
                 formatted.append(msg)
         if not system_injected:
             formatted.insert(0, {"role": "user", "content": system_prompt})
-    else:
-        # Standard OpenAI roles: include system separately
-        formatted = [{"role": "system", "content": system_prompt}] + normalized
+        return formatted
+    return [{"role": "system", "content": system_prompt}] + normalized
 
-    response = client.chat.completions.create(
-        model=MODEL,
+
+def chat(
+    system_prompt: str,
+    messages: list[dict],
+    temperature: float = 0.3,
+    max_tokens: int = DEFAULT_MAX_TOKENS,
+    validate: bool = True,
+) -> dict[str, Any]:
+    """
+    Groq chat completions (OpenAI-compatible).
+
+    Env:
+      - ``GROQ_API_KEY`` (required)
+      - ``GROQ_MODEL`` (optional, default llama-3.3-70b-versatile)
+      - ``LLM_MAX_TOKENS`` default for ``max_tokens`` when callers omit it
+
+    If your stack does not support a separate ``system`` message, set ``LLM_FORCE_SYSTEM_IN_USER=1``.
+    """
+
+    normalized = _normalize_messages(messages)
+    formatted = _build_formatted_messages(system_prompt, normalized)
+
+    response = _get_groq().chat.completions.create(
+        model=GROQ_MODEL,
         messages=formatted,
         temperature=temperature,
-        max_tokens=max_tokens
+        max_tokens=max_tokens,
     )
-
     choice = response.choices[0]
     raw_text = choice.message.content or ""
     finish = getattr(choice, "finish_reason", None) or ""
-    if finish == "length":
+
+    if finish in ("length", "max_tokens"):
         raw_text = soften_length_truncation(raw_text)
 
     if validate:
         result = validate_and_fix_response(raw_text)
         title_fix = validate_and_fix_titles(result["text"])
         result["text"] = title_fix["text"]
-        # Keep a separate key; callers can ignore safely.
         result["title_corrections"] = title_fix.get("title_corrections", [])
         return result
 
     return {
-        "text":        raw_text,
+        "text": raw_text,
         "corrections": [],
-        "removed":     []
+        "removed": [],
     }

@@ -108,6 +108,74 @@ COURSE_CREDITS_BY_ID = {
     for cid, c in COURSE_MAP.items()
 }
 
+
+def _cap_percent_complete(pct: float) -> float:
+    """Cap displayed completion at 100% when students have extra credits beyond requirements."""
+    try:
+        x = float(pct)
+    except (TypeError, ValueError):
+        return 0.0
+    return min(100.0, max(0.0, x))
+
+
+def _degree_progress_overshoot_lines(program_id: str, progress: dict) -> tuple[str, str]:
+    """
+    When completed credits exceed the degree minimum, avoid '39 / 36' style lines — models
+    divide and invent percentages like 108%. Return (warning_block, total_credits_line).
+    """
+    rules = get_credit_requirements(program_id)
+    total_req = float(rules.get("total_credits") or 36)
+    tc = float(progress.get("total_completed") or 0)
+    pct = float(progress.get("percent_complete") or 0)
+    tr = int(total_req)
+    if tc <= total_req:
+        return "", f"- Total credits completed: {progress['total_completed']} / {tr}"
+    warning = (
+        f"CRITICAL (read before replying): This student has MORE than {tr} degree credits applied. "
+        f"You MUST NOT compute or say completion as (credits ÷ {tr})×100 — never mention figures like 108% or 108.3%. "
+        f"The ONLY completion percentage you may quote is {pct}% (never above 100%). "
+        f"You may say they completed more than the minimum credit requirement; do not invent a higher percent.\n"
+    )
+    line = (
+        f"- Total credits toward the degree: {progress['total_completed']} credits "
+        f"(minimum required for graduation: {tr} credits — requirement satisfied)"
+    )
+    return warning, line
+
+
+def _overall_total_line(progress: dict, program_id: str) -> str:
+    """Single line for OVERALL total credits — avoids '39 of 36' when overshooting."""
+    rules = get_credit_requirements(program_id)
+    total_req = float(rules.get("total_credits") or 36)
+    tc = float(progress.get("total_completed") or 0)
+    tr = int(total_req)
+    if tc > total_req:
+        return (
+            f"  Total completed : {progress['total_completed']} credits "
+            f"(minimum degree requirement {tr} credits satisfied — official percent is capped at "
+            f"{progress['percent_complete']}%)"
+        )
+    return f"  Total completed : {progress['total_completed']} credits of {tr}"
+
+
+def _sanitize_impossible_completion_percentages(text: str) -> str:
+    """
+    Models sometimes divide earned credits by minimum degree credits and emit values like 108.3%.
+    Replace any percentage strictly above 100 in advisor prose with 100%.
+    """
+
+    def repl(match: re.Match) -> str:
+        try:
+            v = float(match.group(1))
+        except ValueError:
+            return match.group(0)
+        if v > 100.0:
+            return "100%"
+        return match.group(0)
+
+    return re.sub(r"\b(\d+(?:\.\d+)?)%", repl, text)
+
+
 SYSTEM_PROMPT_TEMPLATE = """
 You are CometBot, an academic advisor for the MSBA (Master of Science 
 in Business Analytics and Artificial Intelligence) program at UTD.
@@ -134,6 +202,10 @@ RULES — follow every rule on every response without exception:
    prerequisites, and graduation planning.
    For career advice say: "Please use the Career Mentor for that."
    For skills questions say: "Please use the Skills Gap Analyzer for that."
+9. NEVER compute degree completion as (credits completed ÷ minimum degree credits) × 100.
+   Students may have extra credits beyond the minimum; the ONLY percentage you may ever state
+   is the "Percent complete" value from the progress data (never above 100%). Never say "108%"
+   or any figure over 100%, even if credits completed divided by 36 would suggest it.
 """.strip()
 
 
@@ -202,7 +274,7 @@ def build_course_lists(
     core_rem = max(0.0, core_req - core_done)
     elec_rem = max(0.0, elec_req - elec_done)
     total_rem = max(0.0, total_req - total_done)
-    pct = 0.0 if total_req <= 0 else round((total_done / total_req) * 100, 1)
+    pct_raw = 0.0 if total_req <= 0 else round((total_done / total_req) * 100, 1)
 
     progress = {
         "total_completed": round(total_done, 1),
@@ -211,7 +283,7 @@ def build_course_lists(
         "total_remaining": round(total_rem, 1),
         "core_remaining": round(core_rem, 1),
         "elective_remaining": round(elec_rem, 1),
-        "percent_complete": pct,
+        "percent_complete": _cap_percent_complete(pct_raw),
     }
 
     return remaining_core, remaining_core_elective, remaining_elective, progress, []
@@ -851,9 +923,13 @@ RESPONSE LANGUAGE RULES — ENFORCE IN EVERY MESSAGE:
 4. Always speak directly to the student as a helpful advisor would in person.
    Warm, direct, and conversational. Never robotic or list-heavy unless the student asks for a full plan.
 
-5. When mentioning MAS 6102, say its name naturally:
-   "You will also need to enroll in MAS 6102 — Professional Development — in your first semester."
-   Never say "mandatory non-credit prerequisite" unless the student asks what it is.
+5. MAS 6102 — Professional Development: If SPECIAL PROGRAM REQUIREMENTS shows it as NOT completed,
+   you may mention enrolling when discussing first-semester planning. If it shows COMPLETED on their profile,
+   do not remind them every message or nag about enrollment — only discuss if they ask.
+
+COMPLETION & PERCENT RULES:
+6. Never tell the student a degree completion percentage above 100%. The data you receive is already capped at 100% when they have met or exceeded credit requirements.
+7. When total credits remaining are 0 (degree credit requirements satisfied), open with a short, warm congratulations. You may write "Congratulations 🎓" once — placing the graduation cap emoji immediately after "Congratulations". Avoid leading with a percentage in that situation; focus on the milestone instead.
 """
 
     if program_id.strip().lower() == "msitm":
@@ -1141,10 +1217,12 @@ def _format_special_requirements_context(resolved: dict, program_id: str) -> str
     if non_credit:
         lines.append("NON-CREDIT PREREQUISITES (mandatory, do not count toward 36 credits):")
         for item in non_credit:
+            nid = _normalize_id(item["course_id"])
+            pd_title = (COURSE_MAP.get(nid) or {}).get("title") or "Professional Development"
             status = "COMPLETED" if item["completed"] else "NOT YET COMPLETED"
             lines.append(
                 f"  Course ID: {item['course_id']} | "
-                f"Title: Professional Development | "
+                f"Title: {pd_title} | "
                 f"Status: {status}"
             )
             if not item["completed"]:
@@ -1153,6 +1231,11 @@ def _format_special_requirements_context(resolved: dict, program_id: str) -> str
                     "Never substitute this with any other course ID. "
                     "Must be taken in the student's FIRST semester alongside regular courses. "
                     "Grade counts toward GPA but does not count toward the 36-credit degree total."
+                )
+            else:
+                lines.append(
+                    "  -> Student profile lists this course as completed. "
+                    "Do NOT repeatedly remind them to enroll or stress first-semester timing in every reply."
                 )
         lines.append("")
 
@@ -1239,16 +1322,26 @@ def _format_special_requirements_context(resolved: dict, program_id: str) -> str
         "Always include it when the student asks what they still need to graduate "
         "or when reviewing their remaining requirements."
     )
-    lines.append(
-        (
-            f"2. {non_credit[0]['course_id']} is the EXACT course ID "
-            "for Professional Development. "
-            "Never write any other course ID in place of it. "
-            "It is mandatory and must be in the student's FIRST semester."
-        )
-        if non_credit else
-        "2. MAS 6102 is mandatory and must be in the student's first semester."
+    mas6102_done = bool(
+        non_credit and all(item.get("completed") for item in non_credit)
     )
+    if mas6102_done:
+        lines.append(
+            "2. Professional Development (MAS 6102): The student's completed-course profile shows this "
+            "non-credit requirement as SATISFIED. Do NOT nag them to enroll or repeat first-semester "
+            "warnings in routine replies. Mention PD only if they ask about it."
+        )
+    else:
+        lines.append(
+            (
+                f"2. {non_credit[0]['course_id']} is the EXACT course ID "
+                "for Professional Development. "
+                "Never write any other course ID in place of it. "
+                "It is mandatory and must be in the student's FIRST semester."
+            )
+            if non_credit else
+            "2. MAS 6102 is mandatory and must be in the student's first semester."
+        )
     lines.append(
         "3. NEVER count MAS 6102 or OPRE 6303 toward the student's 36 credit hours."
     )
@@ -1336,7 +1429,9 @@ def _compute_progress_from_catalog(completed_ids: list[str], program_id: str = "
         "core_remaining": max(0.0, core_req - core_credits),
         "core_elective_remaining": max(0.0, core_elective_req - core_elective_credits),
         "elective_remaining": max(0.0, elective_req - elective_credits),
-        "percent_complete": round((total / total_req) * 100, 1) if total and total_req else 0.0,
+        "percent_complete": _cap_percent_complete(
+            round((total / total_req) * 100, 1) if total and total_req else 0.0
+        ),
         "core_courses_completed_list": core_courses_completed_list,
         "core_elective_courses_completed_list": core_elective_courses_completed_list,
         "elective_courses_completed_list": elective_courses_completed_list,
@@ -1351,7 +1446,7 @@ def _compute_progress_from_catalog(completed_ids: list[str], program_id: str = "
     }
 
 
-def format_progress_block(progress: dict) -> str:
+def format_progress_block(progress: dict, program_id: str = "msba") -> str:
     """
     Formats degree progress as a fixed fact block.
     The LLM must copy these numbers exactly and never recalculate them.
@@ -1376,9 +1471,9 @@ ELECTIVE REQUIREMENT (18 credits required):
   Completed courses: {elec_done_str}
 
 OVERALL:
-  Total completed : {progress['total_completed']} credits of 36
+{_overall_total_line(progress, program_id)}
   Total remaining : {progress['total_courses_remaining']} courses = {progress['total_remaining']} credits
-  Progress        : {progress['percent_complete']}% complete
+  Progress        : {progress['percent_complete']}% complete (never exceed 100% when speaking to the student)
 ═══════════════════════════════════════════════════════════════
 """.strip()
 
@@ -2025,9 +2120,14 @@ def degree_planner_chat(request: ChatRequest) -> DegreePlannerResponse:
         if progress.get("internship_fulfilled")
         else "- Internship requirement: Not yet fulfilled (required for graduation)"
     )
+    overshoot_warn, total_credits_line = _degree_progress_overshoot_lines(program_id, progress)
+    pct_line = (
+        f"- Percent complete (ONLY percentage you may mention; never above 100%): "
+        f"{progress['percent_complete']}%"
+    )
     progress_context = f"""
 STUDENT DEGREE PROGRESS:
-- Total credits completed: {progress['total_completed']} / 36
+{overshoot_warn}{total_credits_line}
 - Core credits completed: {total_core_done} / 18
   (Part A completed: {progress.get('core_completed', 0)} / {core_a_total})
   (Part B completed: {progress.get('core_elective_completed', 0)} / {core_b_total})
@@ -2036,7 +2136,7 @@ STUDENT DEGREE PROGRESS:
 - Core remaining: {total_core_remaining}
 - Elective remaining: {progress['elective_remaining']}
 {internship_line}
-- Percent complete: {progress['percent_complete']}%
+{pct_line}
 """.strip()
     courses_context = format_course_lists(remaining_core, remaining_elective, list_notes)
     remaining_elective_context = "\n".join(
@@ -2084,7 +2184,7 @@ STUDENT DEGREE PROGRESS:
 
     # Extract course IDs the LLM mentioned and turn valid ones into recommendation
     # cards. Completed courses are never included — only IDs in the remaining lists.
-    narrative_text = result.get("text", "")
+    narrative_text = _sanitize_impossible_completion_percentages(result.get("text", ""))
     mentioned_in_narrative = extract_course_ids(narrative_text)
     remaining_ids = (
         {_normalize_id(c["course_id"]) for c in remaining_core}
