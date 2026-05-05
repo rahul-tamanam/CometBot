@@ -1,7 +1,8 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Loader2, Pencil, Upload } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Loader2, Pencil, Save, Trash2, Upload } from 'lucide-react'
+import { CustomSelect } from '@/components/ui/custom-select'
 import { AnimatedText } from '@/components/ui/animated-shiny-text'
 import useFileUpload from '@/hooks/useFileUpload'
 import { useProfile, type ProfileSemester } from '@/hooks/useProfile'
@@ -11,6 +12,33 @@ import { parseTranscript, type ParsedProgram, type ParseTranscriptResult } from 
 const ONBOARDING_COMPLETE_KEY = 'cometbot_onboarding_complete'
 
 const ONBOARDING_BG = '#FAF7F2'
+
+const API_ROOT =
+  (typeof import.meta.env.VITE_API_BASE === 'string' && import.meta.env.VITE_API_BASE.replace(/\/$/, '')) ||
+  'http://localhost:8000/api'
+
+function normalizeCourseCode(c: string) {
+  return (c || '').trim().toUpperCase().replace(/\s+/g, ' ')
+}
+
+/** Course code + title for read-only rows (catalog / transcript titles). */
+function courseRowDisplayParts(
+  norm: string,
+  courseTitles: Record<string, string>,
+  courseOptions: { id: string; label: string }[],
+): { code: string; title: string } {
+  const code = norm.trim() || '—'
+  const fromMap = courseTitles[norm]?.trim()
+  if (fromMap) return { code, title: fromMap }
+  const opt = courseOptions.find((o) => o.id === norm)
+  if (opt) {
+    const sep = ' — '
+    const i = opt.label.indexOf(sep)
+    const title = i >= 0 ? opt.label.slice(i + sep.length).trim() : opt.label.trim()
+    return { code, title }
+  }
+  return { code, title: '' }
+}
 
 type Step =
   | 'landing'
@@ -185,7 +213,7 @@ function CometAnimation() {
 
 export default function OnboardingPage() {
   const navigate = useNavigate()
-  const { saveProfile } = useProfile()
+  const { saveProfile, profile } = useProfile()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const { selectedFile, isUploading, handleFileChange, uploadFile, selectFile } =
@@ -198,7 +226,43 @@ export default function OnboardingPage() {
   const [parsed, setParsed] = useState<ParseTranscriptResult | null>(null)
   const [programRows, setProgramRows] = useState<ProgramRow[]>([])
   const [semestersDraft, setSemestersDraft] = useState<ProfileSemester[]>([])
-  const [editingSemesterId, setEditingSemesterId] = useState<string | null>(null)
+  const [courseOptions, setCourseOptions] = useState<{ id: string; label: string }[]>([])
+  const [coursesLoading, setCoursesLoading] = useState(false)
+
+  const catalogProgramId = programId ?? profile.program_id ?? 'msba'
+
+  useEffect(() => {
+    if (step !== 'confirm-classes') return
+    let cancelled = false
+    setCoursesLoading(true)
+    fetch(`${API_ROOT}/courses?program_id=${encodeURIComponent(catalogProgramId)}`)
+      .then((res) => res.json())
+      .then((data: { course_id?: string; title?: string }[]) => {
+        if (cancelled || !Array.isArray(data)) return
+        const opts = data
+          .map((c) => {
+            const id = normalizeCourseCode(String(c.course_id ?? ''))
+            if (!id) return null
+            const title = String(c.title ?? '').trim()
+            return {
+              id,
+              label: `${id} — ${title}`,
+            }
+          })
+          .filter((x): x is { id: string; label: string } => x !== null)
+          .sort((a, b) => a.id.localeCompare(b.id))
+        setCourseOptions(opts)
+      })
+      .catch(() => {
+        if (!cancelled) setCourseOptions([])
+      })
+      .finally(() => {
+        if (!cancelled) setCoursesLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [step, catalogProgramId])
 
   const goDashboard = useCallback(() => {
     markOnboardingComplete()
@@ -354,20 +418,36 @@ export default function OnboardingPage() {
     goDashboard()
   }
 
-  const updateSemesterLabel = (id: string, label: string) => {
-    setSemestersDraft((rows) => rows.map((r) => (r.id === id ? { ...r, label } : r)))
-  }
-
   const updateCourseCode = (semId: string, courseIndex: number, code: string) => {
     setSemestersDraft((rows) =>
       rows.map((r) => {
         if (r.id !== semId) return r
         const courses = [...r.courses]
-        courses[courseIndex] = code.trim().toUpperCase()
+        courses[courseIndex] = normalizeCourseCode(code)
         return { ...r, courses }
       }),
     )
   }
+
+  const removeCourseAt = (semId: string, courseIndex: number) => {
+    setSemestersDraft((rows) =>
+      rows.map((r) => {
+        if (r.id !== semId) return r
+        return { ...r, courses: r.courses.filter((_, i) => i !== courseIndex) }
+      }),
+    )
+  }
+
+  const addCourseToSemester = (semId: string) => {
+    const first = courseOptions[0]?.id ?? ''
+    setSemestersDraft((rows) =>
+      rows.map((r) => (r.id === semId ? { ...r, courses: [...r.courses, first] } : r)),
+    )
+  }
+
+  const [openCustomSelectKey, setOpenCustomSelectKey] = useState<string | null>(null)
+  /** Semester card showing dropdowns + trash (matches reference); null = summary rows + Edit. */
+  const [editingCoursesSemId, setEditingCoursesSemId] = useState<string | null>(null)
 
   const addProgramRow = () => {
     setProgramRows((r) => [
@@ -401,6 +481,15 @@ export default function OnboardingPage() {
       {step === 'landing' && <CometAnimation />}
 
       <div className="relative z-10 flex min-h-screen flex-col">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -14 }}
+            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+            className="flex min-h-screen w-full flex-1 flex-col"
+          >
         {step === 'landing' && (
           <div
             className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-4 py-16"
@@ -466,46 +555,71 @@ export default function OnboardingPage() {
                 ✦
               </div>
             ))}
-            <div className="relative z-10 flex flex-col items-center">
-              <AnimatedText
-                text="CometBot"
-                gradientColors="linear-gradient(90deg, #ffd3a1 0%, #e87500 35%, #f5b56d 60%, #159647 100%)"
-                gradientAnimationDuration={2.2}
-                textClassName="font-bold tracking-tight text-5xl sm:text-6xl md:text-7xl"
-                className="py-4"
-              />
-              <motion.p
+            <div className="relative z-10 flex w-full max-w-6xl flex-col items-center px-4 text-center sm:px-8">
+              <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.45 }}
-                className="mt-2 max-w-lg text-center text-base text-[color:var(--text-muted)] sm:text-lg"
+                transition={{ delay: 0.04, duration: 0.45 }}
+                className="w-full max-w-[56rem] text-center font-extrabold leading-[1.12] text-[#1a1a1a]"
+                style={{ fontSize: 'clamp(2.75rem, 9vw, 4.75rem)' }}
               >
-                UTD&apos;s AI-powered academic and career advisor
+                <div className="flex flex-wrap items-baseline justify-center gap-x-2">
+                  <span>Meet </span>
+                  <AnimatedText
+                    as="span"
+                    text="CometBot"
+                    gradientColors="linear-gradient(90deg, #ffd3a1 0%, #e87500 35%, #f5b56d 60%, #159647 100%)"
+                    gradientAnimationDuration={2.2}
+                    textClassName="font-extrabold tracking-tight"
+                    className="py-0"
+                  />
+                </div>
+                <div className="mt-1 block w-full">your smartest academic move.</div>
+              </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.12, duration: 0.45 }}
+                className="mx-auto mb-9 mt-3 max-w-2xl text-pretty text-base leading-[1.6] text-[#777] sm:text-lg"
+              >
+                Personalized course recommendations, degree tracking, and career guidance built for UTD students.
               </motion.p>
-              <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:gap-6">
+              <div className="mx-auto grid w-full max-w-lg grid-cols-1 gap-2 sm:grid-cols-2 sm:items-stretch sm:gap-3">
                 <motion.button
                   type="button"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="rounded-full border-2 border-[#ff7a1a] px-10 py-3 text-sm font-semibold text-[#ff7a1a] transition-colors hover:bg-[#ff7a1a] hover:text-white"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="group box-border flex min-h-[4.25rem] w-full cursor-pointer flex-col items-center justify-center rounded-full border-2 border-[#FE6507] bg-transparent px-4 py-2.5 text-center transition-all duration-200 ease-out hover:border-[#FE6507] hover:bg-[#FE6507] hover:shadow-[0_4px_14px_rgba(254,101,7,0.35)] sm:min-h-[4.35rem] sm:px-5"
                   onClick={() => {
                     setStudentType('new')
                     setStep('program')
                   }}
                 >
-                  New Student
+                  <div className="text-sm font-bold leading-tight text-neutral-900 transition-colors group-hover:text-white">
+                    Prospective Student
+                  </div>
+                  <div className="mt-0.5 text-[0.65rem] font-medium leading-snug text-neutral-600 transition-colors group-hover:text-white/85">
+                    Just starting at UTD
+                  </div>
                 </motion.button>
                 <motion.button
                   type="button"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="rounded-full bg-[#0f6b44] px-10 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#13724f]"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  className="box-border flex min-h-[4.25rem] w-full cursor-pointer flex-col items-center justify-center rounded-full border-2 border-[#FE6507] bg-[#FE6507] px-4 py-2.5 text-center shadow-[0_2px_8px_rgba(254,101,7,0.3)] transition-all duration-200 ease-out hover:bg-[#e85a06] hover:shadow-[0_4px_16px_rgba(254,101,7,0.4)] sm:min-h-[4.35rem] sm:px-5"
                   onClick={() => {
                     setStudentType('current')
                     setStep('upload')
                   }}
                 >
-                  Current Student
+                  <div className="text-sm font-bold leading-tight text-white">
+                    Current Student
+                  </div>
+                  <div className="mt-0.5 text-[0.65rem] font-medium leading-snug text-white/80">
+                    Upload your transcript
+                  </div>
                 </motion.button>
               </div>
             </div>
@@ -513,7 +627,7 @@ export default function OnboardingPage() {
         )}
 
         {step === 'program' && (
-          <div className="flex flex-1 flex-col items-center px-4 py-14">
+          <div className="flex w-full flex-1 flex-col items-center justify-center px-4 py-8">
             <h2 className="text-center text-2xl font-bold tracking-tight text-[color:var(--text)] sm:text-3xl">
               What are you studying?
             </h2>
@@ -639,19 +753,25 @@ export default function OnboardingPage() {
                       )}
                       <div className="text-xs text-[color:var(--text-muted)]">{row.type}</div>
                     </div>
-                    <select
-                      value={row.status}
-                      onChange={(e) =>
-                        updateProgramRow(row.id, {
-                          status: e.target.value as ProgramRow['status'],
-                        })
-                      }
-                      className="rounded-xl border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 text-sm text-[color:var(--text)]"
-                    >
-                      <option>In Progress</option>
-                      <option>Completed</option>
-                      <option>Not Mine</option>
-                    </select>
+                    <div className="relative shrink-0 self-start sm:self-center">
+                      <CustomSelect
+                        instanceKey={`status-${row.id}`}
+                        openInstanceKey={openCustomSelectKey}
+                        setOpenInstanceKey={setOpenCustomSelectKey}
+                        value={row.status}
+                        onChange={(v) =>
+                          updateProgramRow(row.id, {
+                            status: v as ProgramRow['status'],
+                          })
+                        }
+                        options={[
+                          { value: 'In Progress', label: 'In Progress' },
+                          { value: 'Completed', label: 'Completed' },
+                          { value: 'Not Mine', label: 'Not Mine' },
+                        ]}
+                        variant="status"
+                      />
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -680,7 +800,7 @@ export default function OnboardingPage() {
         {step === 'confirm-classes' && (
           <div className="flex min-h-0 flex-1 flex-col items-center px-4 py-10">
             <div
-              className={`${widePanelClass} flex min-h-0 w-full max-w-2xl max-h-[min(92vh,900px)] flex-col overflow-hidden`}
+              className={`${widePanelClass} flex min-h-0 w-full max-w-2xl max-h-[min(92vh,900px)] flex-col overflow-hidden bg-white shadow-[0_2px_16px_rgba(0,0,0,0.06)]`}
             >
               <h2 className="shrink-0 text-2xl font-bold text-[color:var(--text)]">
                 Are these classes right?
@@ -688,56 +808,156 @@ export default function OnboardingPage() {
               <p className="mt-2 shrink-0 text-sm text-[color:var(--text-muted)]">
                 We detected these classes on your transcript — do these look right?
               </p>
+              {coursesLoading && (
+                <p className="mt-2 shrink-0 text-xs text-[color:var(--text-muted)]">Loading course catalog…</p>
+              )}
               <div className="relative mt-6 min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1">
                 <div className="space-y-8 pb-4">
-                  {semestersDraft.map((sem) => (
-                    <div key={sem.id} className="rounded-2xl border border-[color:var(--border)] p-4">
-                      <div className="flex items-start justify-between gap-2">
-                        {editingSemesterId === sem.id ? (
-                          <input
-                            value={sem.label}
-                            onChange={(e) => updateSemesterLabel(sem.id, e.target.value)}
-                            className="flex-1 rounded-lg border border-[color:var(--border)] bg-[color:var(--surface)] px-2 py-1 text-sm font-bold text-[color:var(--text)]"
-                          />
-                        ) : (
-                          <h3 className="text-sm font-bold text-[color:var(--text)]">{sem.label}</h3>
-                        )}
-                        <button
-                          type="button"
-                          className="inline-flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold text-[#0f6b44] hover:bg-[#0f6b44]/10"
-                          onClick={() =>
-                            setEditingSemesterId((id) => (id === sem.id ? null : sem.id))
-                          }
-                        >
-                          <Pencil className="h-3.5 w-3.5" aria-hidden />
-                          Edit
-                        </button>
-                      </div>
-                      <ul className="mt-3 space-y-2">
-                        {sem.courses.map((code, idx) => (
-                          <li
-                            key={`${sem.id}-${idx}`}
-                            className="flex flex-col gap-1 border-b border-[color:var(--border)] py-2 last:border-0 sm:flex-row sm:items-center sm:justify-between"
-                          >
-                            {editingSemesterId === sem.id ? (
-                              <input
-                                value={code}
-                                onChange={(e) => updateCourseCode(sem.id, idx, e.target.value)}
-                                className="w-full rounded border border-[color:var(--border)] bg-[color:var(--surface)] px-2 py-1 font-mono text-sm text-[color:var(--text)] sm:w-40"
-                              />
+                  {semestersDraft.map((sem) => {
+                    const isEditingCourses = editingCoursesSemId === sem.id
+                    return (
+                      <motion.div
+                        key={sem.id}
+                        layout
+                        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                        className="rounded-xl border border-[#e5e7eb] bg-white p-5 sm:p-6"
+                      >
+                        <div className="flex items-start justify-between gap-3 border-b border-[#e5e7eb] pb-3">
+                          <h3 className="text-base font-bold text-[#1a1a1a]">{sem.label}</h3>
+                          {isEditingCourses ? (
+                            <button
+                              type="button"
+                              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#2563eb] transition-colors hover:text-[#1d4ed8]"
+                              onClick={() => {
+                                setOpenCustomSelectKey(null)
+                                setEditingCoursesSemId(null)
+                              }}
+                            >
+                              <Save className="h-4 w-4" strokeWidth={2} aria-hidden />
+                              Save
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#2563eb] underline decoration-[#2563eb] underline-offset-4 transition-colors hover:text-[#1d4ed8]"
+                              onClick={() => {
+                                setOpenCustomSelectKey(null)
+                                setEditingCoursesSemId(sem.id)
+                              }}
+                            >
+                              <Pencil className="h-4 w-4" strokeWidth={2} aria-hidden />
+                              Edit
+                            </button>
+                          )}
+                        </div>
+
+                        {!isEditingCourses ? (
+                          <ul className="mt-4 space-y-2.5">
+                            {sem.courses.length === 0 ? (
+                              <li className="text-sm text-[color:var(--text-muted)]">
+                                No courses in this term. Click Edit to add some.
+                              </li>
                             ) : (
-                              <span className="font-mono text-sm font-semibold text-[color:var(--text)]">
-                                {code}
-                              </span>
+                              sem.courses.map((code, idx) => {
+                                const norm = normalizeCourseCode(code)
+                                const { code: displayCode, title } = courseRowDisplayParts(
+                                  norm,
+                                  courseTitles,
+                                  courseOptions,
+                                )
+                                const titleUpper = (title || '—').toUpperCase()
+                                return (
+                                  <li
+                                    key={`${sem.id}-view-${idx}`}
+                                    className="grid grid-cols-[minmax(5.5rem,auto)_1fr] items-baseline gap-x-6 gap-y-0.5 text-sm sm:grid-cols-[7.5rem_1fr]"
+                                  >
+                                    <span className="font-medium text-[#1a1a1a]">{displayCode}</span>
+                                    <span className="text-[0.8125rem] font-normal uppercase leading-snug tracking-wide text-[#374151]">
+                                      {titleUpper}
+                                    </span>
+                                  </li>
+                                )
+                              })
                             )}
-                            <span className="text-right text-sm text-[color:var(--text-muted)]">
-                              {courseTitles[code] || '—'}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                          </ul>
+                        ) : (
+                          <>
+                            <p className="mt-3 text-xs text-[color:var(--text-muted)]">
+                              Pick a course from each dropdown. Use the trash icon to remove a row.
+                            </p>
+                            <ul className="mt-3 space-y-3">
+                              {sem.courses.map((code, idx) => {
+                                const norm = normalizeCourseCode(code)
+                                const inCatalog = courseOptions.some((o) => o.id === norm)
+                                const rowKey = `${sem.id}-${idx}`
+                                const selectDomId = `course-pick-${sem.id}-${idx}`
+                                return (
+                                  <li key={rowKey} className="flex items-center gap-2 sm:gap-3">
+                                    <div className="relative min-w-0 flex-1">
+                                      {courseOptions.length > 0 ? (
+                                        <CustomSelect
+                                          instanceKey={`course-${sem.id}-${idx}`}
+                                          openInstanceKey={openCustomSelectKey}
+                                          setOpenInstanceKey={setOpenCustomSelectKey}
+                                          id={selectDomId}
+                                          value={norm}
+                                          onChange={(v) => updateCourseCode(sem.id, idx, v)}
+                                          placeholder="Select a course…"
+                                          variant="course"
+                                          options={[
+                                            ...(norm === ''
+                                              ? ([{ value: '', label: 'Select a course…' }] as const)
+                                              : []),
+                                            ...(!inCatalog && norm
+                                              ? ([
+                                                  {
+                                                    value: norm,
+                                                    label: `${norm} — ${courseTitles[norm] || 'NOT IN CATALOG'}`,
+                                                  },
+                                                ] as const)
+                                              : []),
+                                            ...courseOptions.map((o) => ({
+                                              value: o.id,
+                                              label: o.label,
+                                            })),
+                                          ]}
+                                        />
+                                      ) : (
+                                        <input
+                                          id={selectDomId}
+                                          value={code}
+                                          onChange={(e) =>
+                                            updateCourseCode(sem.id, idx, e.target.value)
+                                          }
+                                          className="w-full rounded-lg border border-[#d1d5db] bg-white px-4 py-2.5 font-mono text-xs font-semibold uppercase tracking-wide text-[#0f172a] shadow-[0_1px_2px_rgba(0,0,0,0.05)] outline-none transition-all focus:border-[#FE6507] focus:ring-2 focus:ring-[#FE6507]/15"
+                                          placeholder="BUAN 6320"
+                                        />
+                                      )}
+                                    </div>
+                                    <button
+                                      type="button"
+                                      aria-label={`Remove ${norm || 'course'}`}
+                                      className="flex shrink-0 items-center justify-center rounded-lg p-2 text-[#d9534f] transition-colors hover:bg-red-50"
+                                      onClick={() => removeCourseAt(sem.id, idx)}
+                                    >
+                                      <Trash2 className="h-5 w-5" strokeWidth={2} aria-hidden />
+                                    </button>
+                                  </li>
+                                )
+                              })}
+                            </ul>
+                            <button
+                              type="button"
+                              className="mt-3 text-left text-xs font-semibold text-[#FE6507] transition-colors hover:underline"
+                              onClick={() => addCourseToSemester(sem.id)}
+                            >
+                              + Add course
+                            </button>
+                          </>
+                        )}
+                      </motion.div>
+                    )
+                  })}
                 </div>
               </div>
               <div className="mt-6 flex shrink-0 justify-end border-t border-[color:var(--border)] pt-4">
@@ -754,6 +974,8 @@ export default function OnboardingPage() {
             </div>
           </div>
         )}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   )

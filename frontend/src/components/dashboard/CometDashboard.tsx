@@ -54,7 +54,7 @@ const SUGGESTED_MSBA: Record<ModeId, string[]> = {
     'What does a Data Analyst do day-to-day?',
     'What skills do I need for Data Scientist roles?',
     'What roles fit someone who likes AI/ML?',
-    'Which courses help with analytics interviews?',
+    'What certificates can help me build skills in Data Science?',
   ],
   course: [
     'Tell me about BUAN 6320',
@@ -75,7 +75,7 @@ const SUGGESTED_MSITM: Record<ModeId, string[]> = {
     'What does an IT Product Manager do day-to-day?',
     'What skills do I need for Technology Consultant roles?',
     'What roles fit someone interested in enterprise systems and strategy?',
-    'Which courses help prepare for IT leadership interviews?',
+    'What certificates can help me build skills in Product Management?',
   ],
   course: [
     'Tell me about MIS 6378',

@@ -2,8 +2,12 @@ import * as React from "react"
 import { motion, type Variants } from "framer-motion"
 import { cn } from "@/lib/utils"
 
+type AnimatedTextAs = "h1" | "h2" | "span"
+
 interface AnimatedTextProps extends React.HTMLAttributes<HTMLDivElement> {
   text: string
+  /** When `span`, use inside a parent heading so only this fragment gets the gradient. */
+  as?: AnimatedTextAs
   gradientColors?: string
   gradientAnimationDuration?: number
   hoverEffect?: boolean
@@ -15,6 +19,7 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
   (
     {
       text,
+      as = "h1",
       gradientColors = "linear-gradient(90deg, #000, #ffffff, #000)",
       gradientAnimationDuration = 1,
       hoverEffect = false,
@@ -40,15 +45,23 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
       },
     }
 
+    const MotionText =
+      as === "span" ? motion.span : as === "h2" ? motion.h2 : motion.h1
+
     return (
       <div
         ref={ref}
-        className={cn("flex items-center justify-center py-8", className)}
+        className={cn(
+          as === "span" ? "inline-flex items-baseline justify-center" : "flex items-center justify-center py-8",
+          className
+        )}
         {...props}
       >
-        <motion.h1
+        <MotionText
           className={cn(
-            "text-[2.5rem] leading-normal sm:text-[3.5rem] md:text-[4rem] lg:text-[5rem] xl:text-[6rem]",
+            as === "span"
+              ? ""
+              : "text-[2.5rem] leading-normal sm:text-[3.5rem] md:text-[4rem] lg:text-[5rem] xl:text-[6rem]",
             textClassName
           )}
           style={{
@@ -65,7 +78,7 @@ const AnimatedText = React.forwardRef<HTMLDivElement, AnimatedTextProps>(
           onHoverEnd={() => hoverEffect && setIsHovered(false)}
         >
           {text}
-        </motion.h1>
+        </MotionText>
       </div>
     )
   }
